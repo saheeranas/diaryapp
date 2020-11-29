@@ -1,17 +1,18 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {Layout, Divider, Icon, Button, Text} from '@ui-kitten/components';
+import {Layout, Divider, Icon, Button} from '@ui-kitten/components';
 
+import {EntrySingleType} from '../types/types';
 import Header from '../components/Header';
 import {TextArea} from '../components/Form';
 
-const DeleteIcon = (props) => <Icon {...props} name="trash-2-outline" />;
-const SaveIcon = (props) => <Icon {...props} name="save-outline" />;
+const DeleteIcon = (props: any) => <Icon {...props} name="trash-2-outline" />;
+const SaveIcon = (props: any) => <Icon {...props} name="save-outline" />;
 
 const initialText = '';
 
-const EntrySingle = () => {
+const EntrySingle: React.FC<EntrySingleType> = ({navigation}) => {
   const [inputData, setInputData] = React.useState(initialText);
 
   const deleteEntry = () => {
@@ -21,16 +22,17 @@ const EntrySingle = () => {
     // Delete from DB
     // ...
   };
+
   return (
     <Layout style={styles.container} level="1">
-      <Header />
+      <Header hideBack={false} navigation={navigation} />
       <Divider />
       <View style={styles.inner}>
         <TextArea
           value={inputData}
           style={styles.textArea}
           multiline={true}
-          onChangeText={(text) => setInputData(text)}
+          onChangeText={(text: string) => setInputData(text)}
         />
         <View style={styles.btnWrp}>
           <Button

@@ -3,13 +3,14 @@ import {StyleSheet, View} from 'react-native';
 
 import {Text, ListItem} from '@ui-kitten/components';
 
-const EntryCard = ({item}) => {
+const EntryCard = ({item, onPress}) => {
   return (
     <ListItem
       title={`${item.title}`}
       description={`${item.description}`}
       accessoryLeft={renderItemIcon}
       style={styles.listItem}
+      onPress={onPress}
     />
   );
 };

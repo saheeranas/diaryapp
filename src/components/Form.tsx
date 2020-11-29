@@ -1,8 +1,6 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 
-export const TextArea = (props) => {
+export const TextArea = (props: any) => {
   return <TextInput {...props} />;
 };
-
-const styles = StyleSheet.create({});

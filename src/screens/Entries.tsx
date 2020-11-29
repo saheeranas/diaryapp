@@ -11,6 +11,7 @@ import {
   Text,
 } from '@ui-kitten/components';
 
+import {EntriesType} from '../types/types';
 import Header from '../components/Header';
 import EntryCard from '../components/EntryCard';
 
@@ -19,17 +20,26 @@ const data = new Array(8).fill({
   description: 'Description for Item',
 });
 
-const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
+const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
-const Entries = () => {
+const Entries: React.FC<EntriesType> = ({navigation}) => {
   const [date, setDate] = React.useState(new Date());
 
-  const renderItem = ({item, index}) => (
-    <EntryCard key={`entrycard-${index + 1}`} item={item} />
+  const navigateToDetail = () => {
+    navigation.navigate('EntrySingle');
+  };
+
+  const renderItem = ({item, index}: any) => (
+    <EntryCard
+      key={`entrycard-${index + 1}`}
+      item={item}
+      onPress={navigateToDetail}
+    />
   );
+
   return (
     <Layout style={styles.container} level="1">
-      <Header />
+      <Header hideBack navigation={navigation} />
       <Divider />
       <View style={styles.dateWrp}>
         <Text category="c2">Selected date: {date.toLocaleDateString()}</Text>
@@ -48,6 +58,7 @@ const Entries = () => {
           status="primary"
           accessoryLeft={AddIcon}
           style={styles.btnAdd}
+          onPress={() => navigateToDetail()}
         />
       </View>
     </Layout>
