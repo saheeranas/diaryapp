@@ -38,6 +38,9 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "mobx": "4.15.4",
+    "mobx-react-lite": "1.4.1",
+    "mobx-state-tree": "3.14.1",
     "prettier": "^2.0.2",
     "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"

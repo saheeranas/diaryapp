@@ -1,5 +1,6 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {StyleSheet, View, TextInput} from 'react-native';
+import {observer} from 'mobx-react-lite';
 
 import {
   Layout,
@@ -10,6 +11,8 @@ import {
   Datepicker,
   Text,
 } from '@ui-kitten/components';
+
+import {MSTContext} from '../models/index';
 
 import {EntriesType} from '../types/types';
 import Header from '../components/Header';
@@ -22,8 +25,12 @@ const data = new Array(8).fill({
 
 const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
-const Entries: React.FC<EntriesType> = ({navigation}) => {
-  const [date, setDate] = React.useState(new Date());
+const Entries: React.FC<EntriesType> = observer(({navigation}) => {
+  const store = useContext(MSTContext);
+
+  const [tempText, setTempText] = useState('');
+
+  const [date, setDate] = useState(new Date());
 
   const navigateToDetail = () => {
     navigation.navigate('EntrySingle');
@@ -36,6 +43,16 @@ const Entries: React.FC<EntriesType> = ({navigation}) => {
       onPress={navigateToDetail}
     />
   );
+
+  const addNew = () => {
+    store.addEntry({
+      id: 'test',
+      date: 'test',
+      desc: tempText,
+    });
+
+    setTempText('');
+  };
 
   return (
     <Layout style={styles.container} level="1">
@@ -53,17 +70,33 @@ const Entries: React.FC<EntriesType> = ({navigation}) => {
         ItemSeparatorComponent={Divider}
       />
 
-      <View style={styles.btnWrpAbsolute}>
+      {store.entries.map((item, i) => (
+        <View key={`li-${i}`}>
+          <Text>{item.desc}</Text>
+        </View>
+      ))}
+
+      <>
+        <TextInput
+          value={tempText}
+          onChangeText={(text) => setTempText(text)}
+        />
+        <Button status="primary" onPress={() => addNew()}>
+          Add
+        </Button>
+      </>
+
+      {/* <View style={styles.btnWrpAbsolute}>
         <Button
           status="primary"
           accessoryLeft={AddIcon}
           style={styles.btnAdd}
           onPress={() => navigateToDetail()}
         />
-      </View>
+      </View> */}
     </Layout>
   );
-};
+});
 
 export default Entries;
 
