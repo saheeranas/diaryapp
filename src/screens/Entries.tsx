@@ -1,6 +1,7 @@
-import React, {useContext, useState} from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
-import {observer} from 'mobx-react-lite';
+import React, {useContext, useState, useEffect} from 'react';
+import {StyleSheet, View, FlatList} from 'react-native';
+import {observer, Observer} from 'mobx-react-lite';
+import {toJS} from 'mobx';
 
 import {
   Layout,
@@ -12,88 +13,51 @@ import {
   Text,
 } from '@ui-kitten/components';
 
-import {MSTContext} from '../models/index';
+import {MSTContext} from '../models';
 
 import {EntriesType} from '../types/types';
 import Header from '../components/Header';
 import EntryCard from '../components/EntryCard';
-
-const data = new Array(8).fill({
-  title: 'Item',
-  description: 'Description for Item',
-});
 
 const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
 const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const [tempText, setTempText] = useState('');
-
-  const [date, setDate] = useState(new Date());
-
-  const navigateToDetail = () => {
-    navigation.navigate('EntrySingle');
+  const navigateToDetail = (date = null) => {
+    navigation.navigate('EntrySingle', {date});
   };
 
-  const renderItem = ({item, index}: any) => (
-    <EntryCard
-      key={`entrycard-${index + 1}`}
-      item={item}
-      onPress={navigateToDetail}
-    />
-  );
-
-  const addNew = () => {
-    store.addEntry({
-      id: 'test',
-      date: 'test',
-      desc: tempText,
-    });
-
-    setTempText('');
+  const renderItem = ({item, index}: any) => {
+    return (
+      <Observer>
+        {() => (
+          <EntryCard
+            key={`entrycard-${item.id}`}
+            item={item}
+            onPress={() => navigateToDetail(item.date.toJSON())}
+          />
+        )}
+      </Observer>
+    );
   };
 
   return (
-    <Layout style={styles.container} level="1">
+    <Layout style={styles.container}>
       <Header hideBack navigation={navigation} />
       <Divider />
-      <View style={styles.dateWrp}>
+      {/* <View style={styles.dateWrp}>
         <Text category="c2">Selected date: {date.toLocaleDateString()}</Text>
         <Datepicker date={date} onSelect={(nextDate) => setDate(nextDate)} />
       </View>
-      <Divider />
+      <Divider /> */}
       <List
         style={styles.list}
-        data={data}
+        data={store.entries}
+        extraData={toJS(store.entries)}
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
       />
-
-      {store.entries.map((item, i) => (
-        <View key={`li-${i}`}>
-          <Text>{item.desc}</Text>
-        </View>
-      ))}
-
-      <>
-        <TextInput
-          value={tempText}
-          onChangeText={(text) => setTempText(text)}
-        />
-        <Button status="primary" onPress={() => addNew()}>
-          Add
-        </Button>
-      </>
-
-      {/* <View style={styles.btnWrpAbsolute}>
-        <Button
-          status="primary"
-          accessoryLeft={AddIcon}
-          style={styles.btnAdd}
-          onPress={() => navigateToDetail()}
-        />
-      </View> */}
     </Layout>
   );
 });
@@ -104,12 +68,15 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     flex: 1,
+    backgroundColor: '#E9ECF2',
   },
   dateWrp: {
     paddingHorizontal: 16,
   },
   list: {
     // paddingHorizontal: 16,
+    height: 200,
+    flex: 0.5,
   },
   btnWrpAbsolute: {
     position: 'absolute',
