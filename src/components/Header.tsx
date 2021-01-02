@@ -1,26 +1,25 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {
-  Icon,
-  Text,
-  TopNavigation,
-  TopNavigationAction,
-} from '@ui-kitten/components';
+import {Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+import {HeaderType} from '../types/types';
 
-const BackAction = () => <TopNavigationAction icon={BackIcon} />;
+const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderType> = ({
+  hideBack = false,
+  navigation,
+  title = 'Diary',
+}) => {
+  const BackAction = () => (
+    <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
+  );
   return (
     <TopNavigation
-      accessoryLeft={BackAction}
-      title="Diary"
+      accessoryLeft={hideBack ? null : BackAction}
+      title={title}
       alignment="center"
     />
   );
 };
 
 export default Header;
-
-const styles = StyleSheet.create({});

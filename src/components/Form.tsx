@@ -1,8 +1,13 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {TextInput, StyleSheet} from 'react-native';
 
-export const TextArea = (props) => {
-  return <TextInput {...props} />;
+export const TextArea = (props: any) => {
+  return <TextInput style={styles.textarea} {...props} />;
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textarea: {
+    borderWidth: 0,
+    backgroundColor: 'cyan',
+  },
+});
