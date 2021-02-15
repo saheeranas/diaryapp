@@ -74,9 +74,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   list: {
-    // paddingHorizontal: 16,
-    height: 200,
-    flex: 0.5,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    // height: 200,
+    // flex: 0.5,
   },
   btnWrpAbsolute: {
     position: 'absolute',
