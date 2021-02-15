@@ -23,3 +23,19 @@ export interface EntriesType {
 export interface EntrySingleType {
   navigation: any;
 }
+
+/**
+ * Jump
+ */
+
+export interface JumpType {
+  navigation: any;
+}
+
+/**
+ * Settings
+ */
+
+export interface SettingsType {
+  navigation: any;
+}

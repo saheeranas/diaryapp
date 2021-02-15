@@ -1,5 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useState, useContext, useEffect, useRef} from 'react';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import {observer} from 'mobx-react-lite';
 
 import {Layout, Divider, Icon, Button, Text} from '@ui-kitten/components';
@@ -8,7 +14,7 @@ import {MSTContext} from '../models';
 
 import {EntrySingleType} from '../types/types';
 import Header from '../components/Header';
-import {TextArea} from '../components/Form';
+import {LayoutInner} from '../components/Layout';
 
 const DeleteIcon = (props: any) => <Icon {...props} name="trash-2-outline" />;
 const SaveIcon = (props: any) => <Icon {...props} name="save-outline" />;
@@ -18,6 +24,7 @@ const initialText = '';
 const EntrySingle: React.FC<EntrySingleType> = observer(
   ({route, navigation}) => {
     const store = useContext(MSTContext);
+    const editorRef = useRef(null);
     const [inputData, setInputData] = React.useState(initialText);
     const [active, setActive] = useState(null);
     const [editable, setEditable] = useState(false);
@@ -76,6 +83,10 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       // setInputData(initialText);
     };
 
+    const focusInput = () => {
+      editorRef.current.focus();
+    };
+
     return (
       <Layout style={styles.container} level="1">
         <Header
@@ -85,39 +96,43 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
           title="Test"
         />
         <Divider />
-        <View style={styles.inner}>
-          <TouchableOpacity onPress={() => setEditable(true)}>
-            <TextArea
-              editable={editable}
-              value={inputData}
-              style={styles.textArea}
-              multiline={true}
-              onChangeText={(text: string) => setInputData(text)}
-              onBlur={() => setEditable(false)}
-            />
-          </TouchableOpacity>
-          <View style={styles.btnWrp}>
-            <Button
-              status="danger"
-              accessoryLeft={DeleteIcon}
-              appearance="outline"
-              onPress={deleteEntry}
-            />
-            <Button
-              status="primary"
-              accessoryLeft={SaveIcon}
-              onPress={addEntry}>
-              Save
-            </Button>
-          </View>
-          <>
-            {store.entries.map((item, i) => (
-              <View key={i}>
-                <Text>{item.desc}</Text>
+        <ScrollView contentContainerStyle={styles.scrollview}>
+          <LayoutInner>
+            <View style={styles.inner}>
+              <TouchableOpacity onPress={() => setEditable(true)}>
+                <TextInput
+                  ref={editorRef}
+                  value={inputData}
+                  style={styles.textArea}
+                  multiline={true}
+                  onChangeText={(text: string) => setInputData(text)}
+                  // autoFocus={true}
+                />
+              </TouchableOpacity>
+              <View style={styles.btnWrp}>
+                <Button
+                  status="danger"
+                  accessoryLeft={DeleteIcon}
+                  appearance="outline"
+                  onPress={deleteEntry}
+                />
+                <Button
+                  status="primary"
+                  accessoryLeft={SaveIcon}
+                  onPress={addEntry}>
+                  Save
+                </Button>
               </View>
-            ))}
-          </>
-        </View>
+              <>
+                {store.entries.map((item, i) => (
+                  <View key={i}>
+                    <Text>{item.desc}</Text>
+                  </View>
+                ))}
+              </>
+            </View>
+          </LayoutInner>
+        </ScrollView>
       </Layout>
     );
   },
@@ -127,15 +142,22 @@ export default EntrySingle;
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     flex: 1,
+    position: 'relative',
+    backgroundColor: '#E9ECF2',
+  },
+  scrollview: {
+    flexGrow: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
   },
   inner: {
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   textArea: {
     height: 300,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     textAlignVertical: 'top',
     marginBottom: 20,
   },
