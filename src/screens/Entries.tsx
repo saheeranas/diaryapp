@@ -25,10 +25,11 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   const navigateToDetail = (date = null) => {
+    // console.log('here');
     navigation.navigate('EntrySingle', {date});
   };
 
-  const renderItem = ({item, index}: any) => {
+  const renderItem = ({item}: any) => {
     return (
       <Observer>
         {() => (

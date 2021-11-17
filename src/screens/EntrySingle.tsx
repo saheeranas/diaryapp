@@ -31,6 +31,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 
     useEffect(() => {
       const unsubscribe = navigation.addListener('focus', () => {
+        setInputData(initialText);
         let tempDate;
         if (route.params) {
           tempDate = new Date(route.params.date);
@@ -44,15 +45,14 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         }
       });
 
-      // Return the function to unsubscribe from the event so it gets removed on unmount
       return unsubscribe;
-    }, [route]);
+    }, [route, navigation, store]);
 
     const deleteEntry = () => {
       // Clear entry from text input
       setInputData(initialText);
 
-      // Delete from DB
+      // Delete from Store
       if (active) {
         store.deleteEntry(active);
       }
@@ -77,7 +77,6 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
             modifiedAt: new Date(),
           });
         }
-        navigation.goBack();
       }
 
       // setInputData(initialText);
@@ -92,8 +91,8 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         <Header
           hideBack={false}
           navigation={navigation}
-          // title={date.toDateString()}
-          title="Test"
+          title={active.date.toDateString()}
+          // title="Test"
         />
         <Divider />
         <ScrollView contentContainerStyle={styles.scrollview}>
@@ -106,6 +105,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
                   style={styles.textArea}
                   multiline={true}
                   onChangeText={(text: string) => setInputData(text)}
+                  onBlur={addEntry}
                   // autoFocus={true}
                 />
               </TouchableOpacity>
@@ -123,13 +123,6 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
                   Save
                 </Button>
               </View>
-              <>
-                {store.entries.map((item, i) => (
-                  <View key={i}>
-                    <Text>{item.desc}</Text>
-                  </View>
-                ))}
-              </>
             </View>
           </LayoutInner>
         </ScrollView>
@@ -156,10 +149,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   textArea: {
-    height: 300,
-    borderWidth: StyleSheet.hairlineWidth,
+    height: 250,
+    borderWidth: 0,
+    borderRadius: 8,
     textAlignVertical: 'top',
     marginBottom: 20,
+    backgroundColor: '#f0f0f0',
   },
   btnWrp: {
     flexDirection: 'row',
