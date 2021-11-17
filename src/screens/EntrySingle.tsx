@@ -52,7 +52,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       // Clear entry from text input
       setInputData(initialText);
 
-      // Delete from DB
+      // Delete from Store
       if (active) {
         store.deleteEntry(active);
       }
@@ -91,8 +91,8 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         <Header
           hideBack={false}
           navigation={navigation}
-          // title={date.toDateString()}
-          title="Test"
+          title={active.date.toDateString()}
+          // title="Test"
         />
         <Divider />
         <ScrollView contentContainerStyle={styles.scrollview}>
