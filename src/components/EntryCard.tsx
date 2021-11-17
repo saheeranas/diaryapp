@@ -1,21 +1,29 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Pressable} from 'react-native';
 
-import {ListItem, Text} from '@ui-kitten/components';
+import {Text} from '@ui-kitten/components';
+import dayjs from 'dayjs';
 
-const EntryCard = ({item, onPress}) => {
+interface EntryCardProps {
+  item: any;
+  onPress: () => void;
+}
+
+const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
+  const day = dayjs(date).format('DD');
+  const rest = dayjs(date).format('MMM');
   return (
-    <TouchableOpacity style={styles.listItem}>
+    <Pressable style={styles.listItem} onPress={onPress}>
       <View style={styles.listItemInner}>
         <View style={styles.dateWrp}>
-          <Text style={styles.day}>02</Text>
-          <Text style={styles.date}>Jan 2021</Text>
+          <Text style={styles.day}>{day}</Text>
+          <Text style={styles.date}>{rest}</Text>
         </View>
-        <Text>{item.desc}</Text>
+        <Text>{desc.substr(0, 50)}</Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
-}; 
+};
 
 export default EntryCard;
 
@@ -34,11 +42,13 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   day: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333333',
+    fontWeight: 'bold',
+    marginRight: 5,
   },
   date: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333333',
   },
   desc: {
