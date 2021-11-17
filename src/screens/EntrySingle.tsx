@@ -31,6 +31,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 
     useEffect(() => {
       const unsubscribe = navigation.addListener('focus', () => {
+        setInputData(initialText);
         let tempDate;
         if (route.params) {
           tempDate = new Date(route.params.date);
@@ -44,7 +45,6 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         }
       });
 
-      // Return the function to unsubscribe from the event so it gets removed on unmount
       return unsubscribe;
     }, [route, navigation, store]);
 

@@ -63,7 +63,6 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
   }, {});
 
   const navigateToDetail = (date = null) => {
-    console.log(date);
     navigation.navigate('EntrySingle', {date: date.dateString});
   };
 
