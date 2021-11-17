@@ -1,15 +1,9 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import {
-  Layout,
-  Divider,
-  Icon,
-  Button,
-  Datepicker,
-  Text,
-} from '@ui-kitten/components';
+import {Layout, Divider} from '@ui-kitten/components';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
+import dayjs from 'dayjs';
 
 import {MSTContext} from '../models';
 import {JumpType} from '../types/types';
@@ -62,6 +56,17 @@ LocaleConfig.defaultLocale = 'en';
 
 const Jump: React.FC<JumpType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
+
+  let markedDates = store.entries.reduce((acc, current) => {
+    acc[dayjs(current.date).format('YYYY-MM-DD')] = {marked: true};
+    return acc;
+  }, {});
+
+  const navigateToDetail = (date = null) => {
+    console.log(date);
+    navigation.navigate('EntrySingle', {date: date.dateString});
+  };
+
   return (
     <Layout style={styles.container}>
       <Header title="Jump" hideBack navigation={navigation} />
@@ -69,9 +74,11 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
       <ScrollView contentContainerStyle={styles.scrollview}>
         <LayoutInner>
           <Calendar
-            current={'2021-08-01'}
+            current={new Date()}
             minDate={'2020-01-01'}
             enableSwipeMonths={true}
+            onDayPress={day => navigateToDetail(day)}
+            markedDates={markedDates}
           />
         </LayoutInner>
       </ScrollView>
