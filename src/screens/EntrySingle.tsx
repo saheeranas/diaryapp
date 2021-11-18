@@ -88,13 +88,6 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 
     return (
       <Layout style={styles.container} level="1">
-        <Header
-          hideBack={false}
-          navigation={navigation}
-          title={active.date.toDateString()}
-          // title="Test"
-        />
-        <Divider />
         <ScrollView contentContainerStyle={styles.scrollview}>
           <LayoutInner>
             <View style={styles.inner}>

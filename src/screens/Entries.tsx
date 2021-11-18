@@ -45,8 +45,6 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
 
   return (
     <Layout style={styles.container}>
-      <Header hideBack navigation={navigation} />
-      <Divider />
       {/* <View style={styles.dateWrp}>
         <Text category="c2">Selected date: {date.toLocaleDateString()}</Text>
         <Datepicker date={date} onSelect={(nextDate) => setDate(nextDate)} />
