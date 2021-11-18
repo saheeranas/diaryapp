@@ -3,20 +3,12 @@ import {StyleSheet, View, FlatList} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
 
-import {
-  Layout,
-  List,
-  Divider,
-  Icon,
-  Button,
-  Datepicker,
-  Text,
-} from '@ui-kitten/components';
+import {List, Divider, Icon} from '@ui-kitten/components';
 
 import {MSTContext} from '../models';
 
 import {EntriesType} from '../types/types';
-import Header from '../components/Header';
+import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 
 const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
@@ -25,7 +17,6 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   const navigateToDetail = (date = null) => {
-    // console.log('here');
     navigation.navigate('EntrySingle', {date});
   };
 
@@ -44,14 +35,15 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <Layout>
       {/* <View style={styles.dateWrp}>
         <Text category="c2">Selected date: {date.toLocaleDateString()}</Text>
-        <Datepicker date={date} onSelect={(nextDate) => setDate(nextDate)} />
+        <Datepicker date={date} onSelect={nextDate => setDate(nextDate)} />
       </View>
       <Divider /> */}
       <List
         style={styles.list}
+        contentContainerStyle={styles.contentContainerStyle}
         data={store.entries}
         extraData={toJS(store.entries)}
         renderItem={renderItem}
@@ -64,19 +56,16 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
 export default Entries;
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    flex: 1,
-    backgroundColor: '#E9ECF2',
-  },
   dateWrp: {
     paddingHorizontal: 16,
   },
   list: {
-    paddingVertical: 20,
+    paddingTop: 20,
     paddingHorizontal: 16,
-    // height: 200,
-    // flex: 0.5,
+    backgroundColor: '#E9ECF2',
+  },
+  contentContainerStyle: {
+    paddingBottom: 100,
   },
   btnWrpAbsolute: {
     position: 'absolute',

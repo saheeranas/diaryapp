@@ -1,14 +1,13 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import {Layout, Divider} from '@ui-kitten/components';
+import {Divider} from '@ui-kitten/components';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import dayjs from 'dayjs';
 
 import {MSTContext} from '../models';
 import {JumpType} from '../types/types';
-import Header from '../components/Header';
-import {LayoutInner} from '../components/Layout';
+import {Layout} from '../components/Layout';
 
 LocaleConfig.locales['en'] = {
   formatAccessibilityLabel: "dddd d 'of' MMMM 'of' yyyy",
@@ -69,15 +68,15 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
   return (
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollview}>
-        <LayoutInner>
-          <Calendar
-            current={new Date()}
-            minDate={'2020-01-01'}
-            enableSwipeMonths={true}
-            onDayPress={day => navigateToDetail(day)}
-            markedDates={markedDates}
-          />
-        </LayoutInner>
+        {/* <LayoutInner> */}
+        <Calendar
+          current={new Date()}
+          minDate={'2020-01-01'}
+          enableSwipeMonths={true}
+          onDayPress={day => navigateToDetail(day)}
+          markedDates={markedDates}
+        />
+        {/* </LayoutInner> */}
       </ScrollView>
       {/* <View style={{flex: 1, backgroundColor: 'magenta'}}></View> */}
     </Layout>
@@ -93,7 +92,8 @@ const styles = StyleSheet.create({
   },
   scrollview: {
     flexGrow: 1,
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 100,
     paddingHorizontal: 15,
   },
 });

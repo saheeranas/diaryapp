@@ -6,9 +6,10 @@ import {HeaderType} from '../types/types';
 const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
 
 const Header: React.FC<HeaderType> = ({
-  hideBack = false,
-  navigation,
   title = 'Diary',
+  navigation,
+  hideBack = false,
+  style,
 }) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
@@ -18,6 +19,7 @@ const Header: React.FC<HeaderType> = ({
       accessoryLeft={hideBack ? null : BackAction}
       title={title}
       alignment="center"
+      style={style}
     />
   );
 };

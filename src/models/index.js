@@ -61,6 +61,20 @@ const rootStore = RootStore.create({
       createdAt: new Date(Date.now() - 4 * 86400000),
       modifiedAt: new Date(Date.now() - 4 * 86400000),
     },
+    {
+      id: 'qwe5',
+      date: new Date(Date.now() - 5 * 86400000),
+      desc: "This is day before yesterday's post",
+      createdAt: new Date(Date.now() - 5 * 86400000),
+      modifiedAt: new Date(Date.now() - 5 * 86400000),
+    },
+    {
+      id: 'qwe6',
+      date: new Date(Date.now() - 6 * 86400000),
+      desc: 'This post is 3 day older',
+      createdAt: new Date(Date.now() - 6 * 86400000),
+      modifiedAt: new Date(Date.now() - 6 * 86400000),
+    },
   ],
 });
 

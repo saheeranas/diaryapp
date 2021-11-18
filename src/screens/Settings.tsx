@@ -2,19 +2,11 @@ import React, {useContext, useState} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {observer} from 'mobx-react-lite';
-import {
-  Layout,
-  Divider,
-  Text,
-  Avatar,
-  Toggle,
-  Icon,
-} from '@ui-kitten/components';
+import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
 
 import {MSTContext} from '../models';
 import {SettingsType} from '../types/types';
-import Header from '../components/Header';
-import {LayoutInner} from '../components/Layout';
+import {Layout} from '../components/Layout';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
@@ -25,9 +17,9 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <Layout>
       <ScrollView contentContainerStyle={styles.scrollview}>
-        <LayoutInner>
+        <Card>
           <View style={styles.profileCard}>
             <Avatar source={require('../../assets/images/avatar.png')} />
             <View style={styles.prodetails}>
@@ -56,7 +48,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
             </TouchableOpacity>
             <Divider />
           </View>
-        </LayoutInner>
+        </Card>
       </ScrollView>
     </Layout>
   );
@@ -71,7 +63,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9ECF2',
   },
   scrollview: {
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 100,
     paddingHorizontal: 15,
   },
 
@@ -80,7 +73,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 8,
     paddingBottom: 16,
-    paddingHorizontal: 16,
   },
   avatar: {
     width: 50,
@@ -97,7 +89,6 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     paddingVertical: 10,
-    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

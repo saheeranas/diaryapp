@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import {observer} from 'mobx-react-lite';
 
-import {Layout, Divider, Icon, Button, Text} from '@ui-kitten/components';
+import {Card, Icon, Button, Text} from '@ui-kitten/components';
 
 import {MSTContext} from '../models';
 
 import {EntrySingleType} from '../types/types';
 import Header from '../components/Header';
-import {LayoutInner} from '../components/Layout';
+import {Layout} from '../components/Layout';
 
 const DeleteIcon = (props: any) => <Icon {...props} name="trash-2-outline" />;
 const SaveIcon = (props: any) => <Icon {...props} name="save-outline" />;
@@ -87,9 +87,9 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
     };
 
     return (
-      <Layout style={styles.container} level="1">
+      <Layout level="1">
         <ScrollView contentContainerStyle={styles.scrollview}>
-          <LayoutInner>
+          <Card>
             <View style={styles.inner}>
               <TouchableOpacity onPress={() => setEditable(true)}>
                 <TextInput
@@ -117,7 +117,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
                 </Button>
               </View>
             </View>
-          </LayoutInner>
+          </Card>
         </ScrollView>
       </Layout>
     );
@@ -127,27 +127,23 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 export default EntrySingle;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-    backgroundColor: '#E9ECF2',
-  },
   scrollview: {
     flexGrow: 1,
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 100,
     paddingHorizontal: 15,
   },
   inner: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
   textArea: {
-    height: 250,
+    height: 180,
+    paddingHorizontal: 10,
     borderWidth: 0,
     borderRadius: 8,
     textAlignVertical: 'top',
     marginBottom: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#E9ECF2',
   },
   btnWrp: {
     flexDirection: 'row',
