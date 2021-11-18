@@ -68,8 +68,6 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
 
   return (
     <Layout style={styles.container}>
-      <Header title="Jump" hideBack navigation={navigation} />
-      <Divider />
       <ScrollView contentContainerStyle={styles.scrollview}>
         <LayoutInner>
           <Calendar

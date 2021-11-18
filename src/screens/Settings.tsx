@@ -20,14 +20,12 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   const [darkMode, setDarkMode] = useState(false);
 
-  const onCheckedChange = (isChecked) => {
+  const onCheckedChange = isChecked => {
     setDarkMode(isChecked);
   };
 
   return (
     <Layout style={styles.container}>
-      <Header title="Settings" hideBack navigation={navigation} />
-      <Divider />
       <ScrollView contentContainerStyle={styles.scrollview}>
         <LayoutInner>
           <View style={styles.profileCard}>

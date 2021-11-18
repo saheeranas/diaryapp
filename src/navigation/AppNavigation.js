@@ -11,6 +11,8 @@ import Jump from '../screens/Jump';
 import Settings from '../screens/Settings';
 import EntrySingle from '../screens/EntrySingle';
 
+import Header from '../components/Header';
+
 // const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -22,11 +24,10 @@ export default function AppNavigation() {
         <Stack.Screen name="EntrySingle" component={EntrySingle} />
       </Stack.Navigator> */}
       <Tab.Navigator
-        tabBarOptions={{
-          // activeTintColor: colors.primary1,
-          // inactiveTintColor: colors.fontColorDark1,
-          // showIcon: true,
-          style: {
+        screenOptions={{
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'black',
+          tabBarStyle: {
             height: 60,
             bottom: 15,
             marginHorizontal: 15,
@@ -44,6 +45,15 @@ export default function AppNavigation() {
           },
           tabStyle: {
             paddingVertical: 10,
+          },
+          header: ({navigation, route, options}) => {
+            return (
+              <Header
+                title={options.tabBarLabel}
+                navigation={navigation}
+                hideBack={!options.headerBackBtnShown}
+              />
+            );
           },
         }}>
         <Tab.Screen
@@ -84,6 +94,7 @@ export default function AppNavigation() {
             tabBarIcon: ({color, size}) => (
               <Icon style={styles.icon} fill={color} name="plus-outline" />
             ),
+            headerBackBtnShown: true,
           }}
         />
       </Tab.Navigator>
