@@ -5,7 +5,7 @@ import {Divider} from '@ui-kitten/components';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import dayjs from 'dayjs';
 
-import {MSTContext} from '../models';
+import {MSTContext} from '../mst';
 import {JumpType} from '../types/types';
 import {Layout} from '../components/Layout';
 

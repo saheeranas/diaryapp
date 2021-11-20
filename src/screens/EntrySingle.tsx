@@ -5,15 +5,18 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {observer} from 'mobx-react-lite';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
+import dayjs from 'dayjs';
 
 import {Card, Icon, Button, Text} from '@ui-kitten/components';
 
-import {MSTContext} from '../models';
+import {MSTContext} from '../mst';
 
 import {EntrySingleType} from '../types/types';
-import Header from '../components/Header';
 import {Layout} from '../components/Layout';
 
 const DeleteIcon = (props: any) => <Icon {...props} name="trash-2-outline" />;
@@ -34,14 +37,23 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         setInputData(initialText);
         let tempDate;
         if (route.params) {
-          tempDate = new Date(route.params.date);
+          tempDate = dayjs(new Date(route.params.date)).format('YYYY-MM-DD');
         } else {
-          tempDate = new Date();
+          tempDate = dayjs(new Date()).format('YYYY-MM-DD');
         }
-        const temp = store.findEntryByDate(tempDate.toDateString());
+        const temp = store.findEntryByDate(tempDate);
         if (temp.length) {
           setActive(temp[0]);
           setInputData(temp[0].desc);
+        } else {
+          let newItem = {
+            _id: uuidv4(),
+            date: dayjs(tempDate).format('YYYY-MM-DD'),
+            desc: '',
+            createdAt: dayjs(tempDate).valueOf(),
+            modifiedAt: dayjs(tempDate).valueOf(),
+          };
+          setActive(newItem);
         }
       });
 
@@ -49,12 +61,29 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
     }, [route, navigation, store]);
 
     const deleteEntry = () => {
+      Alert.alert(
+        'Are you sure?',
+        'This will permanently delete the entry from the device',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => confirmDelete()},
+        ],
+      );
+    };
+
+    const confirmDelete = () => {
       // Clear entry from text input
       setInputData(initialText);
 
       // Delete from Store
       if (active) {
         store.deleteEntry(active);
+        setActive(null);
+        navigation.goBack();
       }
     };
 
@@ -62,19 +91,19 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       if (inputData.trim() !== '') {
         if (!active) {
           store.addEntry({
-            id: 'qwe',
-            date: new Date(),
+            _id: uuidv4(),
+            date: dayjs(new Date()).format('YYYY-MM-DD'),
             desc: inputData,
-            createdAt: new Date(),
-            modifiedAt: new Date(),
+            createdAt: dayjs(new Date()).valueOf(),
+            modifiedAt: dayjs(new Date()).valueOf(),
           });
         } else {
           store.updateEntry({
-            id: active.id,
+            _id: active._id,
             date: active.date,
             createdAt: active.createdAt,
             desc: inputData,
-            modifiedAt: new Date(),
+            modifiedAt: dayjs(new Date()).valueOf(),
           });
         }
       }

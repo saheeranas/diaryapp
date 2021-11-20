@@ -2,7 +2,7 @@ import React from 'react';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
-import rootStore, {MSTContext} from './src/models';
+import rootStore, {MSTContext} from './src/mst';
 import {default as mapping} from './mapping.json';
 
 import AppNavigation from './src/navigation/AppNavigation';

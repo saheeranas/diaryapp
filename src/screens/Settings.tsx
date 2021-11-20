@@ -4,7 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
 
-import {MSTContext} from '../models';
+import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
 

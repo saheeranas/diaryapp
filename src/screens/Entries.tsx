@@ -1,11 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {StyleSheet, Button} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
 
 import {List, Divider, Icon} from '@ui-kitten/components';
 
-import {MSTContext} from '../models';
+import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
+import {MSTContext} from '../mst';
 
 import {EntriesType} from '../types/types';
 import {Layout} from '../components/Layout';
@@ -16,6 +17,18 @@ const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
+  const [isRefreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = () => {
+    setRefreshing(true);
+    store.populateStoreFromDB();
+    setRefreshing(false);
+  };
+
   const navigateToDetail = (date = null) => {
     navigation.navigate('EntrySingle', {date});
   };
@@ -25,9 +38,9 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
       <Observer>
         {() => (
           <EntryCard
-            key={`entrycard-${item.id}`}
+            key={`entrycard-${item._id}`}
             item={item}
-            onPress={() => navigateToDetail(item.date.toJSON())}
+            onPress={() => navigateToDetail(item.date)}
           />
         )}
       </Observer>
@@ -41,6 +54,12 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         <Datepicker date={date} onSelect={nextDate => setDate(nextDate)} />
       </View>
       <Divider /> */}
+      {/* <Button title="Fetch" onPress={readEntriesFromDB} /> */}
+      {/* <Button
+        title="Populate MST from DB"
+        onPress={store.populateStoreFromDB}
+      /> */}
+      {/* <Button title="Delete All" onPress={deleteAllEntriesFromDB} /> */}
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
@@ -48,6 +67,8 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         extraData={toJS(store.entries)}
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
+        refreshing={isRefreshing}
+        onRefresh={refreshData}
       />
     </Layout>
   );
