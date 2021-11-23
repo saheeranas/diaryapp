@@ -72,6 +72,7 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
         <Calendar
           current={new Date()}
           minDate={'2020-01-01'}
+          maxDate={new Date()}
           enableSwipeMonths={true}
           onDayPress={day => navigateToDetail(day)}
           markedDates={markedDates}
