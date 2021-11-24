@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View, ScrollView, Button} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
@@ -7,6 +7,8 @@ import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
 import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
+
+import {signInWithGoogle} from '../utils/GoogleDrive';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
@@ -16,17 +18,40 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     setDarkMode(isChecked);
   };
 
+  const handleLogin = async () => {
+    try {
+      let userInfo = await signInWithGoogle();
+      // console.log(userInfo);
+      store.user.updateUser(userInfo?.user);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  const isLogined = store.user._id !== '';
+
+  const avatar = store?.user?.photo
+    ? {uri: store.user.photo}
+    : require('../../assets/images/avatar.png');
+
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.scrollview}>
         <Card>
           <View style={styles.profileCard}>
-            <Avatar source={require('../../assets/images/avatar.png')} />
+            <Avatar source={avatar} />
             <View style={styles.prodetails}>
-              <Text style={styles.name}>Saheer Anas</Text>
-              <Text>saheer@email.com</Text>
+              {!isLogined ? (
+                <Button title="Login" onPress={handleLogin} />
+              ) : (
+                <>
+                  <Text style={styles.name}>{store.user.name}</Text>
+                  <Text>{store.user.email}</Text>
+                </>
+              )}
             </View>
           </View>
+
           <Divider />
           <View>
             <View style={styles.menuItem}>
@@ -41,12 +66,16 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
               </View>
             </TouchableOpacity>
             <Divider />
-            <TouchableOpacity>
-              <View style={styles.menuItem}>
-                <Text>Logout</Text>
-              </View>
-            </TouchableOpacity>
-            <Divider />
+            {isLogined && (
+              <>
+                <TouchableOpacity>
+                  <View style={styles.menuItem}>
+                    <Text>Logout</Text>
+                  </View>
+                </TouchableOpacity>
+                <Divider />
+              </>
+            )}
           </View>
         </Card>
       </ScrollView>

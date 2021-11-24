@@ -1,5 +1,8 @@
 import Realm from 'realm';
 
+// Import Schemas
+import {UserSchema} from './user';
+
 // Declaration
 const EntrySchema = {
   name: 'Entry',
@@ -20,5 +23,5 @@ const EntrySchema = {
 
 // Initialization
 export const realm = new Realm({
-  schema: [EntrySchema],
+  schema: [EntrySchema, UserSchema],
 });

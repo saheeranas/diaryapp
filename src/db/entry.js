@@ -14,7 +14,7 @@ const addEntryToDB = item => {
   const res = entries.filtered('date == $0', item.date);
 
   if (res.length) {
-    console.warn('ADD: Already exists');
+    // console.warn('ADD: Already exists');
     return;
   }
 
@@ -24,7 +24,7 @@ const addEntryToDB = item => {
       ...item,
       _id: item._id,
     });
-    console.log(`created entry: ${entry.date} `);
+    // console.log(`created entry: ${entry.date} `);
   });
 };
 
@@ -35,13 +35,13 @@ const updateEntryToDB = item => {
   let entry;
 
   if (res.length) {
-    console.log('UPDATE: Already exists');
+    // console.log('UPDATE: Already exists');
     realm.write(() => {
       res[0].desc = item.desc;
       res[0].modifiedAt = dayjs(new Date()).valueOf();
     });
   } else {
-    console.log('UPDATE: New');
+    // console.log('UPDATE: New');
     realm.write(() => {
       entry = realm.create('Entry', {
         ...item,
@@ -49,7 +49,7 @@ const updateEntryToDB = item => {
         createdAt: dayjs(new Date()).valueOf(),
         modifiedAt: dayjs(new Date()).valueOf(),
       });
-      console.log(`Created entry: ${entry.date} `);
+      // console.log(`Created entry: ${entry.date} `);
     });
   }
 };
@@ -67,7 +67,7 @@ const deleteAllEntriesFromDB = () => {
   realm.write(() => {
     // Delete all objects from the realm.
     realm.deleteAll();
-    console.log('Cleared');
+    // console.log('Cleared');
   });
 };
 

@@ -21,6 +21,7 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
 
   useEffect(() => {
     refreshData();
+    refreshOtherData();
   }, []);
 
   const refreshData = () => {
@@ -29,9 +30,15 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
     setRefreshing(false);
   };
 
+  const refreshOtherData = () => {
+    store.user.populateUserFromDB();
+  };
+
   const navigateToDetail = (date = null) => {
     navigation.navigate('EntrySingle', {date});
   };
+
+  // console.log(store);
 
   const renderItem = ({item}: any) => {
     return (
@@ -60,6 +67,8 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         onPress={store.populateStoreFromDB}
       /> */}
       {/* <Button title="Delete All" onPress={deleteAllEntriesFromDB} /> */}
+      {/* <Button title="Sign In" onPress={signInWithGoogle} /> */}
+      {/* <Button title="Update user MST" onPress={store.user.updateUser} /> */}
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
