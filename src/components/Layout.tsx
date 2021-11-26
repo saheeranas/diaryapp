@@ -1,14 +1,19 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Layout} from '@ui-kitten/components';
+import {Layout as UILayout} from '@ui-kitten/components';
 
-export const LayoutInner = ({children}) => {
-  return <Layout style={styles.layout}>{children}</Layout>;
+export const Layout = ({children}) => {
+  return <UILayout style={styles.layout}>{children}</UILayout>;
 };
+
+// export const Layout = ({children}) => {
+//   return <UIKLayout style={styles.layout}>{children}</UIKLayout>;
+// };
 
 const styles = StyleSheet.create({
   layout: {
-    borderRadius: 5,
-    paddingVertical: 10,
+    position: 'relative',
+    flex: 1,
+    backgroundColor: '#E9ECF2',
   },
 });

@@ -25,6 +25,7 @@ export default function AppNavigation() {
       </Stack.Navigator> */}
       <Tab.Navigator
         screenOptions={{
+          tabBarShowLabel: false,
           tabBarActiveTintColor: 'blue',
           tabBarInactiveTintColor: 'black',
           tabBarStyle: {
@@ -32,7 +33,7 @@ export default function AppNavigation() {
             bottom: 15,
             marginHorizontal: 15,
             borderRadius: 5,
-            // position: 'absolute',
+            position: 'absolute',
             // backgroundColor: colors.layout_bg_color,
             // shadowColor: colors.inverse,
             // shadowOffset: {
