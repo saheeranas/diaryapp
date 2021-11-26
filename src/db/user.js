@@ -14,7 +14,7 @@ export const UserSchema = {
 // Read user info
 const getUserFromDB = () => {
   const users = realm.objects('User');
-  return users[0];
+  return users.length ? users[0] : null;
 };
 
 // Update user info

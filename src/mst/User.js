@@ -16,6 +16,7 @@ const User = types
   .actions(self => ({
     populateUserFromDB() {
       let itemFromDB = getUserFromDB();
+      if (!itemFromDB) return;
       let temp = JSON.parse(JSON.stringify(itemFromDB));
       self._id = temp._id;
       self.name = temp.name;

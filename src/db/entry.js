@@ -2,6 +2,24 @@ import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
 import {realm} from './index';
 
+// Declaration
+export const EntrySchema = {
+  name: 'Entry',
+  properties: {
+    // _id: uuid4()
+    _id: 'string',
+    // date: 2021-11-15
+    date: 'string',
+    // desc: Random strings
+    desc: 'string',
+    // createdAt: UNIX timestamp
+    createdAt: 'int',
+    // modifiedAt: UNIX timestamp
+    modifiedAt: 'int',
+  },
+  primaryKey: '_id',
+};
+
 // Read All
 const readEntriesFromDB = () => {
   const entries = realm.objects('Entry').sorted('date', true);

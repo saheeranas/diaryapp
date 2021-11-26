@@ -1,6 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, View, ScrollView, Button} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+
 import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
 
@@ -8,7 +14,7 @@ import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
 
-import {signInWithGoogle} from '../utils/GoogleDrive';
+import {signInWithGoogle, initializeDrive} from '../utils/GoogleDrive';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
@@ -21,11 +27,16 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const handleLogin = async () => {
     try {
       let userInfo = await signInWithGoogle();
-      // console.log(userInfo);
+      console.log('userInfo', userInfo);
       store.user.updateUser(userInfo?.user);
     } catch (error) {
       // console.log(error);
     }
+  };
+
+  const handleSync = () => {
+    // console.log('gtr');
+    initializeDrive();
   };
 
   const isLogined = store.user._id !== '';
@@ -59,7 +70,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
               <Toggle checked={darkMode} onChange={onCheckedChange}></Toggle>
             </View>
             <Divider />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSync}>
               <View style={styles.menuItem}>
                 <Text>Sync with Drive</Text>
                 <Icon style={styles.icon} fill="#8F9BB3" name="sync-outline" />
