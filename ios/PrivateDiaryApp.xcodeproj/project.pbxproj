@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* DiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DiaryTests.m */; };
+		00E356F31AD99517003FC87E /* PrivateDiaryAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PrivateDiaryAppTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		8820CA0A4D1141A6F98BB4C1 /* libPods-Diary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E279B67E4FAB95C8549829F7 /* libPods-Diary.a */; };
-		F37156FAF5221A93792C386A /* libPods-Diary-DiaryTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5AE63C7671F6F6F68CEC26C /* libPods-Diary-DiaryTests.a */; };
+		8820CA0A4D1141A6F98BB4C1 /* libPods-PrivateDiaryApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E279B67E4FAB95C8549829F7 /* libPods-PrivateDiaryApp.a */; };
+		F37156FAF5221A93792C386A /* libPods-PrivateDiaryApp-PrivateDiaryAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5AE63C7671F6F6F68CEC26C /* libPods-PrivateDiaryApp-PrivateDiaryAppTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,28 +22,28 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Diary;
+			remoteInfo = PrivateDiaryApp;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* PrivateDiaryAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrivateDiaryAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* DiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiaryTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Diary/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Diary/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Diary/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Diary/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Diary/main.m; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Diary/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		94DED7B4B6E7F15F8F2B80A3 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
-		9932B45624127499328FD20D /* Pods-Diary-DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary-DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
-		B5AE63C7671F6F6F68CEC26C /* libPods-Diary-DiaryTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Diary-DiaryTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E279B67E4FAB95C8549829F7 /* libPods-Diary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Diary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356F21AD99517003FC87E /* PrivateDiaryAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrivateDiaryAppTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* PrivateDiaryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrivateDiaryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = PrivateDiaryApp/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = PrivateDiaryApp/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PrivateDiaryApp/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PrivateDiaryApp/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PrivateDiaryApp/main.m; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PrivateDiaryApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		94DED7B4B6E7F15F8F2B80A3 /* Pods-PrivateDiaryApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivateDiaryApp.release.xcconfig"; path = "Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp.release.xcconfig"; sourceTree = "<group>"; };
+		9932B45624127499328FD20D /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivateDiaryApp-PrivateDiaryAppTests.release.xcconfig"; path = "Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		B5AE63C7671F6F6F68CEC26C /* libPods-PrivateDiaryApp-PrivateDiaryAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PrivateDiaryApp-PrivateDiaryAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E279B67E4FAB95C8549829F7 /* libPods-PrivateDiaryApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PrivateDiaryApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FB48C0ECA6C87591E1399CF3 /* Pods-Diary-DiaryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary-DiaryTests.debug.xcconfig"; path = "Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FFF37588AF8E68B5F3C6369C /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
+		FB48C0ECA6C87591E1399CF3 /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivateDiaryApp-PrivateDiaryAppTests.debug.xcconfig"; path = "Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FFF37588AF8E68B5F3C6369C /* Pods-PrivateDiaryApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrivateDiaryApp.debug.xcconfig"; path = "Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F37156FAF5221A93792C386A /* libPods-Diary-DiaryTests.a in Frameworks */,
+				F37156FAF5221A93792C386A /* libPods-PrivateDiaryApp-PrivateDiaryAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,20 +59,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8820CA0A4D1141A6F98BB4C1 /* libPods-Diary.a in Frameworks */,
+				8820CA0A4D1141A6F98BB4C1 /* libPods-PrivateDiaryApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* DiaryTests */ = {
+		00E356EF1AD99517003FC87E /* PrivateDiaryAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* DiaryTests.m */,
+				00E356F21AD99517003FC87E /* PrivateDiaryAppTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = DiaryTests;
+			path = PrivateDiaryAppTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -83,7 +83,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Diary */ = {
+		13B07FAE1A68108700A75B9A /* PrivateDiaryApp */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -93,16 +93,16 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Diary;
+			name = PrivateDiaryApp;
 			sourceTree = "<group>";
 		};
 		19A8D5B6E3F19114B70CCAB4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FFF37588AF8E68B5F3C6369C /* Pods-Diary.debug.xcconfig */,
-				94DED7B4B6E7F15F8F2B80A3 /* Pods-Diary.release.xcconfig */,
-				FB48C0ECA6C87591E1399CF3 /* Pods-Diary-DiaryTests.debug.xcconfig */,
-				9932B45624127499328FD20D /* Pods-Diary-DiaryTests.release.xcconfig */,
+				FFF37588AF8E68B5F3C6369C /* Pods-PrivateDiaryApp.debug.xcconfig */,
+				94DED7B4B6E7F15F8F2B80A3 /* Pods-PrivateDiaryApp.release.xcconfig */,
+				FB48C0ECA6C87591E1399CF3 /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.debug.xcconfig */,
+				9932B45624127499328FD20D /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -112,8 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E279B67E4FAB95C8549829F7 /* libPods-Diary.a */,
-				B5AE63C7671F6F6F68CEC26C /* libPods-Diary-DiaryTests.a */,
+				E279B67E4FAB95C8549829F7 /* libPods-PrivateDiaryApp.a */,
+				B5AE63C7671F6F6F68CEC26C /* libPods-PrivateDiaryApp-PrivateDiaryAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* Diary */,
+				13B07FAE1A68108700A75B9A /* PrivateDiaryApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* DiaryTests */,
+				00E356EF1AD99517003FC87E /* PrivateDiaryAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				19A8D5B6E3F19114B70CCAB4 /* Pods */,
@@ -143,8 +143,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Diary.app */,
-				00E356EE1AD99517003FC87E /* DiaryTests.xctest */,
+				13B07F961A680F5B00A75B9A /* PrivateDiaryApp.app */,
+				00E356EE1AD99517003FC87E /* PrivateDiaryAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,9 +152,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* DiaryTests */ = {
+		00E356ED1AD99517003FC87E /* PrivateDiaryAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DiaryTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PrivateDiaryAppTests" */;
 			buildPhases = (
 				971C7BCBFFC7D54886D1A866 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -168,14 +168,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = DiaryTests;
-			productName = DiaryTests;
-			productReference = 00E356EE1AD99517003FC87E /* DiaryTests.xctest */;
+			name = PrivateDiaryAppTests;
+			productName = PrivateDiaryAppTests;
+			productReference = 00E356EE1AD99517003FC87E /* PrivateDiaryAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Diary */ = {
+		13B07F861A680F5B00A75B9A /* PrivateDiaryApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Diary" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PrivateDiaryApp" */;
 			buildPhases = (
 				219E55AD61B283FDCB02A2DE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -190,9 +190,9 @@
 			);
 			dependencies = (
 			);
-			name = Diary;
-			productName = Diary;
-			productReference = 13B07F961A680F5B00A75B9A /* Diary.app */;
+			name = PrivateDiaryApp;
+			productName = PrivateDiaryApp;
+			productReference = 13B07F961A680F5B00A75B9A /* PrivateDiaryApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -212,7 +212,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Diary" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PrivateDiaryApp" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -225,8 +225,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Diary */,
-				00E356ED1AD99517003FC87E /* DiaryTests */,
+				13B07F861A680F5B00A75B9A /* PrivateDiaryApp */,
+				00E356ED1AD99517003FC87E /* PrivateDiaryAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,15 +271,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		219E55AD61B283FDCB02A2DE /* [CP] Check Pods Manifest.lock */ = {
@@ -297,7 +297,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Diary-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PrivateDiaryApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -310,15 +310,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Diary-DiaryTests/Pods-Diary-DiaryTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp-PrivateDiaryAppTests/Pods-PrivateDiaryApp-PrivateDiaryAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		75139CA608CF25F00F22ABDD /* [CP] Embed Pods Frameworks */ = {
@@ -327,15 +327,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		87070F45242A22DD7B783BC4 /* [CP] Copy Pods Resources */ = {
@@ -344,15 +344,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Diary/Pods-Diary-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PrivateDiaryApp/Pods-PrivateDiaryApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		971C7BCBFFC7D54886D1A866 /* [CP] Check Pods Manifest.lock */ = {
@@ -370,7 +370,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Diary-DiaryTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PrivateDiaryApp-PrivateDiaryAppTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -403,7 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* DiaryTests.m in Sources */,
+				00E356F31AD99517003FC87E /* PrivateDiaryAppTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,7 +421,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Diary */;
+			target = 13B07F861A680F5B00A75B9A /* PrivateDiaryApp */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -429,14 +429,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB48C0ECA6C87591E1399CF3 /* Pods-Diary-DiaryTests.debug.xcconfig */;
+			baseConfigurationReference = FB48C0ECA6C87591E1399CF3 /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = DiaryTests/Info.plist;
+				INFOPLIST_FILE = PrivateDiaryAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,17 +450,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/Diary";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrivateDiaryApp.app/PrivateDiaryApp";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9932B45624127499328FD20D /* Pods-Diary-DiaryTests.release.xcconfig */;
+			baseConfigurationReference = 9932B45624127499328FD20D /* Pods-PrivateDiaryApp-PrivateDiaryAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = DiaryTests/Info.plist;
+				INFOPLIST_FILE = PrivateDiaryAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,19 +474,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/Diary";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrivateDiaryApp.app/PrivateDiaryApp";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFF37588AF8E68B5F3C6369C /* Pods-Diary.debug.xcconfig */;
+			baseConfigurationReference = FFF37588AF8E68B5F3C6369C /* Pods-PrivateDiaryApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = PrivateDiaryApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,7 +497,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Diary;
+				PRODUCT_NAME = PrivateDiaryApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -506,12 +506,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94DED7B4B6E7F15F8F2B80A3 /* Pods-Diary.release.xcconfig */;
+			baseConfigurationReference = 94DED7B4B6E7F15F8F2B80A3 /* Pods-PrivateDiaryApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = PrivateDiaryApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -522,7 +522,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Diary;
+				PRODUCT_NAME = PrivateDiaryApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -656,7 +656,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DiaryTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PrivateDiaryAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -665,7 +665,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Diary" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PrivateDiaryApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -674,7 +674,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Diary" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PrivateDiaryApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
