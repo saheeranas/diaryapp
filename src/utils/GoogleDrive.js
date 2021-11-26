@@ -24,11 +24,14 @@ export const initializeDrive = async () => {
   const gdrive = new GDrive();
   gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
 
-  try {
-    console.log(await gdrive.files.list());
-  } catch (error) {
-    console.log(error);
-  }
+  // gdrive.files
+  //   .list()
+  //   .then(res => {
+  //     console.log(res);
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
 
   // File f = new File(realm.getPath());
 
