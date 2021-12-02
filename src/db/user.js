@@ -41,7 +41,11 @@ const updateUserToDB = user => {
 
 // Clear user info
 const clearUserFromDB = () => {
-  // console.log('User clear');
+  const users = realm.objects('User');
+
+  realm.write(() => {
+    realm.delete(users);
+  });
 };
 
 export {getUserFromDB, updateUserToDB, clearUserFromDB};
