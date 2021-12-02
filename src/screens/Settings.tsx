@@ -72,7 +72,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
             <Divider />
             <TouchableOpacity onPress={handleSync}>
               <View style={styles.menuItem}>
-                <Text>Sync with Drive</Text>
+                <Text>Backup to Drive</Text>
                 <Icon style={styles.icon} fill="#8F9BB3" name="sync-outline" />
               </View>
             </TouchableOpacity>
