@@ -5,6 +5,8 @@ import {
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 
+import {readEntriesFromDB} from '../db/entry';
+
 const DRIVE_FOLDER_NAME = 'PrivateDiaryApp';
 
 let signInOptions = {
@@ -33,6 +35,10 @@ export const initializeDrive = async () => {
 
   // let fileName = /(PrivateDiaryApp)\.([1-2][0-9]{3})\.(realm)/g;
   // console.log(fileName);
+
+  // Get data from DB
+  let itemsFromDB = readEntriesFromDB();
+  let data = JSON.stringify(itemsFromDB);
 
   let queryParams = {
     q: new ListQueryBuilder().e('name', fileName),
@@ -71,7 +77,7 @@ export const initializeDrive = async () => {
     console.log('New Upload');
     let res = await gdrive.files
       .newMultipartUploader()
-      .setData([1, 2, 3, 4, 5], MimeTypes.BINARY)
+      .setData(data, MimeTypes.BINARY)
       .setRequestBody({
         name: fileName,
       })
