@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
 import {realm} from './index';
+import rootStore from '../mst';
 
 // Declaration
 export const EntrySchema = {
@@ -91,15 +92,29 @@ const deleteAllEntriesFromDB = () => {
 
 /**
  * Import from JSON source (Google Drive)
- * @param {*} data
- * TODO: Update only new/updated entry. Don't overwrite
+ * @param {*} data - Syncable data from Google Drive and Local combined
+ * TODO: Delete functionality
  */
 const importToDBFromJSON = data => {
-  // realm.write(() => {
-  //   data.forEach(obj => {
-  //     realm.create('Entry', obj);
-  //   });
-  // });
+  let dataFromDB = readEntriesFromDB();
+  // console.log('syncable Data:', data);
+  // console.log('DB Data:', dataFromDB);
+  realm.write(() => {
+    data.forEach(obj => {
+      let itemFoundInDB = dataFromDB.find(item => item._id === obj._id);
+      if (!itemFoundInDB) {
+        // If does not exist in DB, Create
+        realm.create('Entry', obj);
+      } else {
+        if (itemFoundInDB.modifiedAt < obj.modifiedAt) {
+          // If already exists && modified, Update
+          itemFoundInDB.desc = obj.desc;
+          itemFoundInDB.modifiedAt = obj.modifiedAt;
+        }
+      }
+    });
+    rootStore.populateStoreFromDB();
+  });
 };
 
 export {

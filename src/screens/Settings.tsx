@@ -30,7 +30,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const handleLogin = async () => {
     try {
       let userInfo = await signInWithGoogle();
-      console.log('userInfo', userInfo);
+      // console.log('userInfo', userInfo);
       store.user.updateUser(userInfo?.user);
     } catch (error) {
       // console.log(error);
