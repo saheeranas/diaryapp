@@ -51,6 +51,14 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     }
   };
 
+  const formatEmail = (email: string = '') => {
+    let temp =
+      email.substring(0, 5) +
+      '..' +
+      email.substr(email.length - 10, email.length);
+    return email.length > 20 ? temp : email;
+  };
+
   const isLogined = store.user._id !== '';
 
   const avatar = store?.user?.photo
@@ -69,7 +77,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
               ) : (
                 <>
                   <Text style={styles.name}>{store.user.name}</Text>
-                  <Text>{store.user.email}</Text>
+                  <Text>{formatEmail(store.user.email)}</Text>
                 </>
               )}
             </View>

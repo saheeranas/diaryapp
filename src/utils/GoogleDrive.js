@@ -214,9 +214,10 @@ const getSyncedData = (dataFromDB, dataFromDrive) => {
   );
 
   let nextItem = null;
+  let tempItem = {_id: 'qwerty', modifiedAt: 8640000000000};
 
   let newData = temp.filter((item, i) => {
-    nextItem = temp[i + 1] ? temp[i + 1] : temp[i - 1];
+    nextItem = temp[i + 1] ? temp[i + 1] : tempItem;
     if (item._id === nextItem._id) {
       if (item.modifiedAt <= nextItem.modifiedAt) {
         return null;
