@@ -89,10 +89,24 @@ const deleteAllEntriesFromDB = () => {
   });
 };
 
+/**
+ * Import from JSON source (Google Drive)
+ * @param {*} data
+ * TODO: Update only new/updated entry. Don't overwrite
+ */
+const importToDBFromJSON = data => {
+  // realm.write(() => {
+  //   data.forEach(obj => {
+  //     realm.create('Entry', obj);
+  //   });
+  // });
+};
+
 export {
   readEntriesFromDB,
   addEntryToDB,
   updateEntryToDB,
   deleteOneEntryFromDB,
   deleteAllEntriesFromDB,
+  importToDBFromJSON,
 };
