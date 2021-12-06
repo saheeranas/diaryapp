@@ -17,6 +17,8 @@ export const EntrySchema = {
     createdAt: 'int',
     // modifiedAt: UNIX timestamp
     modifiedAt: 'int',
+    // deleted: Boolean
+    deleted: {type: 'bool', default: false},
   },
   primaryKey: '_id',
 };
@@ -73,7 +75,16 @@ const updateEntryToDB = item => {
   }
 };
 
-// Delete item
+// Delete item (Soft)
+const softDeleteOneEntryFromDB = item => {
+  const res = realm.objectForPrimaryKey('Entry', item._id);
+  realm.write(() => {
+    res.deleted = true;
+    res.modifiedAt = dayjs(new Date()).valueOf();
+  });
+};
+
+// Delete item (Hard)
 const deleteOneEntryFromDB = item => {
   const resItem = realm.objectForPrimaryKey('Entry', item._id);
   realm.write(() => {
@@ -113,14 +124,22 @@ const importToDBFromJSON = data => {
         }
       }
     });
-    rootStore.populateStoreFromDB();
   });
+  // Hard delete the soft deleted
+  let softDeleted = dataFromDB.filter(item => item.deleted === true);
+  realm.write(() => {
+    softDeleted.forEach(obj => {
+      realm.delete(obj);
+    });
+  });
+  rootStore.populateStoreFromDB();
 };
 
 export {
   readEntriesFromDB,
   addEntryToDB,
   updateEntryToDB,
+  softDeleteOneEntryFromDB,
   deleteOneEntryFromDB,
   deleteAllEntriesFromDB,
   importToDBFromJSON,

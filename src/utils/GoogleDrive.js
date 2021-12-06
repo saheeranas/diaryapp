@@ -15,6 +15,9 @@ let signInOptions = {
     '543449270040-irmkbslopngnj6urrg18jf5q1ec4kiii.apps.googleusercontent.com',
 };
 
+// Backup filename
+let fileName = 'PrivateDiaryApp.db';
+
 // Sync stages and dummy percentage values in points tp show progress bar
 const STATUSES = {
   initial: {label: '', value: 0},
@@ -67,12 +70,12 @@ export const useGoogleDrive = () => {
 
   // Export DB to Google Drive
   const exportToGDrive = async () => {
+    // TODO: Check for Active Internet first.
+    // If no, show a message and return from here itself
+
     setstatus(STATUSES.signin);
     const gdrive = new GDrive();
     gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
-
-    let year = parseInt('2021', 10);
-    let fileName = `PrivateDiaryApp.${year}.realm`;
 
     setstatus(STATUSES.packaging);
 
@@ -120,14 +123,14 @@ export const useGoogleDrive = () => {
       })
       .then(res => {
         setstatus(STATUSES.delete);
-        return deleteOldFile(gdrive, fileId);
+        return deleteOldFiles(gdrive);
       })
       .then(res => {
         setstatus(STATUSES.finish);
       })
       .catch(err => {
         setstatus(STATUSES.initial);
-        console.log(err);
+        console.warn(err);
       })
       .finally(() => {
         fileId = null;
@@ -189,14 +192,23 @@ const uploadToDrive = async (gdrive, fileName, data) => {
   }
 };
 
-// deleteOldFile
-const deleteOldFile = async (gdrive, fileId) => {
-  try {
-    let res = await gdrive.files.delete(fileId);
-    return res;
-  } catch (error) {
-    return error;
-  }
+// deleteOldFiles - Delete temp files from drive
+const deleteOldFiles = async gdrive => {
+  let queryParams = {
+    q: new ListQueryBuilder().e('name', `${fileName}.temp`),
+  };
+
+  getListOfFiles(gdrive, queryParams)
+    .then(list => {
+      if (!list.files.length) {
+        // console.log('Error');
+      }
+      let promises = list.files.map(el => {
+        return gdrive.files.delete(el.id);
+      });
+      return Promise.all(promises);
+    })
+    .catch(err => err);
 };
 
 /**
@@ -205,7 +217,8 @@ const deleteOldFile = async (gdrive, fileId) => {
  * 2. Sort in ascendig order by modifiedAt
  * 3. Loop through the items (Array.filter)
  *    a. If Current item's modified data is <= next's, remove item
- *    b. Else return current
+ *    b. If Current item has property 'deleted' = true, remove item
+ *    c. Else return current
  * 4. Return modified array
  */
 const getSyncedData = (dataFromDB, dataFromDrive) => {
@@ -222,6 +235,10 @@ const getSyncedData = (dataFromDB, dataFromDrive) => {
       if (item.modifiedAt <= nextItem.modifiedAt) {
         return null;
       }
+    }
+    // Filter out soft deleted
+    if (item.deleted) {
+      return null;
     }
     return item;
   });
