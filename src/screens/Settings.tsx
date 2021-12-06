@@ -96,11 +96,11 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                   onPress={handleSync}
                   disabled={status.label !== ''}>
                   <View style={styles.menuItem}>
-                    <Text>Backup to Drive</Text>
+                    <Text>Sync</Text>
                     <Icon
                       style={styles.icon}
                       fill="#8F9BB3"
-                      name="cloud-upload-outline"
+                      name="sync-outline"
                     />
                   </View>
                   {status.label !== '' && (
