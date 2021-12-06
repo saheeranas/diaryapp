@@ -19,7 +19,7 @@ const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
           <Text style={styles.day}>{day}</Text>
           <Text style={styles.date}>{rest}</Text>
         </View>
-        <Text>{desc.substr(0, 50)}</Text>
+        <Text style={styles.desc}>{desc.substr(0, 50)}</Text>
       </View>
     </Pressable>
   );
@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   day: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#333333',
     fontWeight: 'bold',
     marginRight: 5,
   },
   date: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#333333',
   },
   desc: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#333333',
   },
 });

@@ -10,7 +10,7 @@ import {
   readEntriesFromDB,
   addEntryToDB,
   updateEntryToDB,
-  deleteOneEntryFromDB,
+  softDeleteOneEntryFromDB,
 } from '../db/entry';
 
 const RootStore = types
@@ -30,7 +30,13 @@ const RootStore = types
     populateStoreFromDB() {
       let itemsFromDB = readEntriesFromDB();
       let temp = JSON.parse(JSON.stringify(itemsFromDB));
-      self.entries = temp;
+      let modifieddata = temp
+        .map(item => {
+          const {deleted, ...rest} = item;
+          return deleted ? null : rest;
+        })
+        .filter(Boolean);
+      self.entries = modifieddata;
     },
     addEntry(entry) {
       self.entries.unshift(entry);
@@ -46,9 +52,7 @@ const RootStore = types
       updateEntryToDB(entry);
     },
     deleteEntry(entry) {
-      // let pos = self.entries.findIndex((e) => e.id === entry.id);
-      // self.entries.splice(pos, 1);
-      deleteOneEntryFromDB(entry);
+      softDeleteOneEntryFromDB(entry);
       destroy(entry);
     },
   }));

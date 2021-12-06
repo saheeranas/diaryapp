@@ -36,7 +36,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       const unsubscribe = navigation.addListener('focus', () => {
         setInputData(initialText);
         let tempDate;
-        if (route.params) {
+        if (route.params?.date) {
           tempDate = dayjs(new Date(route.params.date)).format('YYYY-MM-DD');
         } else {
           tempDate = dayjs(new Date()).format('YYYY-MM-DD');
@@ -55,6 +55,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
           };
           setActive(newItem);
         }
+        navigation.setParams({date: null});
       });
 
       return unsubscribe;
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     marginBottom: 20,
     backgroundColor: '#E9ECF2',
+    fontSize: 14,
   },
   btnWrp: {
     flexDirection: 'row',

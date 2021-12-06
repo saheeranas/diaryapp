@@ -13,12 +13,15 @@ import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
 import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
+import ProgressBar from '../components/ProgressBar';
 
-import {signInWithGoogle, initializeDrive} from '../utils/GoogleDrive';
+import {useGoogleDrive} from '../utils/GoogleDrive';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   const [darkMode, setDarkMode] = useState(false);
+
+  const {status, signInWithGoogle, signOut, exportToGDrive} = useGoogleDrive();
 
   const onCheckedChange = isChecked => {
     setDarkMode(isChecked);
@@ -27,7 +30,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const handleLogin = async () => {
     try {
       let userInfo = await signInWithGoogle();
-      console.log('userInfo', userInfo);
+      // console.log('userInfo', userInfo);
       store.user.updateUser(userInfo?.user);
     } catch (error) {
       // console.log(error);
@@ -36,7 +39,24 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
 
   const handleSync = () => {
     // console.log('gtr');
-    initializeDrive();
+    exportToGDrive();
+  };
+
+  const handleLogout = async () => {
+    try {
+      let userInfo = await signOut();
+      store.user.removeUser();
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  const formatEmail = (email: string = '') => {
+    let temp =
+      email.substring(0, 5) +
+      '..' +
+      email.substr(email.length - 10, email.length);
+    return email.length > 20 ? temp : email;
   };
 
   const isLogined = store.user._id !== '';
@@ -57,7 +77,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
               ) : (
                 <>
                   <Text style={styles.name}>{store.user.name}</Text>
-                  <Text>{store.user.email}</Text>
+                  <Text>{formatEmail(store.user.email)}</Text>
                 </>
               )}
             </View>
@@ -65,21 +85,37 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
 
           <Divider />
           <View>
-            <View style={styles.menuItem}>
+            {/* <View style={styles.menuItem}>
               <Text>Dark Mode</Text>
               <Toggle checked={darkMode} onChange={onCheckedChange}></Toggle>
             </View>
-            <Divider />
-            <TouchableOpacity onPress={handleSync}>
-              <View style={styles.menuItem}>
-                <Text>Sync with Drive</Text>
-                <Icon style={styles.icon} fill="#8F9BB3" name="sync-outline" />
-              </View>
-            </TouchableOpacity>
-            <Divider />
+            <Divider /> */}
             {isLogined && (
               <>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleSync}
+                  disabled={status.label !== ''}>
+                  <View style={styles.menuItem}>
+                    <Text>Backup to Drive</Text>
+                    <Icon
+                      style={styles.icon}
+                      fill="#8F9BB3"
+                      name="cloud-upload-outline"
+                    />
+                  </View>
+                  {status.label !== '' && (
+                    <View>
+                      <Text style={styles.statusText}>{status.label}</Text>
+                      <ProgressBar progress={status.value} />
+                    </View>
+                  )}
+                </TouchableOpacity>
+                <Divider />
+              </>
+            )}
+            {isLogined && (
+              <>
+                <TouchableOpacity onPress={handleLogout}>
                   <View style={styles.menuItem}>
                     <Text>Logout</Text>
                   </View>
@@ -135,6 +171,10 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 14,
+  },
+  statusText: {
+    fontSize: 12,
+    marginBottom: 5,
   },
   icon: {
     width: 24,

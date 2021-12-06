@@ -1,5 +1,5 @@
 import {types} from 'mobx-state-tree';
-import {getUserFromDB, updateUserToDB} from '../db/user';
+import {getUserFromDB, updateUserToDB, clearUserFromDB} from '../db/user';
 
 const User = types
   .model('User', {
@@ -30,6 +30,14 @@ const User = types
       self.photo = user.photo;
 
       updateUserToDB(user);
+    },
+    removeUser() {
+      self._id = '';
+      self.name = '';
+      self.email = '';
+      self.photo = '';
+
+      clearUserFromDB();
     },
   }));
 

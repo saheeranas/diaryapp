@@ -26,7 +26,7 @@ export default function AppNavigation() {
       <Tab.Navigator
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: 'blue',
+          tabBarActiveTintColor: '#624A2E',
           tabBarInactiveTintColor: 'black',
           tabBarStyle: {
             height: 60,
@@ -96,6 +96,7 @@ export default function AppNavigation() {
               <Icon style={styles.icon} fill={color} name="plus-outline" />
             ),
             headerBackBtnShown: true,
+            unmountOnBlur: true,
           }}
         />
       </Tab.Navigator>

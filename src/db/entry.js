@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
 import {realm} from './index';
+import rootStore from '../mst';
 
 // Declaration
 export const EntrySchema = {
@@ -16,6 +17,8 @@ export const EntrySchema = {
     createdAt: 'int',
     // modifiedAt: UNIX timestamp
     modifiedAt: 'int',
+    // deleted: Boolean
+    deleted: {type: 'bool', default: false},
   },
   primaryKey: '_id',
 };
@@ -72,7 +75,16 @@ const updateEntryToDB = item => {
   }
 };
 
-// Delete item
+// Delete item (Soft)
+const softDeleteOneEntryFromDB = item => {
+  const res = realm.objectForPrimaryKey('Entry', item._id);
+  realm.write(() => {
+    res.deleted = true;
+    res.modifiedAt = dayjs(new Date()).valueOf();
+  });
+};
+
+// Delete item (Hard)
 const deleteOneEntryFromDB = item => {
   const resItem = realm.objectForPrimaryKey('Entry', item._id);
   realm.write(() => {
@@ -89,10 +101,46 @@ const deleteAllEntriesFromDB = () => {
   });
 };
 
+/**
+ * Import from JSON source (Google Drive)
+ * @param {*} data - Syncable data from Google Drive and Local combined
+ * TODO: Delete functionality
+ */
+const importToDBFromJSON = data => {
+  let dataFromDB = readEntriesFromDB();
+  // console.log('syncable Data:', data);
+  // console.log('DB Data:', dataFromDB);
+  realm.write(() => {
+    data.forEach(obj => {
+      let itemFoundInDB = dataFromDB.find(item => item._id === obj._id);
+      if (!itemFoundInDB) {
+        // If does not exist in DB, Create
+        realm.create('Entry', obj);
+      } else {
+        if (itemFoundInDB.modifiedAt < obj.modifiedAt) {
+          // If already exists && modified, Update
+          itemFoundInDB.desc = obj.desc;
+          itemFoundInDB.modifiedAt = obj.modifiedAt;
+        }
+      }
+    });
+  });
+  // Hard delete the soft deleted
+  let softDeleted = dataFromDB.filter(item => item.deleted === true);
+  realm.write(() => {
+    softDeleted.forEach(obj => {
+      realm.delete(obj);
+    });
+  });
+  rootStore.populateStoreFromDB();
+};
+
 export {
   readEntriesFromDB,
   addEntryToDB,
   updateEntryToDB,
+  softDeleteOneEntryFromDB,
   deleteOneEntryFromDB,
   deleteAllEntriesFromDB,
+  importToDBFromJSON,
 };
