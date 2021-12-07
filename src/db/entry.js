@@ -78,10 +78,12 @@ const updateEntryToDB = item => {
 // Delete item (Soft)
 const softDeleteOneEntryFromDB = item => {
   const res = realm.objectForPrimaryKey('Entry', item._id);
-  realm.write(() => {
-    res.deleted = true;
-    res.modifiedAt = dayjs(new Date()).valueOf();
-  });
+  if (res) {
+    realm.write(() => {
+      res.deleted = true;
+      res.modifiedAt = dayjs(new Date()).valueOf();
+    });
+  }
 };
 
 // Delete item (Hard)

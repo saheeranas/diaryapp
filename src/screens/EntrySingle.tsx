@@ -82,6 +82,10 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 
       // Delete from Store
       if (active) {
+        // Edge case: Empty entry but not saved in MST and DB
+        if (active.desc?.trim() === '') {
+          return;
+        }
         store.deleteEntry(active);
         setActive(null);
         navigation.goBack();
@@ -109,7 +113,9 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         }
       }
 
-      // setInputData(initialText);
+      setInputData(initialText);
+      setActive(null);
+      navigation.goBack();
     };
 
     const focusInput = () => {
@@ -121,29 +127,39 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         <ScrollView contentContainerStyle={styles.scrollview}>
           <Card>
             <View style={styles.inner}>
-              <TouchableOpacity onPress={() => setEditable(true)}>
+              {editable ? (
                 <TextInput
-                  ref={editorRef}
+                  // ref={editorRef}
                   value={inputData}
                   style={styles.textArea}
                   multiline={true}
                   onChangeText={(text: string) => setInputData(text)}
                   onBlur={addEntry}
-                  // autoFocus={true}
                 />
-              </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => setEditable(true)}>
+                  <View style={styles.textWrapper}>
+                    <Text>{inputData}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+
               <View style={styles.btnWrp}>
+                {editable && (
+                  <Button
+                    size="small"
+                    status="primary"
+                    style={styles.btn}
+                    onPress={addEntry}>
+                    Save
+                  </Button>
+                )}
                 <Button
+                  size="small"
+                  style={styles.btn}
                   status="danger"
-                  accessoryLeft={DeleteIcon}
-                  appearance="outline"
-                  onPress={deleteEntry}
-                />
-                <Button
-                  status="primary"
-                  accessoryLeft={SaveIcon}
-                  onPress={addEntry}>
-                  Save
+                  onPress={deleteEntry}>
+                  Discard
                 </Button>
               </View>
             </View>
@@ -166,6 +182,17 @@ const styles = StyleSheet.create({
   inner: {
     paddingVertical: 5,
   },
+  textWrapper: {
+    minHeight: 180,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderWidth: 0,
+    borderRadius: 8,
+    textAlignVertical: 'top',
+    marginBottom: 20,
+    backgroundColor: '#E9ECF2',
+    fontSize: 14,
+  },
   textArea: {
     height: 180,
     paddingHorizontal: 10,
@@ -177,7 +204,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   btnWrp: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+  },
+  btn: {
+    marginBottom: 10,
   },
 });

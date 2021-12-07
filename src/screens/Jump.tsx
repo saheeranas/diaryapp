@@ -76,6 +76,13 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
           enableSwipeMonths={true}
           onDayPress={day => navigateToDetail(day)}
           markedDates={markedDates}
+          theme={{
+            dotColor: '#4361ee',
+            selectedDotColor: '#4361ee',
+            todayTextColor: '#4361ee',
+            arrowColor: '#4361ee',
+            indicatorColor: '#4361ee',
+          }}
         />
         {/* </LayoutInner> */}
       </ScrollView>

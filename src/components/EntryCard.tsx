@@ -11,7 +11,10 @@ interface EntryCardProps {
 
 const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
   const day = dayjs(date).format('DD');
-  const rest = dayjs(date).format('MMM');
+  const rest = `${dayjs(date).format('MMM')} ${dayjs(date)
+    .format('YYYY')
+    .toString()
+    .substr(-2)}`;
   return (
     <Pressable style={styles.listItem} onPress={onPress}>
       <View style={styles.listItemInner}>
@@ -42,13 +45,13 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   day: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#333333',
     fontWeight: 'bold',
     marginRight: 5,
   },
   date: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#333333',
   },
   desc: {

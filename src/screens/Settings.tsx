@@ -53,7 +53,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
 
   const formatEmail = (email: string = '') => {
     let temp =
-      email.substring(0, 5) +
+      email.substring(0, 10) +
       '..' +
       email.substr(email.length - 10, email.length);
     return email.length > 20 ? temp : email;
@@ -158,10 +158,16 @@ const styles = StyleSheet.create({
   },
   prodetails: {
     justifyContent: 'center',
-    paddingLeft: 18,
+    paddingHorizontal: 18,
+    // flexShrink: 1,
   },
   name: {
     fontWeight: 'bold',
+  },
+  email: {
+    // flex: 1,
+    // flexWrap: 'wrap',
+    flexShrink: 1,
   },
   menuItem: {
     paddingVertical: 10,

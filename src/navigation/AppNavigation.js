@@ -24,9 +24,10 @@ export default function AppNavigation() {
       </Stack.Navigator> */}
       <Tab.Navigator
         screenOptions={{
+          tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: '#624A2E',
-          tabBarInactiveTintColor: 'black',
+          tabBarActiveTintColor: '#4361ee',
+          tabBarInactiveTintColor: '#6c757d',
           tabBarStyle: {
             height: 60,
             bottom: 15,
