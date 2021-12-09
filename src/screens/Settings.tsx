@@ -55,7 +55,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     let temp =
       email.substring(0, 10) +
       '..' +
-      email.substr(email.length - 10, email.length);
+      email.substring(email.length - 10, email.length);
     return email.length > 20 ? temp : email;
   };
 

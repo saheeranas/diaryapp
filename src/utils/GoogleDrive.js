@@ -6,6 +6,7 @@ import {
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 import dayjs from 'dayjs';
+import notifee from '@notifee/react-native';
 
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
 import rootStore from '../mst';
@@ -30,6 +31,11 @@ const STATUSES = {
   delete: {label: 'Deleting old backup file', value: 0.8},
   finish: {label: 'Success', value: 1},
   fail: {label: 'Failed', value: 1},
+};
+
+const LOCAL_NOTIFICATION_MESSAGES = {
+  complete: {title: 'Success', body: 'Sync is successfully completed'},
+  fail: {title: 'Sync Failed', body: 'Sync was failed. Please try again'},
 };
 
 /**
@@ -129,9 +135,11 @@ export const useGoogleDrive = () => {
         setstatus(STATUSES.finish);
         let date = dayjs(new Date()).format('YYYY MMM DD dddd hh mm A');
         rootStore.settings.updateLastSynced(date);
+        onDisplayNotification('complete');
       })
       .catch(err => {
         setstatus(STATUSES.fail);
+        onDisplayNotification('fail');
         console.warn(err);
       })
       .finally(() => {
@@ -246,4 +254,25 @@ const getSyncedData = (dataFromDB, dataFromDrive) => {
   });
 
   return newData;
+};
+
+// Local Notification
+const onDisplayNotification = async status => {
+  // Check messages already defined
+  if (status in LOCAL_NOTIFICATION_MESSAGES) {
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: LOCAL_NOTIFICATION_MESSAGES[status].title,
+      body: LOCAL_NOTIFICATION_MESSAGES[status].body,
+      android: {
+        channelId,
+      },
+    });
+  }
 };
