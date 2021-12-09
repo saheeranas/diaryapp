@@ -5,8 +5,10 @@ import {
   MimeTypes,
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
+import dayjs from 'dayjs';
 
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
+import rootStore from '../mst';
 
 // Sign in configuration
 let signInOptions = {
@@ -27,6 +29,7 @@ const STATUSES = {
   upload: {label: 'Uploading', value: 0.3},
   delete: {label: 'Deleting old backup file', value: 0.8},
   finish: {label: 'Success', value: 1},
+  fail: {label: 'Failed', value: 1},
 };
 
 /**
@@ -36,14 +39,11 @@ export const useGoogleDrive = () => {
   const [status, setstatus] = useState(STATUSES.initial);
 
   useEffect(() => {
-    if (status === STATUSES.finish) {
+    if (status === STATUSES.finish || status === STATUSES.fail) {
       setTimeout(() => {
         setstatus(STATUSES.initial);
-      }, 500);
+      }, 5000);
     }
-    // return () => {
-    //   setstatus(STATUSES.initial);
-    // };
   }, [status]);
 
   // Sign In
@@ -127,9 +127,11 @@ export const useGoogleDrive = () => {
       })
       .then(res => {
         setstatus(STATUSES.finish);
+        let date = dayjs(new Date()).format('YYYY MMM DD dddd hh mm A');
+        rootStore.settings.updateLastSynced(date);
       })
       .catch(err => {
-        setstatus(STATUSES.initial);
+        setstatus(STATUSES.fail);
         console.warn(err);
       })
       .finally(() => {

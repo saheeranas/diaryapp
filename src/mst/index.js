@@ -4,6 +4,7 @@ import {types, destroy} from 'mobx-state-tree';
 // Stores
 import DiaryEntry from './DiaryEntry';
 import User from './User';
+import Settings from './Settings';
 
 // Realm DB Ops
 import {
@@ -17,6 +18,7 @@ const RootStore = types
   .model({
     entries: types.array(DiaryEntry),
     user: types.maybe(User),
+    settings: types.maybe(Settings),
   })
   .views(self => ({
     getData() {
@@ -72,6 +74,9 @@ const rootStore = RootStore.create({
     name: '',
     email: '',
     photo: '',
+  },
+  settings: {
+    lastSynced: '',
   },
 });
 

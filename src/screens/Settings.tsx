@@ -106,10 +106,23 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                   {status.label !== '' && (
                     <View>
                       <Text style={styles.statusText}>{status.label}</Text>
-                      <ProgressBar progress={status.value} />
+                      <ProgressBar
+                        progress={status.value}
+                        color={
+                          status.label === 'Failed' ? '#ff3b30' : '#34c759'
+                        }
+                      />
                     </View>
                   )}
                 </TouchableOpacity>
+                {store.settings.lastSynced !== '' && (
+                  <TouchableOpacity
+                    onPress={() => store.settings.removeLastSynced()}>
+                    <Text style={styles.lastSyncedText}>
+                      Last Sync: {store.settings.lastSynced}
+                    </Text>
+                  </TouchableOpacity>
+                )}
                 <Divider />
               </>
             )}
@@ -181,6 +194,11 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     marginBottom: 5,
+  },
+  lastSyncedText: {
+    fontSize: 11,
+    fontStyle: 'italic',
+    marginVertical: 5,
   },
   icon: {
     width: 24,
