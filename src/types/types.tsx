@@ -10,7 +10,7 @@ export interface HeaderType {
 }
 
 /**
- * Entries
+ * Entries screen
  */
 
 export interface EntriesType {
@@ -18,7 +18,7 @@ export interface EntriesType {
 }
 
 /**
- * EntrySingle
+ * EntrySingle screen
  */
 
 export interface EntrySingleType {
@@ -26,7 +26,7 @@ export interface EntrySingleType {
 }
 
 /**
- * Jump
+ * Jump screen
  */
 
 export interface JumpType {
@@ -34,9 +34,17 @@ export interface JumpType {
 }
 
 /**
- * Settings
+ * Settings screen
  */
 
 export interface SettingsType {
+  navigation: any;
+}
+
+/**
+ * Password screen
+ */
+
+export interface PasswordType {
   navigation: any;
 }

@@ -10,6 +10,10 @@ import {default as mapping} from './mapping.json';
 
 import AppNavigation from './src/navigation/AppNavigation';
 
+// DEV
+import Password from './src/screens/security/Password';
+// DEV END
+
 const App = () => {
   useEffect(() => {
     RNBootSplash.hide({fade: true});
@@ -21,16 +25,13 @@ const App = () => {
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
-            <AppNavigation />
+            {/* <AppNavigation /> */}
+            <Password />
           </SafeAreaProvider>
         </MSTContext.Provider>
       </ApplicationProvider>
     </>
   );
 };
-
-// if (__DEV__) {
-//   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
-// }
 
 export default App;
