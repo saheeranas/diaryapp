@@ -11,7 +11,7 @@ import {default as mapping} from './mapping.json';
 import AppNavigation from './src/navigation/AppNavigation';
 
 // DEV
-import Password from './src/screens/security/Password';
+// import Password from './src/screens/security/Password';
 // DEV END
 
 const App = () => {
@@ -25,8 +25,8 @@ const App = () => {
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
-            {/* <AppNavigation /> */}
-            <Password />
+            <AppNavigation />
+            {/* <Password /> */}
           </SafeAreaProvider>
         </MSTContext.Provider>
       </ApplicationProvider>

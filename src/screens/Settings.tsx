@@ -14,6 +14,7 @@ import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
 import ProgressBar from '../components/ProgressBar';
+import {SettingsMenuItem} from '../components/SettingsMenu';
 
 import {useGoogleDrive} from '../utils/GoogleDrive';
 
@@ -126,15 +127,23 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                 <Divider />
               </>
             )}
+
+            <SettingsMenuItem label="Manage Password" icon="sync-outline">
+              <SettingsMenuItem
+                label="Set Password"
+                onPress={() => console.log('presseed')}
+              />
+              <SettingsMenuItem
+                label="Change Password"
+                onPress={() => console.log('presseed')}
+              />
+              <SettingsMenuItem
+                label="Remove Password"
+                onPress={() => console.log('presseed')}
+              />
+            </SettingsMenuItem>
             {isLogined && (
-              <>
-                <TouchableOpacity onPress={handleLogout}>
-                  <View style={styles.menuItem}>
-                    <Text>Logout</Text>
-                  </View>
-                </TouchableOpacity>
-                <Divider />
-              </>
+              <SettingsMenuItem label="Logout" onPress={handleLogout} />
             )}
           </View>
         </Card>
