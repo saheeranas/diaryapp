@@ -1,19 +1,64 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-// import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from '@ui-kitten/components';
 
+// Tab
 import Entries from '../screens/Entries';
 import Jump from '../screens/Jump';
 import Settings from '../screens/Settings';
 import EntrySingle from '../screens/EntrySingle';
 
+// Settings Stack
+import SetPassword from '../screens/security/SetPassword';
+import ChangePassword from '../screens/security/ChangePassword';
+import RemovePassword from '../screens/security/RemovePassword';
+
 import Header from '../components/Header';
 
-// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Settings Stack
+export const SettingsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        header: ({navigation, route, options}) => {
+          return (
+            <Header
+              title={options.tabBarLabel}
+              navigation={navigation}
+              hideBack={!options.headerBackBtnShown}
+            />
+          );
+        },
+      }}>
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{tabBarLabel: 'Settings'}}
+      />
+      <Stack.Screen
+        name="SetPassword"
+        component={SetPassword}
+        options={{tabBarLabel: 'New Password', headerBackBtnShown: true}}
+      />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{tabBarLabel: 'Update Password', headerBackBtnShown: true}}
+      />
+      <Stack.Screen
+        name="RemovePassword"
+        component={RemovePassword}
+        options={{tabBarLabel: 'Remove Password', headerBackBtnShown: true}}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default function AppNavigation() {
   return (
@@ -78,6 +123,17 @@ export default function AppNavigation() {
           }}
         />
         <Tab.Screen
+          name="SettingsStack"
+          component={SettingsStack}
+          options={{
+            tabBarLabel: 'Settings',
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <Icon style={styles.icon} fill={color} name="settings-outline" />
+            ),
+          }}
+        />
+        {/* <Tab.Screen
           name="Settings"
           component={Settings}
           options={{
@@ -86,7 +142,7 @@ export default function AppNavigation() {
               <Icon style={styles.icon} fill={color} name="settings-outline" />
             ),
           }}
-        />
+        /> */}
         <Tab.Screen
           name="EntrySingle"
           component={EntrySingle}

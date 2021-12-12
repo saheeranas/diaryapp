@@ -60,6 +60,10 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     return email.length > 20 ? temp : email;
   };
 
+  const navigateTo = screen => {
+    navigation.navigate(screen);
+  };
+
   const isLogined = store.user._id !== '';
 
   const avatar = store?.user?.photo
@@ -131,15 +135,15 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
             <SettingsMenuItem label="Manage Password" icon="sync-outline">
               <SettingsMenuItem
                 label="Set Password"
-                onPress={() => console.log('presseed')}
+                onPress={() => navigateTo('SetPassword')}
               />
               <SettingsMenuItem
                 label="Change Password"
-                onPress={() => console.log('presseed')}
+                onPress={() => navigateTo('ChangePassword')}
               />
               <SettingsMenuItem
                 label="Remove Password"
-                onPress={() => console.log('presseed')}
+                onPress={() => navigateTo('RemovePassword')}
               />
             </SettingsMenuItem>
             {isLogined && (
