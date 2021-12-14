@@ -12,7 +12,7 @@ import AppNavigation from './src/navigation/AppNavigation';
 
 // DEV
 // import Password from './src/screens/security/Password';
-// import SetPassword from './src/screens/security/SetPassword';
+import SetPassword from './src/screens/security/SetPassword';
 // import ChangePassword from './src/screens/security/ChangePassword';
 // import RemovePassword from './src/screens/security/RemovePassword';
 // DEV END
@@ -28,9 +28,9 @@ const App = () => {
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
-            <AppNavigation />
+            {/* <AppNavigation /> */}
             {/* <Password /> */}
-            {/* <SetPassword /> */}
+            <SetPassword />
             {/* <ChangePassword /> */}
             {/* <RemovePassword /> */}
           </SafeAreaProvider>
