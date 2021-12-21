@@ -7,6 +7,7 @@ const User = types
     name: types.string,
     email: types.string,
     photo: types.string,
+    isUnlocked: types.boolean, // true if user opted for password
   })
   .views(self => ({
     getData() {
@@ -38,6 +39,10 @@ const User = types
       self.photo = '';
 
       clearUserFromDB();
+    },
+    toggleUnlocked(status) {
+      console.log('here');
+      self.isUnlocked = status;
     },
   }));
 

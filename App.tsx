@@ -28,9 +28,9 @@ const App = () => {
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
-            {/* <AppNavigation /> */}
+            <AppNavigation />
             {/* <Password /> */}
-            <SetPassword />
+            {/* <SetPassword /> */}
             {/* <ChangePassword /> */}
             {/* <RemovePassword /> */}
           </SafeAreaProvider>

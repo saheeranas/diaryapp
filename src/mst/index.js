@@ -74,6 +74,7 @@ const rootStore = RootStore.create({
     name: '',
     email: '',
     photo: '',
+    isUnlocked: false,
   },
   settings: {
     lastSynced: '',

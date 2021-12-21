@@ -10,6 +10,8 @@ import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
 import {Layout} from '../../components/Layout';
 
+import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
+
 const UnlockSchema = Yup.object().shape({
   password: Yup.string()
     .trim('Password cannot include spaces')
@@ -20,9 +22,20 @@ const UnlockSchema = Yup.object().shape({
 const Password: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const handleUnlock = values => {
-    //   handle submit here
-    // console.log(values);
+  const handleUnlock = async values => {
+    try {
+      // Verify User with password
+      let status = await verifyPwdWithStoredHash(values.password);
+
+      if (status) {
+        // If status is true, show success message 'Unlock success'
+        console.log('Unlock success');
+        // Navigate to Tab Navigation by updating mst
+        store.user.toggleUnlocked(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -61,6 +74,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
                   <Text style={styles.error}>{errors.password}</Text>
                 ) : null}
                 <Button title="Go" onPress={handleSubmit} />
+                <Button title="Delete Pwd" onPress={deletePassword} />
               </>
             )}
           </Formik>

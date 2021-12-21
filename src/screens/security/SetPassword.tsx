@@ -10,10 +10,12 @@ import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
 import {Layout} from '../../components/Layout';
 
+import {setPassword} from '../../utils/password';
+
 const SetPasswordSchema = Yup.object().shape({
   password: Yup.string()
     .trim('Password cannot include spaces')
-    .min(5, 'Too Short!')
+    .min(1, 'Too Short!')
     .required('Required'),
   confirm: Yup.string().oneOf(
     [Yup.ref('password'), null],
@@ -25,8 +27,7 @@ const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   const handleSetPassword = values => {
-    //   handle submit here
-    // console.log(values);
+    setPassword(values.password);
   };
 
   return (

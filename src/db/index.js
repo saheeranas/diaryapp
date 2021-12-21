@@ -1,5 +1,7 @@
 import Realm from 'realm';
 
+// import {getPassword} from '../utils/password';
+
 // console.log(Realm.defaultPath);
 
 // Import Schemas
