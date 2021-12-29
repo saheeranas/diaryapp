@@ -28,6 +28,8 @@ const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
 
   const handleSetPassword = values => {
     setPassword(values.password);
+    store.user.toggleSecurityStatus(true);
+    navigation.goBack();
   };
 
   return (

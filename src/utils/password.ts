@@ -13,7 +13,9 @@ export const setPassword = async (password: string) => {
   // 2. Store the hash in keychain: Call the function here
   try {
     let res = await setSecureValue('pwdHash', hash);
+    return res;
   } catch (error) {
+    return error;
     // console.log(error);
   }
 };
@@ -31,7 +33,7 @@ export const getPassword = async () => {
 export const getPasswordStatus = async () => {
   try {
     let pwd = await getSecureValue('pwdHash');
-    return pwd !== '' ? true : false;
+    return pwd ? true : false;
   } catch (error) {
     return false;
   }
@@ -46,7 +48,7 @@ export const verifyPwdWithStoredHash = async (inputPwd: string) => {
     let pwd = await getSecureValue('pwdHash');
     return pwd === hash ? true : false;
   } catch (error) {
-    return false;
+    return error;
   }
 };
 
@@ -62,5 +64,25 @@ export const deletePassword = async () => {
   }
 };
 
-// Change Password
-// Remove Password
+/* Update  password
+ *
+ */
+export const updatePassword = async (
+  inputCurrentPwd: string,
+  newPwd: string,
+) => {
+  // 1. Compare input Password with Current Password
+  let hashOfInputCurrentPwd = sha512(inputCurrentPwd).toString();
+
+  return getPassword()
+    .then(currentPwd => {
+      return hashOfInputCurrentPwd === currentPwd;
+    })
+    .then(res => {
+      if (!res) {
+        throw new Error('Current pasword is incorrect');
+      }
+      return setPassword(newPwd);
+    })
+    .catch(e => console.log(e));
+};

@@ -74,6 +74,7 @@ const rootStore = RootStore.create({
     name: '',
     email: '',
     photo: '',
+    isSecure: true,
     isUnlocked: false,
   },
   settings: {

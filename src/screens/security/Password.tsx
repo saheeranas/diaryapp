@@ -29,7 +29,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
 
       if (status) {
         // If status is true, show success message 'Unlock success'
-        console.log('Unlock success');
+        // console.log('Unlock success');
         // Navigate to Tab Navigation by updating mst
         store.user.toggleUnlocked(true);
       }

@@ -10,13 +10,6 @@ import {default as mapping} from './mapping.json';
 
 import AppNavigation from './src/navigation/AppNavigation';
 
-// DEV
-// import Password from './src/screens/security/Password';
-import SetPassword from './src/screens/security/SetPassword';
-// import ChangePassword from './src/screens/security/ChangePassword';
-// import RemovePassword from './src/screens/security/RemovePassword';
-// DEV END
-
 const App = () => {
   useEffect(() => {
     RNBootSplash.hide({fade: true});
@@ -29,10 +22,6 @@ const App = () => {
           <SafeAreaProvider>
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
             <AppNavigation />
-            {/* <Password /> */}
-            {/* <SetPassword /> */}
-            {/* <ChangePassword /> */}
-            {/* <RemovePassword /> */}
           </SafeAreaProvider>
         </MSTContext.Provider>
       </ApplicationProvider>

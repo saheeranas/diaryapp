@@ -10,6 +10,8 @@ import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
 import {Layout} from '../../components/Layout';
 
+import {updatePassword} from '../../utils/password';
+
 const ChangePasswordSchema = Yup.object().shape({
   oldPassword: Yup.string()
     .trim('Password cannot include spaces')
@@ -28,9 +30,12 @@ const ChangePasswordSchema = Yup.object().shape({
 const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const handleChangePassword = values => {
-    //   handle submit here
-    // console.log(values);
+  const handleChangePassword = async values => {
+    let {oldPassword, password} = values;
+    try {
+      let status = updatePassword(oldPassword, password);
+      navigation.goBack();
+    } catch (error) {}
   };
 
   return (

@@ -30,6 +30,8 @@ import Header from '../components/Header';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+let FLAG = false;
+
 // Settings Stack
 export const SettingsStack = () => {
   return (
@@ -72,19 +74,19 @@ export const SettingsStack = () => {
 const AppNavigation = observer(() => {
   const store = React.useContext(MSTContext);
 
-  const [hasPassword, setHasPassword] = React.useState(false);
-
   React.useEffect(() => {
     void (async function fetchPasswordStatus() {
       getPasswordStatus().then(res => {
-        setHasPassword(res ? true : false);
+        store.user.toggleSecurityStatus(res ? true : false);
       });
     })();
   }, []);
 
+  FLAG = store.user.isSecure ? (store.user.isUnlocked ? true : false) : true;
+
   return (
     <NavigationContainer>
-      {!(hasPassword && store.user.isUnlocked) ? (
+      {!FLAG ? (
         <Stack.Navigator>
           <Stack.Screen name="Password" component={Password} />
         </Stack.Navigator>

@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {StyleSheet, ScrollView, Button} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {StyleSheet, ScrollView, Button, Alert} from 'react-native';
 
 import {observer} from 'mobx-react-lite';
 import {Card, Input, Text} from '@ui-kitten/components';
@@ -10,6 +10,8 @@ import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
 import {Layout} from '../../components/Layout';
 
+import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
+
 const RemovePasswordSchema = Yup.object().shape({
   oldPassword: Yup.string()
     .trim('Password cannot include spaces')
@@ -19,10 +21,37 @@ const RemovePasswordSchema = Yup.object().shape({
 
 const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
+  const [respError, setRespError] = useState('');
 
   const handleRemovePassword = values => {
-    //   handle submit here
-    // console.log(values);
+    Alert.alert(
+      'Confirm Delete?',
+      'This action will remove password protection of the app',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => confirmDelete(values)},
+      ],
+    );
+  };
+
+  const confirmDelete = async values => {
+    try {
+      let status = await verifyPwdWithStoredHash(values.oldPassword);
+
+      if (status) {
+        deletePassword();
+        store.user.toggleSecurityStatus(false);
+        navigation.goBack();
+      } else {
+        // Show wrong password message
+        setRespError('Password is wrong');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -59,6 +88,9 @@ const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
                 />
                 {errors.oldPassword && touched.oldPassword ? (
                   <Text style={styles.error}>{errors.oldPassword}</Text>
+                ) : null}
+                {respError ? (
+                  <Text style={styles.error}>{respError}</Text>
                 ) : null}
 
                 <Button title="Submit" onPress={handleSubmit} />

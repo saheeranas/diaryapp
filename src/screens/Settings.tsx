@@ -5,6 +5,7 @@ import {
   ScrollView,
   Button,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import {observer} from 'mobx-react-lite';
@@ -39,11 +40,24 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   };
 
   const handleSync = () => {
-    // console.log('gtr');
     exportToGDrive();
   };
 
   const handleLogout = async () => {
+    Alert.alert(
+      'Confirm Logout?',
+      'User will be logged out from Google account.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => confirmLogout()},
+      ],
+    );
+  };
+
+  const confirmLogout = async () => {
     try {
       let userInfo = await signOut();
       store.user.removeUser();
@@ -65,6 +79,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   };
 
   const isLogined = store.user._id !== '';
+  const isSecured = store.user.isSecure;
 
   const avatar = store?.user?.photo
     ? {uri: store.user.photo}
@@ -133,18 +148,23 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
             )}
 
             <SettingsMenuItem label="Manage Password" icon="sync-outline">
-              <SettingsMenuItem
-                label="Set Password"
-                onPress={() => navigateTo('SetPassword')}
-              />
-              <SettingsMenuItem
-                label="Change Password"
-                onPress={() => navigateTo('ChangePassword')}
-              />
-              <SettingsMenuItem
-                label="Remove Password"
-                onPress={() => navigateTo('RemovePassword')}
-              />
+              {isSecured ? (
+                <>
+                  <SettingsMenuItem
+                    label="Change Password"
+                    onPress={() => navigateTo('ChangePassword')}
+                  />
+                  <SettingsMenuItem
+                    label="Remove Password"
+                    onPress={() => navigateTo('RemovePassword')}
+                  />
+                </>
+              ) : (
+                <SettingsMenuItem
+                  label="Set Password"
+                  onPress={() => navigateTo('SetPassword')}
+                />
+              )}
             </SettingsMenuItem>
             {isLogined && (
               <SettingsMenuItem label="Logout" onPress={handleLogout} />
