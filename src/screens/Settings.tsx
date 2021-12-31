@@ -85,6 +85,8 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     ? {uri: store.user.photo}
     : require('../../assets/images/avatar.png');
 
+  console.log('store.user.isSecure', store.user.isSecure);
+
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.scrollview}>
@@ -168,6 +170,13 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
             </SettingsMenuItem>
             {isLogined && (
               <SettingsMenuItem label="Logout" onPress={handleLogout} />
+            )}
+            {isSecured && (
+              <SettingsMenuItem
+                label="Lock"
+                icon="lock-outline"
+                onPress={() => store.user.toggleUnlocked(false)}
+              />
             )}
           </View>
         </Card>

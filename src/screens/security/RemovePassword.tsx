@@ -41,10 +41,15 @@ const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
     try {
       let status = await verifyPwdWithStoredHash(values.oldPassword);
 
+      console.log('status', status);
+
       if (status) {
-        deletePassword();
         store.user.toggleSecurityStatus(false);
-        navigation.goBack();
+        store.user.toggleUnlocked(false);
+        deletePassword();
+        setTimeout(() => {
+          navigation.goBack();
+        }, 0);
       } else {
         // Show wrong password message
         setRespError('Password is wrong');
