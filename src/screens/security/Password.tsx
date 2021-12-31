@@ -5,6 +5,7 @@ import {observer} from 'mobx-react-lite';
 import {Card, Input, Text} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
@@ -33,9 +34,17 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
         // If status is true, show success message 'Unlock success'
         // console.log('Unlock success');
         // Navigate to Tab Navigation by updating mst
+        showMessage({
+          message: 'Welcome',
+          type: 'info',
+        });
         store.user.toggleUnlocked(true);
       } else {
-        console.log('wrong');
+        showMessage({
+          message: 'Unlock Failed',
+          description: 'Entered password is incorrect',
+          type: 'danger',
+        });
         setRespError('Password is wrong');
       }
     } catch (error) {

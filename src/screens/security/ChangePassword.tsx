@@ -5,6 +5,7 @@ import {observer} from 'mobx-react-lite';
 import {Card, Input, Text} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
@@ -38,10 +39,17 @@ const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
     let {oldPassword, password} = values;
     try {
       let status = await updatePassword(oldPassword, password);
-      console.log(status);
       if (status) {
+        showMessage({
+          message: 'Password changed successfully',
+          type: 'success',
+        });
         navigation.goBack();
       } else {
+        showMessage({
+          message: 'Current password is incorrect',
+          type: 'danger',
+        });
         setRespError('Password is wrong');
       }
     } catch (error) {

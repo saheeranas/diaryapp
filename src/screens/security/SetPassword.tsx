@@ -5,6 +5,7 @@ import {observer} from 'mobx-react-lite';
 import {Card, Input, Text} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
 import {PasswordType} from '../../types/types';
@@ -26,10 +27,28 @@ const SetPasswordSchema = Yup.object().shape({
 const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const handleSetPassword = values => {
-    setPassword(values.password);
-    store.user.toggleSecurityStatus(true);
-    navigation.goBack();
+  const handleSetPassword = async values => {
+    try {
+      let status = await setPassword(values.password);
+      if (status) {
+        showMessage({
+          message: 'Password changed successfully',
+          type: 'success',
+        });
+        store.user.toggleSecurityStatus(true);
+        navigation.goBack();
+      } else {
+        showMessage({
+          message: 'Failed',
+          type: 'danger',
+        });
+      }
+    } catch (error) {
+      showMessage({
+        message: 'Failed',
+        type: 'danger',
+      });
+    }
   };
 
   return (

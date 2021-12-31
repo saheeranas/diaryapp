@@ -7,6 +7,7 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import rootStore, {MSTContext} from './src/mst';
 import {default as mapping} from './mapping.json';
+import FlashMessage from 'react-native-flash-message';
 
 import AppNavigation from './src/navigation/AppNavigation';
 
@@ -23,6 +24,7 @@ const App = () => {
             <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
             <AppNavigation />
           </SafeAreaProvider>
+          <FlashMessage position="top" />
         </MSTContext.Provider>
       </ApplicationProvider>
     </>
