@@ -1,4 +1,5 @@
 import sha512 from 'crypto-js/sha512';
+import dayjs from 'dayjs';
 
 import {setSecureValue, getSecureValue, removeSecureValue} from './keyChain';
 
@@ -13,10 +14,13 @@ export const setPassword = async (password: string) => {
   // 2. Store the hash in keychain: Call the function here
   try {
     let res = await setSecureValue('pwdHash', hash);
+    let timestamp = await setSecureValue(
+      'pwdTimestamp',
+      dayjs(new Date()).valueOf().toString(),
+    );
     return res;
   } catch (error) {
     return error;
-    // console.log(error);
   }
 };
 
@@ -28,7 +32,14 @@ export const getPassword = async () => {
 };
 
 /**
- * Retrieve hashed password from Keychain
+ * Retrieve timestamp of hashed password from Keychain
+ */
+export const getPasswordTimestamp = async () => {
+  return getSecureValue('pwdTimestamp');
+};
+
+/**
+ * Retrieve hashed password status from Keychain
  */
 export const getPasswordStatus = async () => {
   try {
@@ -53,11 +64,24 @@ export const verifyPwdWithStoredHash = async (inputPwd: string) => {
 };
 
 /**
+ * Compare & verify hashed password with stored hash
+ */
+export const verifyHashWithStoredHash = async (inputHash: string) => {
+  try {
+    let pwd = await getSecureValue('pwdHash');
+    return pwd === inputHash ? true : false;
+  } catch (error) {
+    return error;
+  }
+};
+
+/**
  * Delete stored password
  */
 export const deletePassword = async () => {
   try {
     let status = await removeSecureValue('pwdHash');
+    let modifiedAt = await removeSecureValue('pwdTimestamp');
     return status;
   } catch (error) {
     return false;
@@ -85,4 +109,26 @@ export const updatePassword = async (
       return setPassword(newPwd);
     })
     .catch(e => console.log(e));
+};
+
+/*
+ * Update HASH (not password)
+ */
+export const updateHash = async (newHash: string, timestamp: string) => {
+  console.log('updateHash start');
+  console.log('newHash', newHash);
+  console.log('timestamp', timestamp);
+  if (!newHash) {
+    return deletePassword();
+  }
+  if (!timestamp) {
+    timestamp = dayjs(new Date()).valueOf().toString();
+  }
+  try {
+    let res = await setSecureValue('pwdHash', newHash);
+    let timestampRes = await setSecureValue('pwdTimestamp', timestamp);
+    return res;
+  } catch (error) {
+    return error;
+  }
 };

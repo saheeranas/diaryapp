@@ -113,7 +113,7 @@ const importToDBFromJSON = data => {
   // console.log('syncable Data:', data);
   // console.log('DB Data:', dataFromDB);
   realm.write(() => {
-    data.forEach(obj => {
+    data.entries.forEach(obj => {
       let itemFoundInDB = dataFromDB.find(item => item._id === obj._id);
       if (!itemFoundInDB) {
         // If does not exist in DB, Create

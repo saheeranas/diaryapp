@@ -9,6 +9,12 @@ import dayjs from 'dayjs';
 import notifee from '@notifee/react-native';
 
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
+import {
+  getPassword,
+  getPasswordTimestamp,
+  verifyHashWithStoredHash,
+  updateHash,
+} from './password';
 import rootStore from '../mst';
 
 // Sign in configuration
@@ -79,14 +85,18 @@ export const useGoogleDrive = () => {
     // TODO: Check for Active Internet first.
     // If no, show a message and return from here itself
 
+    let INITIAL_DATA = {};
+
     setstatus(STATUSES.signin);
     const gdrive = new GDrive();
     gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
 
     setstatus(STATUSES.packaging);
 
-    // Get data from DB
-    let itemsFromDB = readEntriesFromDB();
+    // setstatus(STATUSES.fail);
+    // onDisplayNotification('fail');
+
+    // return;
 
     // For search in the google Drive
     let queryParams = {
@@ -107,9 +117,13 @@ export const useGoogleDrive = () => {
      * 5. Upload syncable data to Drive - uploadToDrive()
      * 6. Delete Old temp file from drive - deleteOldFile()
      */
-    getListOfFiles(gdrive, queryParams)
+    getDataFromDevice()
       .then(res => {
-        let dataFromFile = [];
+        INITIAL_DATA = {...res};
+        return getListOfFiles(gdrive, queryParams);
+      })
+      .then(res => {
+        let dataFromFile = {};
         if (res.files.length) {
           fileId = res.files[0].id;
           dataFromFile = getDataFromFile(gdrive, fileId);
@@ -120,10 +134,11 @@ export const useGoogleDrive = () => {
         if (fileId) {
           updateOldFileName(gdrive, fileId, fileName);
         }
-        return getSyncedData(itemsFromDB, res);
+        return getSyncedData(INITIAL_DATA, res);
       })
       .then(modifiedData => {
         setstatus(STATUSES.upload);
+        // Compare hash from import with local, if do not match, lock the app
         importToDBFromJSON(modifiedData);
         return uploadToDrive(gdrive, fileName, modifiedData);
       })
@@ -148,6 +163,37 @@ export const useGoogleDrive = () => {
   };
 
   return {status, signInWithGoogle, signOut, exportToGDrive};
+};
+
+// getDataFromDevice
+const getDataFromDevice = async () => {
+  let DATA_FROM_FILE = {
+    userInfo: {
+      pkey: '',
+      modifiedAt: '',
+    },
+    entries: [],
+  };
+
+  // Entries
+  let entriesFromDB = readEntriesFromDB();
+  DATA_FROM_FILE.entries = entriesFromDB;
+  // End Entries
+
+  // Password
+  try {
+    let hash = await getPassword();
+    let time = await getPasswordTimestamp();
+    if (hash) {
+      DATA_FROM_FILE.userInfo.pkey = hash;
+    }
+    if (time) {
+      DATA_FROM_FILE.userInfo.modifiedAt = time;
+    }
+  } catch (e) {}
+  // End Password
+
+  return DATA_FROM_FILE;
 };
 
 // getListOfFiles
@@ -231,15 +277,64 @@ const deleteOldFiles = async gdrive => {
  *    c. Else return current
  * 4. Return modified array
  */
-const getSyncedData = (dataFromDB, dataFromDrive) => {
-  let temp = [...dataFromDB, ...dataFromDrive].sort(
+const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
+  let newData = {
+    userInfo: {
+      pkey: '',
+      modifiedAt: '',
+    },
+    entries: [],
+  };
+
+  // Populate properties if not exists
+  if (!dataFromDB.entries) {
+    dataFromDB = {...newData};
+  }
+  // Populate properties if not exists
+  if (!dataFromDrive.entries) {
+    dataFromDrive = {...newData};
+  }
+
+  // throw new Error('Here');
+
+  // UserInfo
+  let tempUserInfo;
+  if (dataFromDB.userInfo && dataFromDrive.userInfo) {
+    tempUserInfo =
+      dataFromDB.userInfo.modifiedAt > dataFromDrive.userInfo.modifiedAt
+        ? dataFromDB.userInfo
+        : dataFromDrive.userInfo;
+  } else if (dataFromDB.userInfo && !dataFromDrive.userInfo) {
+    tempUserInfo = dataFromDB.userInfo;
+  } else if (!dataFromDB.userInfo && dataFromDrive.userInfo) {
+    tempUserInfo = dataFromDrive.userInfo;
+  }
+
+  saveLatestPasswordToLocal(tempUserInfo);
+
+  newData.userInfo = Object.assign({}, tempUserInfo);
+  // end UserInfo
+
+  console.log('User updated');
+
+  console.log('Entries sort start');
+
+  console.log('dataFromDB', dataFromDB);
+  console.log('dataFromDrive', dataFromDrive);
+
+  // Entries
+  let temp = [...dataFromDB.entries, ...dataFromDrive.entries].sort(
     (a, b) => a.modifiedAt - b.modifiedAt,
   );
+
+  console.log('Entries sort end');
+
+  console.log('Entries filter start');
 
   let nextItem = null;
   let tempItem = {_id: 'qwerty', modifiedAt: 8640000000000};
 
-  let newData = temp.filter((item, i) => {
+  let filteredNewData = temp.filter((item, i) => {
     nextItem = temp[i + 1] ? temp[i + 1] : tempItem;
     if (item._id === nextItem._id) {
       if (item.modifiedAt <= nextItem.modifiedAt) {
@@ -253,7 +348,29 @@ const getSyncedData = (dataFromDB, dataFromDrive) => {
     return item;
   });
 
+  console.log('Entries filter end');
+
+  newData.entries = [...filteredNewData];
+  // end Entries
+
+  console.log(newData);
+
   return newData;
+};
+
+// Save latest password to local
+const saveLatestPasswordToLocal = async newUserInfo => {
+  verifyHashWithStoredHash(newUserInfo.pkey)
+    .then(res => {
+      console.log(res);
+      if (res) {
+        // If both hashes are same, then no need to continue
+        throw new Error('Same password');
+      }
+      return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
+    })
+    .then(res => console.log(res))
+    .catch(e => console.log(e));
 };
 
 // Local Notification
