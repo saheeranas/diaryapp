@@ -315,21 +315,10 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
   newData.userInfo = Object.assign({}, tempUserInfo);
   // end UserInfo
 
-  console.log('User updated');
-
-  console.log('Entries sort start');
-
-  console.log('dataFromDB', dataFromDB);
-  console.log('dataFromDrive', dataFromDrive);
-
   // Entries
   let temp = [...dataFromDB.entries, ...dataFromDrive.entries].sort(
     (a, b) => a.modifiedAt - b.modifiedAt,
   );
-
-  console.log('Entries sort end');
-
-  console.log('Entries filter start');
 
   let nextItem = null;
   let tempItem = {_id: 'qwerty', modifiedAt: 8640000000000};
@@ -348,12 +337,8 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
     return item;
   });
 
-  console.log('Entries filter end');
-
   newData.entries = [...filteredNewData];
   // end Entries
-
-  console.log(newData);
 
   return newData;
 };
@@ -362,15 +347,15 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
 const saveLatestPasswordToLocal = async newUserInfo => {
   verifyHashWithStoredHash(newUserInfo.pkey)
     .then(res => {
-      console.log(res);
       if (res) {
         // If both hashes are same, then no need to continue
         throw new Error('Same password');
       }
       return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
     })
-    .then(res => console.log(res))
-    .catch(e => console.log(e));
+    .catch(e => {
+      // console.log(e)
+    });
 };
 
 // Local Notification

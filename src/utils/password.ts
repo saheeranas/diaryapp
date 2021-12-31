@@ -117,9 +117,6 @@ export const updatePassword = async (
  * Update HASH (not password)
  */
 export const updateHash = async (newHash: string, timestamp: string) => {
-  console.log('updateHash start');
-  console.log('newHash', newHash);
-  console.log('timestamp', timestamp);
   if (!newHash) {
     return deletePassword();
   }

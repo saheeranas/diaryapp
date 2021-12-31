@@ -41,7 +41,7 @@ const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
     try {
       let status = await verifyPwdWithStoredHash(values.oldPassword);
 
-      console.log('status', status);
+      // console.log('status', status);
 
       if (status) {
         store.user.toggleSecurityStatus(false);
@@ -55,7 +55,7 @@ const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
         setRespError('Password is wrong');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

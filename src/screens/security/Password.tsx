@@ -48,7 +48,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
         setRespError('Password is wrong');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

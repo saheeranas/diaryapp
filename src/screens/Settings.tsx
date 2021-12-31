@@ -85,7 +85,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     ? {uri: store.user.photo}
     : require('../../assets/images/avatar.png');
 
-  console.log('store.user.isSecure', store.user.isSecure);
+  // console.log('store.user.isSecure', store.user.isSecure);
 
   return (
     <Layout>
