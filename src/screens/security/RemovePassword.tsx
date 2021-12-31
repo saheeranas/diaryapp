@@ -90,6 +90,7 @@ const RemovePassword: React.FC<PasswordType> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  onSubmitEditing={handleSubmit}
                 />
                 {errors.oldPassword && touched.oldPassword ? (
                   <Text style={styles.error}>{errors.oldPassword}</Text>

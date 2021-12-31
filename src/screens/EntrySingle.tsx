@@ -149,7 +149,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
                   <Button
                     size="small"
                     status="primary"
-                    style={styles.btn}
+                    style={[styles.btn, styles.btnSave]}
                     onPress={addEntry}>
                     Save
                   </Button>
@@ -210,4 +210,5 @@ const styles = StyleSheet.create({
   btn: {
     marginBottom: 10,
   },
+  btnSave: {},
 });

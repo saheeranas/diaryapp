@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useRef} from 'react';
 import {StyleSheet, ScrollView, Button} from 'react-native';
 
 import {observer} from 'mobx-react-lite';
@@ -29,13 +29,24 @@ const ChangePasswordSchema = Yup.object().shape({
 
 const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
+  const [respError, setRespError] = useState('');
+
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
   const handleChangePassword = async values => {
     let {oldPassword, password} = values;
     try {
-      let status = updatePassword(oldPassword, password);
-      navigation.goBack();
-    } catch (error) {}
+      let status = await updatePassword(oldPassword, password);
+      console.log(status);
+      if (status) {
+        navigation.goBack();
+      } else {
+        setRespError('Password is wrong');
+      }
+    } catch (error) {
+      setRespError('Error. Please try again');
+    }
   };
 
   return (
@@ -69,12 +80,20 @@ const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    passwordRef.current.focus();
+                  }}
                 />
                 {errors.oldPassword && touched.oldPassword ? (
                   <Text style={styles.error}>{errors.oldPassword}</Text>
                 ) : null}
+                {respError ? (
+                  <Text style={styles.error}>{respError}</Text>
+                ) : null}
 
                 <Input
+                  ref={passwordRef}
                   placeholder="Password"
                   value={values.password}
                   onChangeText={text => {
@@ -85,12 +104,17 @@ const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    confirmPasswordRef.current.focus();
+                  }}
                 />
                 {errors.password && touched.password ? (
                   <Text style={styles.error}>{errors.password}</Text>
                 ) : null}
 
                 <Input
+                  ref={confirmPasswordRef}
                   placeholder="Confirm Password"
                   value={values.confirm}
                   onChangeText={text => {
@@ -101,6 +125,8 @@ const ChangePassword: React.FC<PasswordType> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  returnKeyType="go"
+                  onSubmitEditing={handleSubmit}
                 />
                 {errors.confirm && touched.confirm ? (
                   <Text style={styles.error}>{errors.confirm}</Text>

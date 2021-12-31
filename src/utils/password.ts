@@ -108,7 +108,9 @@ export const updatePassword = async (
       }
       return setPassword(newPwd);
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      return false;
+    });
 };
 
 /*

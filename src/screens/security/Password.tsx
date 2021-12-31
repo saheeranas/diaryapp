@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, ScrollView, Button} from 'react-native';
 
 import {observer} from 'mobx-react-lite';
@@ -21,8 +21,10 @@ const UnlockSchema = Yup.object().shape({
 
 const Password: React.FC<PasswordType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
+  const [respError, setRespError] = useState('');
 
   const handleUnlock = async values => {
+    setRespError('');
     try {
       // Verify User with password
       let status = await verifyPwdWithStoredHash(values.password);
@@ -32,6 +34,9 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
         // console.log('Unlock success');
         // Navigate to Tab Navigation by updating mst
         store.user.toggleUnlocked(true);
+      } else {
+        console.log('wrong');
+        setRespError('Password is wrong');
       }
     } catch (error) {
       console.log(error);
@@ -66,6 +71,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
                     setFieldValue('password', text.replace(/\s+/g, ''));
                   }}
                   onBlur={handleBlur('password')}
+                  onSubmitEditing={handleSubmit}
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
@@ -73,8 +79,11 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
                 {errors.password && touched.password ? (
                   <Text style={styles.error}>{errors.password}</Text>
                 ) : null}
+                {respError ? (
+                  <Text style={styles.error}>{respError}</Text>
+                ) : null}
                 <Button title="Go" onPress={handleSubmit} />
-                <Button title="Delete Pwd" onPress={deletePassword} />
+                {/* <Button title="Delete Pwd" onPress={deletePassword} /> */}
               </>
             )}
           </Formik>
