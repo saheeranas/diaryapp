@@ -114,7 +114,6 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       setActive(null);
       navigation.goBack();
     };
-
     return (
       <Layout level="1">
         <ScrollView contentContainerStyle={styles.scrollview}>
@@ -122,6 +121,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
             <View style={styles.inner}>
               {editable ? (
                 <TextInput
+                  autoFocus
                   value={inputData}
                   style={styles.textArea}
                   multiline={true}
@@ -131,7 +131,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
               ) : (
                 <TouchableOpacity onPress={() => setEditable(true)}>
                   <View style={styles.textWrapper}>
-                    <Text>{inputData}</Text>
+                    <Text>{inputData ? inputData : 'Tap to Edit'}</Text>
                   </View>
                 </TouchableOpacity>
               )}

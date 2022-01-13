@@ -15,12 +15,14 @@ const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
     .format('YYYY')
     .toString()
     .substr(-2)}`;
+  const dayStr = dayjs(date).format('ddd');
   return (
     <Pressable style={styles.listItem} onPress={onPress}>
       <View style={styles.listItemInner}>
         <View style={styles.dateWrp}>
           <Text style={styles.day}>{day}</Text>
           <Text style={styles.date}>{rest}</Text>
+          <Text style={styles.dayStr}>{dayStr}</Text>
         </View>
         <Text style={styles.desc}>{desc.substr(0, 50)}</Text>
       </View>
@@ -35,27 +37,42 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listItemInner: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     backgroundColor: '#fff',
     borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateWrp: {
-    flexDirection: 'row',
     marginBottom: 3,
+    alignItems: 'center',
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderRightColor: '#ccc',
+    paddingRight: 8,
+    width: 42,
   },
   day: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#333333',
     fontWeight: 'bold',
-    marginRight: 5,
+    textAlign: 'center',
   },
   date: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#333333',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  dayStr: {
+    fontSize: 10,
+    color: '#333333',
+    textAlign: 'center',
+    textTransform: 'uppercase',
   },
   desc: {
     fontSize: 15,
     color: '#333333',
+    paddingLeft: 8,
   },
 });
