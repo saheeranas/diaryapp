@@ -15,6 +15,7 @@ const App = () => {
   useEffect(() => {
     RNBootSplash.hide({fade: true});
   }, []);
+
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />

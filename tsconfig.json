@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "baseUrl": "./"
   },
+  "typeRoots": ["./src/types"],
   "exclude": [
     "node_modules",
     "babel.config.js",

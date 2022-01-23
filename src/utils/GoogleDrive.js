@@ -8,6 +8,8 @@ import {
 import dayjs from 'dayjs';
 import notifee from '@notifee/react-native';
 
+import {ANDROID_CLIENT_ID} from '@env';
+
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
 import {
   getPassword,
@@ -20,8 +22,7 @@ import rootStore from '../mst';
 // Sign in configuration
 let signInOptions = {
   scopes: ['https://www.googleapis.com/auth/drive'], // [Android] what API you want to access on behalf of the user, default is email and profile
-  androidClientId:
-    '543449270040-irmkbslopngnj6urrg18jf5q1ec4kiii.apps.googleusercontent.com',
+  androidClientId: ANDROID_CLIENT_ID,
 };
 
 // Backup filename
