@@ -6,7 +6,7 @@ interface ProgressBarProps {
   progress: number;
 }
 
-const ProgressBar = ({color = 'green', progress = 0}) => {
+const ProgressBar = ({color = '#34c759', progress = 0}) => {
   return (
     <View style={styles.wrapper}>
       <View
@@ -24,10 +24,11 @@ export default ProgressBar;
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: '#ccc',
+    borderRadius: 15,
   },
   bar: {
-    backgroundColor: 'green',
+    backgroundColor: '#34c759', //green
     height: 8,
-    borderRadius: 10,
+    borderRadius: 15,
   },
 });

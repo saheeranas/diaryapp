@@ -3,9 +3,9 @@
 buildscript {
     ext {
         buildToolsVersion = "30.0.2"
-        minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
+        minSdkVersion = 23
+        compileSdkVersion = 31
+        targetSdkVersion = 31
         ndkVersion = "21.4.7075529"
     }
     repositories {
@@ -31,6 +31,9 @@ allprojects {
         maven {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        maven {
+            url "$rootDir/../node_modules/@notifee/react-native/android/libs"
         }
 
         google() 
