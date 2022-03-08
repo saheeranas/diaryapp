@@ -1,9 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {StyleSheet, Button} from 'react-native';
+import {StyleSheet, Button, SectionList} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
 
-import {List, Divider, Icon} from '@ui-kitten/components';
+import {List, Divider, Icon, Text} from '@ui-kitten/components';
 
 import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
@@ -13,6 +13,25 @@ import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 
 const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
+
+// const DATA = [
+//   {
+//     title: 'Main dishes',
+//     data: ['Pizza', 'Burger', 'Risotto'],
+//   },
+//   {
+//     title: 'Sides',
+//     data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+//   },
+//   {
+//     title: 'Drinks',
+//     data: ['Water', 'Coke', 'Beer'],
+//   },
+//   {
+//     title: 'Desserts',
+//     data: ['Cheese Cake', 'Ice Cream'],
+//   },
+// ];
 
 const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
@@ -79,6 +98,14 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         refreshing={isRefreshing}
         onRefresh={refreshData}
       />
+      {/* <SectionList
+        sections={DATA}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({item}) => <Text>{item}</Text>}
+        renderSectionHeader={({section: {title}}) => <Text>{title}</Text>}
+        style={styles.list}
+        contentContainerStyle={styles.contentContainerStyle}
+      /> */}
     </Layout>
   );
 });

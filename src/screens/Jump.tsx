@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View, ScrollView, Pressable} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import {Divider} from '@ui-kitten/components';
+import {Text} from '@ui-kitten/components';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import dayjs from 'dayjs';
 
@@ -76,6 +76,14 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
           enableSwipeMonths={true}
           onDayPress={day => navigateToDetail(day)}
           markedDates={markedDates}
+          theme={{
+            dotColor: '#4361ee',
+            selectedDotColor: '#4361ee',
+            todayTextColor: '#4361ee',
+            arrowColor: '#4361ee',
+            indicatorColor: '#4361ee',
+          }}
+          // customHeader={CustomHeader}
         />
         {/* </LayoutInner> */}
       </ScrollView>
@@ -83,6 +91,22 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
     </Layout>
   );
 });
+
+// Custom header
+// const CustomHeader = props => {
+//   console.log(props);
+//   return (
+//     <View style={styles.calendarHeader}>
+//       <Pressable>
+//         <Text>Left</Text>
+//       </Pressable>
+//       <Text>Header</Text>
+//       <Pressable>
+//         <Text>Right</Text>
+//       </Pressable>
+//     </View>
+//   );
+// };
 
 export default Jump;
 
@@ -96,5 +120,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 100,
     paddingHorizontal: 15,
+  },
+  calendarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
 });

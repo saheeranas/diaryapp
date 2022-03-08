@@ -5,14 +5,24 @@ import {
   MimeTypes,
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
+import dayjs from 'dayjs';
+import notifee from '@notifee/react-native';
+
+import {ANDROID_CLIENT_ID} from '@env';
 
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
+import {
+  getPassword,
+  getPasswordTimestamp,
+  verifyHashWithStoredHash,
+  updateHash,
+} from './password';
+import rootStore from '../mst';
 
 // Sign in configuration
 let signInOptions = {
   scopes: ['https://www.googleapis.com/auth/drive'], // [Android] what API you want to access on behalf of the user, default is email and profile
-  androidClientId:
-    '543449270040-irmkbslopngnj6urrg18jf5q1ec4kiii.apps.googleusercontent.com',
+  androidClientId: ANDROID_CLIENT_ID,
 };
 
 // Backup filename
@@ -27,6 +37,12 @@ const STATUSES = {
   upload: {label: 'Uploading', value: 0.3},
   delete: {label: 'Deleting old backup file', value: 0.8},
   finish: {label: 'Success', value: 1},
+  fail: {label: 'Failed', value: 1},
+};
+
+const LOCAL_NOTIFICATION_MESSAGES = {
+  complete: {title: 'Success', body: 'Sync is successfully completed'},
+  fail: {title: 'Sync Failed', body: 'Sync was failed. Please try again'},
 };
 
 /**
@@ -36,14 +52,11 @@ export const useGoogleDrive = () => {
   const [status, setstatus] = useState(STATUSES.initial);
 
   useEffect(() => {
-    if (status === STATUSES.finish) {
+    if (status === STATUSES.finish || status === STATUSES.fail) {
       setTimeout(() => {
         setstatus(STATUSES.initial);
-      }, 500);
+      }, 5000);
     }
-    // return () => {
-    //   setstatus(STATUSES.initial);
-    // };
   }, [status]);
 
   // Sign In
@@ -73,14 +86,18 @@ export const useGoogleDrive = () => {
     // TODO: Check for Active Internet first.
     // If no, show a message and return from here itself
 
+    let INITIAL_DATA = {};
+
     setstatus(STATUSES.signin);
     const gdrive = new GDrive();
     gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
 
     setstatus(STATUSES.packaging);
 
-    // Get data from DB
-    let itemsFromDB = readEntriesFromDB();
+    // setstatus(STATUSES.fail);
+    // onDisplayNotification('fail');
+
+    // return;
 
     // For search in the google Drive
     let queryParams = {
@@ -101,9 +118,13 @@ export const useGoogleDrive = () => {
      * 5. Upload syncable data to Drive - uploadToDrive()
      * 6. Delete Old temp file from drive - deleteOldFile()
      */
-    getListOfFiles(gdrive, queryParams)
+    getDataFromDevice()
       .then(res => {
-        let dataFromFile = [];
+        INITIAL_DATA = {...res};
+        return getListOfFiles(gdrive, queryParams);
+      })
+      .then(res => {
+        let dataFromFile = {};
         if (res.files.length) {
           fileId = res.files[0].id;
           dataFromFile = getDataFromFile(gdrive, fileId);
@@ -114,10 +135,11 @@ export const useGoogleDrive = () => {
         if (fileId) {
           updateOldFileName(gdrive, fileId, fileName);
         }
-        return getSyncedData(itemsFromDB, res);
+        return getSyncedData(INITIAL_DATA, res);
       })
       .then(modifiedData => {
         setstatus(STATUSES.upload);
+        // Compare hash from import with local, if do not match, lock the app
         importToDBFromJSON(modifiedData);
         return uploadToDrive(gdrive, fileName, modifiedData);
       })
@@ -127,9 +149,13 @@ export const useGoogleDrive = () => {
       })
       .then(res => {
         setstatus(STATUSES.finish);
+        let date = dayjs(new Date()).format('YYYY MMM DD dddd hh mm A');
+        rootStore.settings.updateLastSynced(date);
+        onDisplayNotification('complete');
       })
       .catch(err => {
-        setstatus(STATUSES.initial);
+        setstatus(STATUSES.fail);
+        onDisplayNotification('fail');
         console.warn(err);
       })
       .finally(() => {
@@ -138,6 +164,37 @@ export const useGoogleDrive = () => {
   };
 
   return {status, signInWithGoogle, signOut, exportToGDrive};
+};
+
+// getDataFromDevice
+const getDataFromDevice = async () => {
+  let DATA_FROM_FILE = {
+    userInfo: {
+      pkey: '',
+      modifiedAt: '',
+    },
+    entries: [],
+  };
+
+  // Entries
+  let entriesFromDB = readEntriesFromDB();
+  DATA_FROM_FILE.entries = entriesFromDB;
+  // End Entries
+
+  // Password
+  try {
+    let hash = await getPassword();
+    let time = await getPasswordTimestamp();
+    if (hash) {
+      DATA_FROM_FILE.userInfo.pkey = hash;
+    }
+    if (time) {
+      DATA_FROM_FILE.userInfo.modifiedAt = time;
+    }
+  } catch (e) {}
+  // End Password
+
+  return DATA_FROM_FILE;
 };
 
 // getListOfFiles
@@ -221,15 +278,53 @@ const deleteOldFiles = async gdrive => {
  *    c. Else return current
  * 4. Return modified array
  */
-const getSyncedData = (dataFromDB, dataFromDrive) => {
-  let temp = [...dataFromDB, ...dataFromDrive].sort(
+const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
+  let newData = {
+    userInfo: {
+      pkey: '',
+      modifiedAt: '',
+    },
+    entries: [],
+  };
+
+  // Populate properties if not exists
+  if (!dataFromDB.entries) {
+    dataFromDB = {...newData};
+  }
+  // Populate properties if not exists
+  if (!dataFromDrive.entries) {
+    dataFromDrive = {...newData};
+  }
+
+  // throw new Error('Here');
+
+  // UserInfo
+  let tempUserInfo;
+  if (dataFromDB.userInfo && dataFromDrive.userInfo) {
+    tempUserInfo =
+      dataFromDB.userInfo.modifiedAt > dataFromDrive.userInfo.modifiedAt
+        ? dataFromDB.userInfo
+        : dataFromDrive.userInfo;
+  } else if (dataFromDB.userInfo && !dataFromDrive.userInfo) {
+    tempUserInfo = dataFromDB.userInfo;
+  } else if (!dataFromDB.userInfo && dataFromDrive.userInfo) {
+    tempUserInfo = dataFromDrive.userInfo;
+  }
+
+  saveLatestPasswordToLocal(tempUserInfo);
+
+  newData.userInfo = Object.assign({}, tempUserInfo);
+  // end UserInfo
+
+  // Entries
+  let temp = [...dataFromDB.entries, ...dataFromDrive.entries].sort(
     (a, b) => a.modifiedAt - b.modifiedAt,
   );
 
   let nextItem = null;
   let tempItem = {_id: 'qwerty', modifiedAt: 8640000000000};
 
-  let newData = temp.filter((item, i) => {
+  let filteredNewData = temp.filter((item, i) => {
     nextItem = temp[i + 1] ? temp[i + 1] : tempItem;
     if (item._id === nextItem._id) {
       if (item.modifiedAt <= nextItem.modifiedAt) {
@@ -243,5 +338,44 @@ const getSyncedData = (dataFromDB, dataFromDrive) => {
     return item;
   });
 
+  newData.entries = [...filteredNewData];
+  // end Entries
+
   return newData;
+};
+
+// Save latest password to local
+const saveLatestPasswordToLocal = async newUserInfo => {
+  verifyHashWithStoredHash(newUserInfo.pkey)
+    .then(res => {
+      if (res) {
+        // If both hashes are same, then no need to continue
+        throw new Error('Same password');
+      }
+      return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
+    })
+    .catch(e => {
+      // console.log(e)
+    });
+};
+
+// Local Notification
+const onDisplayNotification = async status => {
+  // Check messages already defined
+  if (status in LOCAL_NOTIFICATION_MESSAGES) {
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: LOCAL_NOTIFICATION_MESSAGES[status].title,
+      body: LOCAL_NOTIFICATION_MESSAGES[status].body,
+      android: {
+        channelId,
+      },
+    });
+  }
 };

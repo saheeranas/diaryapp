@@ -1,9 +1,14 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Layout as UILayout} from '@ui-kitten/components';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const Layout = ({children}) => {
-  return <UILayout style={styles.layout}>{children}</UILayout>;
+  return (
+    <SafeAreaView style={styles.safearea}>
+      <UILayout style={styles.layout}>{children}</UILayout>
+    </SafeAreaView>
+  );
 };
 
 // export const Layout = ({children}) => {
@@ -11,6 +16,9 @@ export const Layout = ({children}) => {
 // };
 
 const styles = StyleSheet.create({
+  safearea: {
+    flex: 1,
+  },
   layout: {
     position: 'relative',
     flex: 1,

@@ -12,15 +12,12 @@ import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
 
-import {Card, Icon, Button, Text} from '@ui-kitten/components';
+import {Card, Button, Text} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 
 import {EntrySingleType} from '../types/types';
 import {Layout} from '../components/Layout';
-
-const DeleteIcon = (props: any) => <Icon {...props} name="trash-2-outline" />;
-const SaveIcon = (props: any) => <Icon {...props} name="save-outline" />;
 
 const initialText = '';
 
@@ -29,7 +26,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
     const store = useContext(MSTContext);
     const editorRef = useRef(null);
     const [inputData, setInputData] = React.useState(initialText);
-    const [active, setActive] = useState(null);
+    const [active, setActive] = useState<any>(null);
     const [editable, setEditable] = useState(false);
 
     useEffect(() => {
@@ -82,6 +79,10 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
 
       // Delete from Store
       if (active) {
+        // Edge case: Empty entry but not saved in MST and DB
+        if (active.desc?.trim() === '') {
+          return;
+        }
         store.deleteEntry(active);
         setActive(null);
         navigation.goBack();
@@ -109,41 +110,48 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
         }
       }
 
-      // setInputData(initialText);
+      setInputData(initialText);
+      setActive(null);
+      navigation.goBack();
     };
-
-    const focusInput = () => {
-      editorRef.current.focus();
-    };
-
     return (
       <Layout level="1">
         <ScrollView contentContainerStyle={styles.scrollview}>
           <Card>
             <View style={styles.inner}>
-              <TouchableOpacity onPress={() => setEditable(true)}>
+              {editable ? (
                 <TextInput
-                  ref={editorRef}
+                  autoFocus
                   value={inputData}
                   style={styles.textArea}
                   multiline={true}
                   onChangeText={(text: string) => setInputData(text)}
                   onBlur={addEntry}
-                  // autoFocus={true}
                 />
-              </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => setEditable(true)}>
+                  <View style={styles.textWrapper}>
+                    <Text>{inputData ? inputData : 'Tap to Edit'}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+
               <View style={styles.btnWrp}>
+                {editable && (
+                  <Button
+                    size="small"
+                    status="primary"
+                    style={[styles.btn, styles.btnSave]}
+                    onPress={addEntry}>
+                    Save
+                  </Button>
+                )}
                 <Button
+                  size="small"
+                  style={styles.btn}
                   status="danger"
-                  accessoryLeft={DeleteIcon}
-                  appearance="outline"
-                  onPress={deleteEntry}
-                />
-                <Button
-                  status="primary"
-                  accessoryLeft={SaveIcon}
-                  onPress={addEntry}>
-                  Save
+                  onPress={deleteEntry}>
+                  Discard
                 </Button>
               </View>
             </View>
@@ -166,6 +174,17 @@ const styles = StyleSheet.create({
   inner: {
     paddingVertical: 5,
   },
+  textWrapper: {
+    minHeight: 180,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderWidth: 0,
+    borderRadius: 8,
+    textAlignVertical: 'top',
+    marginBottom: 20,
+    backgroundColor: '#E9ECF2',
+    fontSize: 14,
+  },
   textArea: {
     height: 180,
     paddingHorizontal: 10,
@@ -177,7 +196,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   btnWrp: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
   },
+  btn: {
+    marginBottom: 10,
+  },
+  btnSave: {},
 });
