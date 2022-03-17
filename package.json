@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "bundle-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
     "release-android": "cd android && ./gradlew clean && cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleRelease && cd ..",
-    "adb-log": "adb logcat *:E"
+    "adb-log": "adb logcat *:E",
+    "run-release": "adb -s 2713f64c7d2a install android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk"
   },
   "dependencies": {
     "@eva-design/eva": "2.1.1",
