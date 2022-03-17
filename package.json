@@ -28,7 +28,7 @@
     "dayjs": "^1.10.7",
     "formik": "^2.2.9",
     "react": "17.0.2",
-    "react-native": "0.66.3",
+    "react-native": "0.67.3",
     "react-native-bootsplash": "^4.0.2",
     "react-native-calendars": "^1.1129.0",
     "react-native-dotenv": "^3.3.1",
