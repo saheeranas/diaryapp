@@ -10,3 +10,4 @@
 # Add any project specific keep options here:
 -keep class com.facebook.jni.** { *; }
 -keep class io.realm.react.**
+-keep public class com.horcrux.svg.** {*;}
