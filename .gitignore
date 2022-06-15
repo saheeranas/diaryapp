@@ -63,8 +63,9 @@ buck-out/
 *.bundle
 
 
-# CocoaPods
+# Ruby / CocoaPods
 /ios/Pods/
+/vendor/bundle/
 
 # Environment variables
 .env
