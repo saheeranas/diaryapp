@@ -25,11 +25,7 @@ A privacy focused journal app. The Private Diary App is built for people who are
 - Mobx-state-tree
 - Realm
 - UI Kitten
-- React Navigation v6
-
-## App Installation
-
-Check the APK files in Releases section.
+- React Navigation v6 
 
 ## Project Installation
 
