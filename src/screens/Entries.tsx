@@ -1,18 +1,19 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {StyleSheet, Button, SectionList} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
 
-import {List, Divider, Icon, Text} from '@ui-kitten/components';
+import {List, Divider, Icon} from '@ui-kitten/components';
 
-import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
+// import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
 
 import {EntriesType} from '../types/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
+import NoData from '../components/NoData';
 
-const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
+// const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
 // const DATA = [
 //   {
@@ -97,15 +98,10 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         ItemSeparatorComponent={Divider}
         refreshing={isRefreshing}
         onRefresh={refreshData}
+        ListEmptyComponent={
+          <NoData title="Add a new entry by pressing + button" />
+        }
       />
-      {/* <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({item}) => <Text>{item}</Text>}
-        renderSectionHeader={({section: {title}}) => <Text>{title}</Text>}
-        style={styles.list}
-        contentContainerStyle={styles.contentContainerStyle}
-      /> */}
     </Layout>
   );
 });
@@ -123,6 +119,7 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     paddingBottom: 100,
+    flexGrow: 1,
   },
   btnWrpAbsolute: {
     position: 'absolute',
