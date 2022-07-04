@@ -47,10 +47,11 @@ const RootStore = types
     },
     updateEntry(entry) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
+      console.log(pos);
       if (pos >= 0) {
         self.entries.splice(pos, 1, entry);
       } else {
-        self.entries.push(entry);
+        self.entries.unshift(entry);
       }
       updateEntryToDB(entry);
     },
