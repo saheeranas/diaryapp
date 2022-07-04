@@ -74,5 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#333333',
     paddingLeft: 8,
+    flex: 1,
+    height: 40,
   },
 });
