@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     color: '#333333',
     paddingLeft: 8,
     flex: 1,
-    height: 40,
+    maxHeight: 40,
   },
 });
