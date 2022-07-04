@@ -32,6 +32,7 @@ const RootStore = types
     populateStoreFromDB() {
       let itemsFromDB = readEntriesFromDB();
       let temp = JSON.parse(JSON.stringify(itemsFromDB));
+      // console.log(temp);
       let modifieddata = temp
         .map(item => {
           const {deleted, ...rest} = item;
