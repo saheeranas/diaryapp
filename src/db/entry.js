@@ -60,6 +60,7 @@ const updateEntryToDB = item => {
     realm.write(() => {
       res[0].desc = item.desc;
       res[0].modifiedAt = dayjs(new Date()).valueOf();
+      res[0].deleted = false;
     });
   } else {
     // console.log('UPDATE: New');

@@ -114,6 +114,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       setActive(null);
       navigation.goBack();
     };
+
     return (
       <Layout level="1">
         <ScrollView contentContainerStyle={styles.scrollview}>
@@ -134,6 +135,13 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
                     <Text>{inputData ? inputData : 'Tap to Edit'}</Text>
                   </View>
                 </TouchableOpacity>
+              )}
+
+              {active && (
+                <Text style={styles.statusText}>
+                  Last updated:{' '}
+                  {dayjs(active.modifiedAt).format('DD/MM/YYYY hh:mm A')}
+                </Text>
               )}
 
               <View style={styles.btnWrp}>
@@ -203,4 +211,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   btnSave: {},
+  statusText: {
+    fontSize: 11,
+    marginBottom: 10,
+    fontStyle: 'italic',
+  },
 });
