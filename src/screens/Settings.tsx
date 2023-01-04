@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {observer} from 'mobx-react-lite';
-import {Divider, Text, Avatar, Toggle, Icon, Card} from '@ui-kitten/components';
+import {Divider, Text, Avatar, Icon, Card} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';

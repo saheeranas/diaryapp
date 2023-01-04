@@ -6,7 +6,7 @@ import {
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 import dayjs from 'dayjs';
-import notifee from '@notifee/react-native';
+// import notifee from '@notifee/react-native';
 
 import {ANDROID_CLIENT_ID} from '@env';
 
@@ -364,18 +364,17 @@ const onDisplayNotification = async status => {
   // Check messages already defined
   if (status in LOCAL_NOTIFICATION_MESSAGES) {
     // Create a channel
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
-
+    // const channelId = await notifee.createChannel({
+    //   id: 'default',
+    //   name: 'Default Channel',
+    // });
     // Display a notification
-    await notifee.displayNotification({
-      title: LOCAL_NOTIFICATION_MESSAGES[status].title,
-      body: LOCAL_NOTIFICATION_MESSAGES[status].body,
-      android: {
-        channelId,
-      },
-    });
+    // await notifee.displayNotification({
+    //   title: LOCAL_NOTIFICATION_MESSAGES[status].title,
+    //   body: LOCAL_NOTIFICATION_MESSAGES[status].body,
+    //   android: {
+    //     channelId,
+    //   },
+    // });
   }
 };
