@@ -1,5 +1,10 @@
 import {types} from 'mobx-state-tree';
-import {getUserFromDB, updateUserToDB, clearUserFromDB} from '../db/user';
+import {
+  getUserFromDB,
+  updateUserToDB,
+  updateUserSettingsToDB,
+  clearUserFromDB,
+} from '../db/user';
 
 const User = types
   .model('User', {
@@ -9,6 +14,8 @@ const User = types
     photo: types.string,
     isSecure: types.boolean, // true if user opted for password protection
     isUnlocked: types.boolean, // true if user unlocked from password screen
+    lastSynced: types.string,
+    isAutoSync: types.boolean,
   })
   .views(self => ({
     getData() {
@@ -24,6 +31,8 @@ const User = types
       self.name = temp.name;
       self.email = temp.email;
       self.photo = temp.photo;
+      self.lastSynced = temp.lastSynced;
+      self.isAutoSync = temp.isAutoSync;
     },
     updateUser(user) {
       self._id = user.id;
@@ -46,6 +55,21 @@ const User = types
     },
     toggleUnlocked(status) {
       self.isUnlocked = status;
+    },
+    updateLastSynced(status) {
+      self.lastSynced = status;
+      updateUserSettingsToDB({
+        _id: self._id,
+        lastSynced: status,
+      });
+    },
+    toggleAutoSync() {
+      let res = !self.isAutoSync;
+      self.isAutoSync = res;
+      updateUserSettingsToDB({
+        _id: self._id,
+        isAutoSync: res,
+      });
     },
   }));
 

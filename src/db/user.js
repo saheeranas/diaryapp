@@ -7,9 +7,13 @@ export const UserSchema = {
     name: 'string',
     email: 'string',
     photo: 'string',
+    lastSynced: {type: 'string', default: ''},
+    isAutoSync: {type: 'bool', default: false},
   },
   primaryKey: '_id',
 };
+
+const SETTINGS_ITEMS = ['lastSynced', 'isAutoSync'];
 
 // Read user info
 const getUserFromDB = () => {
@@ -32,9 +36,30 @@ const updateUserToDB = user => {
   } else {
     realm.write(() => {
       realm.create('User', {
-        ...user,
         _id: user.id,
+        name: user.name,
+        email: user.email,
+        photo: user.photo,
       });
+    });
+  }
+};
+
+// Update user settings info
+const updateUserSettingsToDB = user => {
+  const users = realm.objects('User');
+  const res = users.filtered('_id == $0', user.id);
+
+  let {_id, ...rest} = user;
+
+  if (res.length) {
+    realm.write(() => {
+      for (const prop in rest) {
+        if (SETTINGS_ITEMS.includes(prop)) {
+          res[0][prop] = rest[prop];
+        }
+      }
+      // res[0].lastSynced = user.lastSynced;
     });
   }
 };
@@ -48,4 +73,4 @@ const clearUserFromDB = () => {
   });
 };
 
-export {getUserFromDB, updateUserToDB, clearUserFromDB};
+export {getUserFromDB, updateUserToDB, updateUserSettingsToDB, clearUserFromDB};

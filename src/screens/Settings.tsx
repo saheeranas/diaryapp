@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {observer} from 'mobx-react-lite';
-import {Divider, Text, Avatar, Icon, Card} from '@ui-kitten/components';
+import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 import {SettingsType} from '../types/types';
@@ -21,13 +21,13 @@ import {useGoogleDrive} from '../utils/GoogleDrive';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
-  const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false);
 
   const {status, signInWithGoogle, signOut, exportToGDrive} = useGoogleDrive();
 
-  const onCheckedChange = isChecked => {
-    setDarkMode(isChecked);
-  };
+  // const onCheckedChange = isChecked => {
+  //   setDarkMode(isChecked);
+  // };
 
   const handleLogin = async () => {
     try {
@@ -78,6 +78,10 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     navigation.navigate(screen);
   };
 
+  const autoSyncToggleHandler = () => {
+    store.user.toggleAutoSync();
+  };
+
   const isLogined = store.user._id !== '';
   const isSecured = store.user.isSecure;
 
@@ -87,10 +91,14 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
 
   // console.log('store.user.isSecure', store.user.isSecure);
 
+  // console.log(store);
+
+  const isAutoSyncEnabled = store?.user?.isAutoSync || false;
+
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.scrollview}>
-        <Card>
+        <Card disabled>
           <View style={styles.profileCard}>
             <Avatar source={avatar} />
             <View style={styles.prodetails}>
@@ -137,16 +145,25 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                     </View>
                   )}
                 </TouchableOpacity>
-                {store.settings.lastSynced !== '' && (
-                  <TouchableOpacity
-                    onPress={() => store.settings.removeLastSynced()}>
+                {store.user.lastSynced !== '' && (
+                  <View>
                     <Text style={styles.lastSyncedText}>
-                      Last Sync: {store.settings.lastSynced}
+                      Last Sync: {store.user.lastSynced}
                     </Text>
-                  </TouchableOpacity>
+                  </View>
                 )}
                 <Divider />
               </>
+            )}
+
+            {isLogined && (
+              <View style={styles.menuItem}>
+                <Text>Auto Sync</Text>
+                <Toggle
+                  checked={isAutoSyncEnabled}
+                  onChange={autoSyncToggleHandler}
+                />
+              </View>
             )}
 
             <SettingsMenuItem label="Manage Password" icon="sync-outline">

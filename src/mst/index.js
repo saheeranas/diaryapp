@@ -4,7 +4,6 @@ import {types, destroy} from 'mobx-state-tree';
 // Stores
 import DiaryEntry from './DiaryEntry';
 import User from './User';
-import Settings from './Settings';
 
 // Realm DB Ops
 import {
@@ -18,7 +17,6 @@ const RootStore = types
   .model({
     entries: types.array(DiaryEntry),
     user: types.maybe(User),
-    settings: types.maybe(Settings),
   })
   .views(self => ({
     getData() {
@@ -32,7 +30,6 @@ const RootStore = types
     populateStoreFromDB() {
       let itemsFromDB = readEntriesFromDB();
       let temp = JSON.parse(JSON.stringify(itemsFromDB));
-      // console.log(temp);
       let modifieddata = temp
         .map(item => {
           const {deleted, ...rest} = item;
@@ -47,7 +44,6 @@ const RootStore = types
     },
     updateEntry(entry) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
-      console.log(pos);
       if (pos >= 0) {
         self.entries.splice(pos, 1, entry);
       } else {
@@ -78,9 +74,8 @@ const rootStore = RootStore.create({
     photo: '',
     isSecure: true,
     isUnlocked: false,
-  },
-  settings: {
     lastSynced: '',
+    isAutoSync: false,
   },
 });
 
