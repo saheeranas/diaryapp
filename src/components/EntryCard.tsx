@@ -15,14 +15,14 @@ const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
     .format('YYYY')
     .toString()
     .substr(-2)}`;
-  const dayStr = dayjs(date).format('ddd');
+  // const dayStr = dayjs(date).format('ddd');
   return (
     <Pressable style={styles.listItem} onPress={onPress}>
       <View style={styles.listItemInner}>
         <View style={styles.dateWrp}>
-          <Text style={styles.day}>{day}</Text>
+          <Text style={styles.day}>{day} </Text>
+          {/* <Text style={styles.dayStr}>{dayStr}</Text> */}
           <Text style={styles.date}>{rest}</Text>
-          <Text style={styles.dayStr}>{dayStr}</Text>
         </View>
         <Text style={styles.desc}>{desc.substr(0, 50)}</Text>
       </View>
@@ -50,16 +50,16 @@ const styles = StyleSheet.create({
     borderRightWidth: StyleSheet.hairlineWidth,
     borderRightColor: '#ccc',
     paddingRight: 8,
-    width: 42,
+    width: 50,
   },
   day: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333333',
     fontWeight: 'bold',
     textAlign: 'center',
   },
   date: {
-    fontSize: 10,
+    fontSize: 8,
     color: '#333333',
     textAlign: 'center',
     textTransform: 'uppercase',
