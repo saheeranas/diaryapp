@@ -149,7 +149,7 @@ export const useGoogleDrive = () => {
       })
       .then(res => {
         setstatus(STATUSES.finish);
-        let date = dayjs(new Date()).format('YYYY MMM DD dddd hh mm A');
+        let date = dayjs(new Date()).valueOf();
         rootStore.user.updateLastSynced(date);
         onDisplayNotification('complete');
       })

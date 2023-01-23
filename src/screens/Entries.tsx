@@ -2,6 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
+import dayjs from 'dayjs';
 
 import {List, Divider, Icon} from '@ui-kitten/components';
 
@@ -12,6 +13,8 @@ import {EntriesType} from '../types/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
+
+import {useGoogleDrive} from '../utils/GoogleDrive';
 
 // const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
@@ -37,6 +40,8 @@ import NoData from '../components/NoData';
 const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
+  const {exportToGDrive} = useGoogleDrive();
+
   const [isRefreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -53,6 +58,20 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const refreshOtherData = () => {
     store.user.populateUserFromDB();
   };
+
+  // EXPERINMENTAL: Auto Sync
+  // useEffect(() => {
+  //   // const now = dayjs();
+  //   // const lastSyncTime =
+  //   //   store?.user.lastSynced !== '' ? dayjs(store?.user.lastSynced) : dayjs();
+  //   // const difference = now.diff(lastSyncTime, 'hour');
+  //   // console.log('store: ', store);
+  //   // console.log('difference: ', difference);
+  //   // If used logined && AutoSync enabled && last synced time is greater than 2 hrs
+  //   // if (store.user._id !== '' && store.user.isAutoSync && difference > 2) {
+  //   //   exportToGDrive();
+  //   // }
+  // });
 
   const navigateToDetail = (date = null) => {
     navigation.navigate('EntrySingle', {date});

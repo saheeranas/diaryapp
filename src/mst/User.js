@@ -14,7 +14,7 @@ const User = types
     photo: types.string,
     isSecure: types.boolean, // true if user opted for password protection
     isUnlocked: types.boolean, // true if user unlocked from password screen
-    lastSynced: types.string,
+    lastSynced: types.number,
     isAutoSync: types.boolean,
   })
   .views(self => ({
@@ -57,6 +57,7 @@ const User = types
       self.isUnlocked = status;
     },
     updateLastSynced(status) {
+      // "YYYY MMM DD dddd hh mm A"
       self.lastSynced = status;
       updateUserSettingsToDB({
         _id: self._id,

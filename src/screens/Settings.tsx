@@ -18,6 +18,7 @@ import ProgressBar from '../components/ProgressBar';
 import {SettingsMenuItem} from '../components/SettingsMenu';
 
 import {useGoogleDrive} from '../utils/GoogleDrive';
+import dayjs from 'dayjs';
 
 const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
@@ -145,10 +146,13 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                     </View>
                   )}
                 </TouchableOpacity>
-                {store.user.lastSynced !== '' && (
+                {store.user.lastSynced !== 0 && (
                   <View>
                     <Text style={styles.lastSyncedText}>
-                      Last Sync: {store.user.lastSynced}
+                      Last Sync:{' '}
+                      {dayjs(store.user.lastSynced).format(
+                        'YYYY MMM DD dddd hh mm A',
+                      )}
                     </Text>
                   </View>
                 )}
@@ -156,7 +160,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
               </>
             )}
 
-            {isLogined && (
+            {/* {isLogined && (
               <View style={styles.menuItem}>
                 <Text>Auto Sync</Text>
                 <Toggle
@@ -164,7 +168,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
                   onChange={autoSyncToggleHandler}
                 />
               </View>
-            )}
+            )} */}
 
             <SettingsMenuItem label="Manage Password" icon="sync-outline">
               {isSecured ? (

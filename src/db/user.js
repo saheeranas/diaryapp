@@ -7,7 +7,7 @@ export const UserSchema = {
     name: 'string',
     email: 'string',
     photo: 'string',
-    lastSynced: {type: 'string', default: ''},
+    lastSynced: {type: 'int', default: 0},
     isAutoSync: {type: 'bool', default: false},
   },
   primaryKey: '_id',

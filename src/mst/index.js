@@ -74,7 +74,7 @@ const rootStore = RootStore.create({
     photo: '',
     isSecure: true,
     isUnlocked: false,
-    lastSynced: '',
+    lastSynced: 0,
     isAutoSync: false,
   },
 });
