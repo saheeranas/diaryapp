@@ -1,6 +1,8 @@
 import React from 'react';
 import {types, destroy} from 'mobx-state-tree';
 
+import {DiaryEntryIn, DiaryEntryDBType} from '../types/DiaryEntry';
+
 // Stores
 import DiaryEntry from './DiaryEntry';
 import User from './User';
@@ -20,9 +22,11 @@ const RootStore = types
   })
   .views(self => ({
     getData() {
-      return self.entries.sort((a, b) => b.date - a.date);
+      return self.entries.sort(
+        (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+      );
     },
-    findEntryByDate(date) {
+    findEntryByDate(date: string) {
       return self.entries.filter(e => e.date === date);
     },
   }))
@@ -31,18 +35,18 @@ const RootStore = types
       let itemsFromDB = readEntriesFromDB();
       let temp = JSON.parse(JSON.stringify(itemsFromDB));
       let modifieddata = temp
-        .map(item => {
+        .map((item: DiaryEntryDBType) => {
           const {deleted, ...rest} = item;
           return deleted ? null : rest;
         })
         .filter(Boolean);
       self.entries = modifieddata;
     },
-    addEntry(entry) {
+    addEntry(entry: DiaryEntryIn) {
       self.entries.unshift(entry);
       addEntryToDB(entry);
     },
-    updateEntry(entry) {
+    updateEntry(entry: DiaryEntryIn) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
       if (pos >= 0) {
         self.entries.splice(pos, 1, entry);
@@ -51,7 +55,7 @@ const RootStore = types
       }
       updateEntryToDB(entry);
     },
-    deleteEntry(entry) {
+    deleteEntry(entry: DiaryEntryIn) {
       softDeleteOneEntryFromDB(entry);
       destroy(entry);
     },

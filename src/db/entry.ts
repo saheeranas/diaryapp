@@ -2,6 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import dayjs from 'dayjs';
 import {realm} from './index';
 import rootStore from '../mst';
+import {DiaryEntryOut, DiaryEntryDBType} from '../types/DiaryEntry';
 
 // Declaration
 export const EntrySchema = {
@@ -30,7 +31,7 @@ const readEntriesFromDB = () => {
 };
 
 // Add
-const addEntryToDB = item => {
+const addEntryToDB = (item: DiaryEntryOut) => {
   const entries = realm.objects('Entry');
   const res = entries.filtered('date == $0', item.date);
 
@@ -41,16 +42,18 @@ const addEntryToDB = item => {
 
   let entry;
   realm.write(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     entry = realm.create('Entry', {
       ...item,
       _id: item._id,
     });
+
     // console.log(`created entry: ${entry.date} `);
   });
 };
 
 // Update
-const updateEntryToDB = item => {
+const updateEntryToDB = (item: DiaryEntryDBType) => {
   const entries = realm.objects('Entry');
   const res = entries.filtered('date == $0', item.date);
   let entry;
@@ -65,6 +68,7 @@ const updateEntryToDB = item => {
   } else {
     // console.log('UPDATE: New');
     realm.write(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       entry = realm.create('Entry', {
         ...item,
         _id: uuidv4(),
@@ -77,7 +81,7 @@ const updateEntryToDB = item => {
 };
 
 // Delete item (Soft)
-const softDeleteOneEntryFromDB = item => {
+const softDeleteOneEntryFromDB = (item: DiaryEntryDBType) => {
   const res = realm.objectForPrimaryKey('Entry', item._id);
   if (res) {
     realm.write(() => {
@@ -88,7 +92,7 @@ const softDeleteOneEntryFromDB = item => {
 };
 
 // Delete item (Hard)
-const deleteOneEntryFromDB = item => {
+const deleteOneEntryFromDB = (item: DiaryEntryDBType) => {
   const resItem = realm.objectForPrimaryKey('Entry', item._id);
   realm.write(() => {
     realm.delete(resItem);
