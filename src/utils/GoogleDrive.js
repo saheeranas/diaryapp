@@ -123,11 +123,12 @@ export const useGoogleDrive = () => {
         INITIAL_DATA = {...res};
         return getListOfFiles(gdrive, queryParams);
       })
-      .then(res => {
+      .then(async res => {
         let dataFromFile = {};
-        if (res.files.length) {
+
+        if (res.files?.length > 0) {
           fileId = res.files[0].id;
-          dataFromFile = getDataFromFile(gdrive, fileId);
+          dataFromFile = await getDataFromFile(gdrive, fileId);
         }
         return dataFromFile;
       })
