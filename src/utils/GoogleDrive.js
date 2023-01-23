@@ -6,7 +6,7 @@ import {
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 import dayjs from 'dayjs';
-import notifee from '@notifee/react-native';
+// import notifee from '@notifee/react-native';
 
 import {ANDROID_CLIENT_ID} from '@env';
 
@@ -123,11 +123,12 @@ export const useGoogleDrive = () => {
         INITIAL_DATA = {...res};
         return getListOfFiles(gdrive, queryParams);
       })
-      .then(res => {
+      .then(async res => {
         let dataFromFile = {};
-        if (res.files.length) {
+
+        if (res.files?.length > 0) {
           fileId = res.files[0].id;
-          dataFromFile = getDataFromFile(gdrive, fileId);
+          dataFromFile = await getDataFromFile(gdrive, fileId);
         }
         return dataFromFile;
       })
@@ -149,8 +150,8 @@ export const useGoogleDrive = () => {
       })
       .then(res => {
         setstatus(STATUSES.finish);
-        let date = dayjs(new Date()).format('YYYY MMM DD dddd hh mm A');
-        rootStore.settings.updateLastSynced(date);
+        let date = dayjs(new Date()).valueOf();
+        rootStore.user.updateLastSynced(date);
         onDisplayNotification('complete');
       })
       .catch(err => {
@@ -364,18 +365,17 @@ const onDisplayNotification = async status => {
   // Check messages already defined
   if (status in LOCAL_NOTIFICATION_MESSAGES) {
     // Create a channel
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
-
+    // const channelId = await notifee.createChannel({
+    //   id: 'default',
+    //   name: 'Default Channel',
+    // });
     // Display a notification
-    await notifee.displayNotification({
-      title: LOCAL_NOTIFICATION_MESSAGES[status].title,
-      body: LOCAL_NOTIFICATION_MESSAGES[status].body,
-      android: {
-        channelId,
-      },
-    });
+    // await notifee.displayNotification({
+    //   title: LOCAL_NOTIFICATION_MESSAGES[status].title,
+    //   body: LOCAL_NOTIFICATION_MESSAGES[status].body,
+    //   android: {
+    //     channelId,
+    //   },
+    // });
   }
 };
