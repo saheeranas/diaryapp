@@ -101,6 +101,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
           });
         } else {
           store.updateEntry({
+            ...active,
             _id: active._id,
             date: active.date,
             createdAt: active.createdAt,

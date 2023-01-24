@@ -2,9 +2,9 @@ import React, {useContext, useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
-import {List, Divider, Icon} from '@ui-kitten/components';
+import {List} from '@ui-kitten/components';
 
 // import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
@@ -14,40 +14,19 @@ import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
 
-import {useGoogleDrive} from '../utils/GoogleDrive';
-
-// const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
-
-// const DATA = [
-//   {
-//     title: 'Main dishes',
-//     data: ['Pizza', 'Burger', 'Risotto'],
-//   },
-//   {
-//     title: 'Sides',
-//     data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-//   },
-//   {
-//     title: 'Drinks',
-//     data: ['Water', 'Coke', 'Beer'],
-//   },
-//   {
-//     title: 'Desserts',
-//     data: ['Cheese Cake', 'Ice Cream'],
-//   },
-// ];
+// import {useGoogleDrive} from '../utils/GoogleDrive';
 
 const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const {exportToGDrive} = useGoogleDrive();
+  // const {exportToGDrive} = useGoogleDrive();
 
   const [isRefreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     refreshData();
     refreshOtherData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshData = () => {
     setRefreshing(true);
@@ -95,26 +74,13 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
 
   return (
     <Layout>
-      {/* <View style={styles.dateWrp}>
-        <Text category="c2">Selected date: {date.toLocaleDateString()}</Text>
-        <Datepicker date={date} onSelect={nextDate => setDate(nextDate)} />
-      </View>
-      <Divider /> */}
-      {/* <Button title="Fetch" onPress={readEntriesFromDB} /> */}
-      {/* <Button
-        title="Populate MST from DB"
-        onPress={store.populateStoreFromDB}
-      /> */}
-      {/* <Button title="Delete All" onPress={deleteAllEntriesFromDB} /> */}
-      {/* <Button title="Sign In" onPress={signInWithGoogle} /> */}
-      {/* <Button title="Update user MST" onPress={store.user.updateUser} /> */}
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
         data={store.entries}
         extraData={toJS(store.entries)}
         renderItem={renderItem}
-        ItemSeparatorComponent={Divider}
+        // ItemSeparatorComponent={Divider}
         refreshing={isRefreshing}
         onRefresh={refreshData}
         ListEmptyComponent={

@@ -1,11 +1,13 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {Layout as UILayout} from '@ui-kitten/components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-export const Layout = ({children}) => {
+export const Layout = ({children}: {children: React.ReactNode}) => {
   return (
     <SafeAreaView style={styles.safearea}>
+      <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
       <UILayout style={styles.layout}>{children}</UILayout>
     </SafeAreaView>
   );

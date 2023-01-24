@@ -1,5 +1,5 @@
 import React from 'react';
-import {types, destroy} from 'mobx-state-tree';
+import {types, destroy, Instance} from 'mobx-state-tree';
 
 import {DiaryEntryIn, DiaryEntryDBType} from '../types/DiaryEntry';
 
@@ -18,7 +18,7 @@ import {
 const RootStore = types
   .model({
     entries: types.array(DiaryEntry),
-    user: types.maybe(User),
+    user: User,
   })
   .views(self => ({
     getData() {
@@ -46,7 +46,7 @@ const RootStore = types
       self.entries.unshift(entry);
       addEntryToDB(entry);
     },
-    updateEntry(entry: DiaryEntryIn) {
+    updateEntry(entry: DiaryEntryDBType) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
       if (pos >= 0) {
         self.entries.splice(pos, 1, entry);
@@ -55,7 +55,7 @@ const RootStore = types
       }
       updateEntryToDB(entry);
     },
-    deleteEntry(entry: DiaryEntryIn) {
+    deleteEntry(entry: DiaryEntryDBType) {
       softDeleteOneEntryFromDB(entry);
       destroy(entry);
     },
@@ -84,4 +84,6 @@ const rootStore = RootStore.create({
 });
 
 export default rootStore;
-export const MSTContext = React.createContext(null);
+export interface RootStoreType extends Instance<typeof RootStore> {}
+
+export const MSTContext = React.createContext<RootStoreType>(rootStore);

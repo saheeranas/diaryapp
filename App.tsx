@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {StatusBar} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -22,7 +21,6 @@ const App = () => {
       <ApplicationProvider {...eva} theme={eva.light} customMapping={mapping}>
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
-            <StatusBar backgroundColor="#E9ECF2" barStyle="dark-content" />
             <AppNavigation />
           </SafeAreaProvider>
           <FlashMessage position="top" />
