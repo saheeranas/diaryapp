@@ -25,9 +25,9 @@ export const EntrySchema = {
 };
 
 // Read All
-const readEntriesFromDB = () => {
+const readEntriesFromDB = (): DiaryEntryDBType[] => {
   const entries = realm.objects('Entry').sorted('date', true);
-  return entries;
+  return JSON.parse(JSON.stringify(entries));
 };
 
 // Add

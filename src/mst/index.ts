@@ -1,5 +1,5 @@
 import React from 'react';
-import {types, destroy, Instance} from 'mobx-state-tree';
+import {types, destroy, Instance, cast} from 'mobx-state-tree';
 
 import {DiaryEntryIn, DiaryEntryDBType} from '../types/DiaryEntry';
 
@@ -33,8 +33,8 @@ const RootStore = types
   .actions(self => ({
     populateStoreFromDB() {
       let itemsFromDB = readEntriesFromDB();
-      let temp = JSON.parse(JSON.stringify(itemsFromDB));
-      let modifieddata = temp
+      // let temp = JSON.parse(JSON.stringify(itemsFromDB));
+      let modifieddata = itemsFromDB
         .map((item: DiaryEntryDBType) => {
           const {deleted, ...rest} = item;
           return deleted ? null : rest;

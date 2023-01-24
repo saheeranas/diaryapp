@@ -19,6 +19,23 @@ import {
 } from './password';
 import rootStore from '../mst';
 
+import {DiaryEntryDBType} from '../types/DiaryEntry';
+
+interface UserInfo {
+  pkey: string;
+  modifiedAt: string;
+}
+
+interface DataFromFile {
+  userInfo: UserInfo;
+  entries: DiaryEntryDBType[];
+}
+
+interface Status {
+  label: string;
+  value: number;
+}
+
 // Sign in configuration
 let signInOptions = {
   scopes: ['https://www.googleapis.com/auth/drive'], // [Android] what API you want to access on behalf of the user, default is email and profile
@@ -29,7 +46,7 @@ let signInOptions = {
 let fileName = 'PrivateDiaryApp.db';
 
 // Sync stages and dummy percentage values in points tp show progress bar
-const STATUSES = {
+const STATUSES: Record<string, Status> = {
   initial: {label: '', value: 0},
   signin: {label: 'Signing in', value: 0.1},
   packaging: {label: 'Packaging', value: 0.23},
@@ -43,6 +60,14 @@ const STATUSES = {
 const LOCAL_NOTIFICATION_MESSAGES = {
   complete: {title: 'Success', body: 'Sync is successfully completed'},
   fail: {title: 'Sync Failed', body: 'Sync was failed. Please try again'},
+};
+
+const newData: DataFromFile = {
+  userInfo: {
+    pkey: '',
+    modifiedAt: '',
+  },
+  entries: [],
 };
 
 /**
@@ -86,7 +111,7 @@ export const useGoogleDrive = () => {
     // TODO: Check for Active Internet first.
     // If no, show a message and return from here itself
 
-    let INITIAL_DATA = {};
+    let INITIAL_DATA = {...newData};
 
     setstatus(STATUSES.signin);
     const gdrive = new GDrive();
@@ -105,7 +130,7 @@ export const useGoogleDrive = () => {
     };
 
     // Global Vars
-    let fileId = null;
+    let fileId: string = '';
 
     setstatus(STATUSES.checkForOld);
 
@@ -132,8 +157,9 @@ export const useGoogleDrive = () => {
         }
         return dataFromFile;
       })
+      .then(res => getTransformedFileData(res))
       .then(res => {
-        if (fileId) {
+        if (fileId !== '') {
           updateOldFileName(gdrive, fileId, fileName);
         }
         return getSyncedData(INITIAL_DATA, res);
@@ -160,7 +186,7 @@ export const useGoogleDrive = () => {
         console.warn(err);
       })
       .finally(() => {
-        fileId = null;
+        fileId = '';
       });
   };
 
@@ -169,7 +195,7 @@ export const useGoogleDrive = () => {
 
 // getDataFromDevice
 const getDataFromDevice = async () => {
-  let DATA_FROM_FILE = {
+  let DATA_FROM_FILE: DataFromFile = {
     userInfo: {
       pkey: '',
       modifiedAt: '',
@@ -199,7 +225,7 @@ const getDataFromDevice = async () => {
 };
 
 // getListOfFiles
-const getListOfFiles = async (gdrive, queryParams) => {
+const getListOfFiles = async (gdrive: GDrive, queryParams: any) => {
   try {
     let searchResult = await gdrive.files.list(queryParams);
     return searchResult;
@@ -209,7 +235,7 @@ const getListOfFiles = async (gdrive, queryParams) => {
 };
 
 // getDataFromFile & Update Old file name
-const getDataFromFile = async (gdrive, fileId) => {
+const getDataFromFile = async (gdrive: GDrive, fileId: string) => {
   try {
     let filedataDrive = await gdrive.files.getJson(fileId);
     return filedataDrive;
@@ -218,8 +244,28 @@ const getDataFromFile = async (gdrive, fileId) => {
   }
 };
 
+// Make suret he data from remote file is in desired format
+// If remote data is in correct format, return it
+// Else return initial data (newData)
+const getTransformedFileData = (dataFromFile: any) => {
+  try {
+    if (dataFromFile) {
+      if (dataFromFile.userInfo && dataFromFile.entries) {
+        return dataFromFile;
+      }
+    }
+    return {...newData};
+  } catch (error) {
+    return error;
+  }
+};
+
 // updateOldFileName
-const updateOldFileName = async (gdrive, fileId, fileName) => {
+const updateOldFileName = async (
+  gdrive: GDrive,
+  fileId: string,
+  fileName: string,
+) => {
   try {
     let res = await await gdrive.files
       .newMetadataOnlyUploader()
@@ -235,7 +281,11 @@ const updateOldFileName = async (gdrive, fileId, fileName) => {
 };
 
 // uploadToDrive
-const uploadToDrive = async (gdrive, fileName, data) => {
+const uploadToDrive = async (
+  gdrive: GDrive,
+  fileName: string,
+  data: DataFromFile,
+) => {
   try {
     let res = await gdrive.files
       .newMultipartUploader()
@@ -251,7 +301,7 @@ const uploadToDrive = async (gdrive, fileName, data) => {
 };
 
 // deleteOldFiles - Delete temp files from drive
-const deleteOldFiles = async gdrive => {
+const deleteOldFiles = async (gdrive: GDrive) => {
   let queryParams = {
     q: new ListQueryBuilder().e('name', `${fileName}.temp`),
   };
@@ -261,7 +311,7 @@ const deleteOldFiles = async gdrive => {
       if (!list.files.length) {
         // console.log('Error');
       }
-      let promises = list.files.map(el => {
+      let promises = list.files.map((el: {id: string}) => {
         return gdrive.files.delete(el.id);
       });
       return Promise.all(promises);
@@ -279,15 +329,8 @@ const deleteOldFiles = async gdrive => {
  *    c. Else return current
  * 4. Return modified array
  */
-const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
-  let newData = {
-    userInfo: {
-      pkey: '',
-      modifiedAt: '',
-    },
-    entries: [],
-  };
 
+const getSyncedData = (dataFromDB = newData, dataFromDrive = newData) => {
   // Populate properties if not exists
   if (!dataFromDB.entries) {
     dataFromDB = {...newData};
@@ -300,7 +343,7 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
   // throw new Error('Here');
 
   // UserInfo
-  let tempUserInfo;
+  let tempUserInfo = {pkey: '', modifiedAt: ''};
   if (dataFromDB.userInfo && dataFromDrive.userInfo) {
     tempUserInfo =
       dataFromDB.userInfo.modifiedAt > dataFromDrive.userInfo.modifiedAt
@@ -346,7 +389,7 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
 };
 
 // Save latest password to local
-const saveLatestPasswordToLocal = async newUserInfo => {
+const saveLatestPasswordToLocal = async (newUserInfo: UserInfo) => {
   verifyHashWithStoredHash(newUserInfo.pkey)
     .then(res => {
       if (res) {
@@ -361,7 +404,7 @@ const saveLatestPasswordToLocal = async newUserInfo => {
 };
 
 // Local Notification
-const onDisplayNotification = async status => {
+const onDisplayNotification = async (status: string) => {
   // Check messages already defined
   if (status in LOCAL_NOTIFICATION_MESSAGES) {
     // Create a channel
