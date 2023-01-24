@@ -44,15 +44,16 @@ let signInOptions = {
 
 // Backup filename
 let fileName = 'PrivateDiaryApp.db';
+let tempFileName = 'pdatmp.db';
 
 // Sync stages and dummy percentage values in points tp show progress bar
 const STATUSES: Record<string, Status> = {
   initial: {label: '', value: 0},
   signin: {label: 'Signing in', value: 0.1},
-  packaging: {label: 'Packaging', value: 0.23},
-  checkForOld: {label: 'Checking for old backup files', value: 0.26},
-  upload: {label: 'Uploading', value: 0.3},
-  delete: {label: 'Deleting old backup file', value: 0.8},
+  packaging: {label: 'Packaging', value: 0.3},
+  checkForOld: {label: 'Checking for old backup files', value: 0.5},
+  upload: {label: 'Uploading', value: 0.8},
+  delete: {label: 'Deleting old backup file', value: 0.9},
   finish: {label: 'Success', value: 1},
   fail: {label: 'Failed', value: 1},
 };
@@ -160,7 +161,7 @@ export const useGoogleDrive = () => {
       .then(res => getTransformedFileData(res))
       .then(res => {
         if (fileId !== '') {
-          updateOldFileName(gdrive, fileId, fileName);
+          updateOldFileName(gdrive, fileId, tempFileName);
         }
         return getSyncedData(INITIAL_DATA, res);
       })
@@ -171,10 +172,7 @@ export const useGoogleDrive = () => {
         return uploadToDrive(gdrive, fileName, modifiedData);
       })
       .then(res => {
-        setstatus(STATUSES.delete);
-        return deleteOldFiles(gdrive);
-      })
-      .then(res => {
+        // throw new Error('sample error');
         setstatus(STATUSES.finish);
         let date = dayjs(new Date()).valueOf();
         rootStore.user.updateLastSynced(date);
@@ -184,9 +182,14 @@ export const useGoogleDrive = () => {
         setstatus(STATUSES.fail);
         onDisplayNotification('fail');
         console.warn(err);
+        // Delete sync file if temp file exists
+        // REVERT to temp file; (Rename temp -> sync file name)
+        revertToOldFile(gdrive);
       })
       .finally(() => {
         fileId = '';
+        // setstatus(STATUSES.delete);
+        deleteFile(gdrive, tempFileName);
       });
   };
 
@@ -264,14 +267,14 @@ const getTransformedFileData = (dataFromFile: any) => {
 const updateOldFileName = async (
   gdrive: GDrive,
   fileId: string,
-  fileName: string,
+  name: string = tempFileName,
 ) => {
   try {
-    let res = await await gdrive.files
+    let res = await gdrive.files
       .newMetadataOnlyUploader()
       .setIdOfFileToUpdate(fileId)
       .setRequestBody({
-        name: `${fileName}.temp`,
+        name: `${name}`,
       })
       .execute();
     return res;
@@ -300,10 +303,10 @@ const uploadToDrive = async (
   }
 };
 
-// deleteOldFiles - Delete temp files from drive
-const deleteOldFiles = async (gdrive: GDrive) => {
+// Delete GDrive file
+const deleteFile = async (gdrive: GDrive, file: string) => {
   let queryParams = {
-    q: new ListQueryBuilder().e('name', `${fileName}.temp`),
+    q: new ListQueryBuilder().e('name', `${file}`),
   };
 
   getListOfFiles(gdrive, queryParams)
@@ -317,6 +320,40 @@ const deleteOldFiles = async (gdrive: GDrive) => {
       return Promise.all(promises);
     })
     .catch(err => err);
+};
+
+// revertToOldFile - Revert to temp file if error happens
+const revertToOldFile = async (gdrive: GDrive) => {
+  let queryParamsForTemp = {
+    q: new ListQueryBuilder().e('name', `${tempFileName}`),
+  };
+
+  let queryParamsForSyncFile = {
+    q: new ListQueryBuilder().e('name', `${fileName}`),
+  };
+
+  getListOfFiles(gdrive, queryParamsForTemp)
+    .then(list => {
+      console.log(list);
+      if (list.files.length === 0) {
+        throw new Error('No backup files');
+      }
+      return list.files;
+    })
+    .then(async tempFiles => {
+      let originalFiles = await getListOfFiles(gdrive, queryParamsForSyncFile);
+      let promises = originalFiles.files.map((el: {id: string}) => {
+        return gdrive.files.delete(el.id);
+      });
+      return {tempFiles, deleteStatus: Promise.all(promises)};
+    })
+    .then(res => {
+      updateOldFileName(gdrive, res.tempFiles[0].id, fileName);
+    })
+    .catch(err => {
+      // console.log('here');
+      // console.log(err);
+    });
 };
 
 /**

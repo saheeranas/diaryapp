@@ -1,4 +1,6 @@
-import sha512 from 'crypto-js/sha512';
+// TODO: Remove crypto-js/SHA512 library
+// import SHA512 from 'crypto-js/SHA512';
+import {SHA512} from 'crypto-es/lib/sha512';
 import dayjs from 'dayjs';
 
 import {setSecureValue, getSecureValue, removeSecureValue} from './keyChain';
@@ -9,7 +11,7 @@ import {setSecureValue, getSecureValue, removeSecureValue} from './keyChain';
  */
 export const setPassword = async (password: string) => {
   // 1. Create a hash from password (which is plain text)
-  let hash = sha512(password).toString();
+  let hash = SHA512(password).toString();
 
   // 2. Store the hash in keychain: Call the function here
   try {
@@ -54,7 +56,7 @@ export const getPasswordStatus = async () => {
  * Compare & verify user input password with stored hash
  */
 export const verifyPwdWithStoredHash = async (inputPwd: string) => {
-  let hash = sha512(inputPwd).toString();
+  let hash = SHA512(inputPwd).toString();
   try {
     let pwd = await getSecureValue('pwdHash');
     return pwd === hash ? true : false;
@@ -96,7 +98,7 @@ export const updatePassword = async (
   newPwd: string,
 ) => {
   // 1. Compare input Password with Current Password
-  let hashOfInputCurrentPwd = sha512(inputCurrentPwd).toString();
+  let hashOfInputCurrentPwd = SHA512(inputCurrentPwd).toString();
 
   return getPassword()
     .then(currentPwd => {
