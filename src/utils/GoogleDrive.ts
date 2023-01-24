@@ -149,14 +149,16 @@ export const useGoogleDrive = () => {
         INITIAL_DATA = {...res};
         return getListOfFiles(gdrive, queryParams);
       })
-      .then(async res => {
+      .then(res => {
         let dataFromFile = {};
 
-        if (res.files?.length > 0) {
-          fileId = res.files[0].id;
-          dataFromFile = await getDataFromFile(gdrive, fileId);
+        if (res.files?.length === 0) {
+          return dataFromFile;
         }
-        return dataFromFile;
+
+        fileId = res.files[0].id;
+
+        return getDataFromFile(gdrive, fileId);
       })
       .then(res => getTransformedFileData(res))
       .then(res => {
