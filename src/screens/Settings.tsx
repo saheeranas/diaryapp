@@ -34,7 +34,9 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     try {
       let userInfo = await signInWithGoogle();
       // console.log('userInfo', userInfo);
-      store.user.updateUser(userInfo?.user);
+      store.user.updateUser(
+        Object.assign({}, userInfo.user, {_id: userInfo.user.id}),
+      );
     } catch (error) {
       // console.log(error);
     }

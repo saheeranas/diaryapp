@@ -37,7 +37,7 @@ export const SettingsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        header: ({navigation, route, options}) => {
+        header: ({navigation, options}) => {
           return (
             <Header
               title={options.tabBarLabel}

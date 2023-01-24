@@ -19,6 +19,23 @@ import {
 } from './password';
 import rootStore from '../mst';
 
+import {DiaryEntryDBType} from '../types/DiaryEntry';
+
+interface UserInfo {
+  pkey: string;
+  modifiedAt: string;
+}
+
+interface DataFromFile {
+  userInfo: UserInfo;
+  entries: DiaryEntryDBType[];
+}
+
+interface Status {
+  label: string;
+  value: number;
+}
+
 // Sign in configuration
 let signInOptions = {
   scopes: ['https://www.googleapis.com/auth/drive'], // [Android] what API you want to access on behalf of the user, default is email and profile
@@ -27,15 +44,16 @@ let signInOptions = {
 
 // Backup filename
 let fileName = 'PrivateDiaryApp.db';
+let tempFileName = 'pdatmp.db';
 
 // Sync stages and dummy percentage values in points tp show progress bar
-const STATUSES = {
+const STATUSES: Record<string, Status> = {
   initial: {label: '', value: 0},
   signin: {label: 'Signing in', value: 0.1},
-  packaging: {label: 'Packaging', value: 0.23},
-  checkForOld: {label: 'Checking for old backup files', value: 0.26},
-  upload: {label: 'Uploading', value: 0.3},
-  delete: {label: 'Deleting old backup file', value: 0.8},
+  packaging: {label: 'Packaging', value: 0.3},
+  checkForOld: {label: 'Checking for old backup files', value: 0.5},
+  upload: {label: 'Uploading', value: 0.8},
+  delete: {label: 'Deleting old backup file', value: 0.9},
   finish: {label: 'Success', value: 1},
   fail: {label: 'Failed', value: 1},
 };
@@ -43,6 +61,14 @@ const STATUSES = {
 const LOCAL_NOTIFICATION_MESSAGES = {
   complete: {title: 'Success', body: 'Sync is successfully completed'},
   fail: {title: 'Sync Failed', body: 'Sync was failed. Please try again'},
+};
+
+const newData: DataFromFile = {
+  userInfo: {
+    pkey: '',
+    modifiedAt: '',
+  },
+  entries: [],
 };
 
 /**
@@ -86,7 +112,7 @@ export const useGoogleDrive = () => {
     // TODO: Check for Active Internet first.
     // If no, show a message and return from here itself
 
-    let INITIAL_DATA = {};
+    let INITIAL_DATA = {...newData};
 
     setstatus(STATUSES.signin);
     const gdrive = new GDrive();
@@ -105,7 +131,7 @@ export const useGoogleDrive = () => {
     };
 
     // Global Vars
-    let fileId = null;
+    let fileId: string = '';
 
     setstatus(STATUSES.checkForOld);
 
@@ -123,18 +149,21 @@ export const useGoogleDrive = () => {
         INITIAL_DATA = {...res};
         return getListOfFiles(gdrive, queryParams);
       })
-      .then(async res => {
+      .then(res => {
         let dataFromFile = {};
 
-        if (res.files?.length > 0) {
-          fileId = res.files[0].id;
-          dataFromFile = await getDataFromFile(gdrive, fileId);
+        if (res.files?.length === 0) {
+          return dataFromFile;
         }
-        return dataFromFile;
+
+        fileId = res.files[0].id;
+
+        return getDataFromFile(gdrive, fileId);
       })
+      .then(res => getTransformedFileData(res))
       .then(res => {
-        if (fileId) {
-          updateOldFileName(gdrive, fileId, fileName);
+        if (fileId !== '') {
+          updateOldFileName(gdrive, fileId, tempFileName);
         }
         return getSyncedData(INITIAL_DATA, res);
       })
@@ -145,10 +174,7 @@ export const useGoogleDrive = () => {
         return uploadToDrive(gdrive, fileName, modifiedData);
       })
       .then(res => {
-        setstatus(STATUSES.delete);
-        return deleteOldFiles(gdrive);
-      })
-      .then(res => {
+        // throw new Error('sample error');
         setstatus(STATUSES.finish);
         let date = dayjs(new Date()).valueOf();
         rootStore.user.updateLastSynced(date);
@@ -158,9 +184,14 @@ export const useGoogleDrive = () => {
         setstatus(STATUSES.fail);
         onDisplayNotification('fail');
         console.warn(err);
+        // Delete sync file if temp file exists
+        // REVERT to temp file; (Rename temp -> sync file name)
+        revertToOldFile(gdrive);
       })
       .finally(() => {
-        fileId = null;
+        fileId = '';
+        // setstatus(STATUSES.delete);
+        deleteFile(gdrive, tempFileName);
       });
   };
 
@@ -169,7 +200,7 @@ export const useGoogleDrive = () => {
 
 // getDataFromDevice
 const getDataFromDevice = async () => {
-  let DATA_FROM_FILE = {
+  let DATA_FROM_FILE: DataFromFile = {
     userInfo: {
       pkey: '',
       modifiedAt: '',
@@ -199,7 +230,7 @@ const getDataFromDevice = async () => {
 };
 
 // getListOfFiles
-const getListOfFiles = async (gdrive, queryParams) => {
+const getListOfFiles = async (gdrive: GDrive, queryParams: any) => {
   try {
     let searchResult = await gdrive.files.list(queryParams);
     return searchResult;
@@ -209,7 +240,7 @@ const getListOfFiles = async (gdrive, queryParams) => {
 };
 
 // getDataFromFile & Update Old file name
-const getDataFromFile = async (gdrive, fileId) => {
+const getDataFromFile = async (gdrive: GDrive, fileId: string) => {
   try {
     let filedataDrive = await gdrive.files.getJson(fileId);
     return filedataDrive;
@@ -218,14 +249,34 @@ const getDataFromFile = async (gdrive, fileId) => {
   }
 };
 
-// updateOldFileName
-const updateOldFileName = async (gdrive, fileId, fileName) => {
+// Make suret he data from remote file is in desired format
+// If remote data is in correct format, return it
+// Else return initial data (newData)
+const getTransformedFileData = (dataFromFile: any) => {
   try {
-    let res = await await gdrive.files
+    if (dataFromFile) {
+      if (dataFromFile.userInfo && dataFromFile.entries) {
+        return dataFromFile;
+      }
+    }
+    return {...newData};
+  } catch (error) {
+    return error;
+  }
+};
+
+// updateOldFileName
+const updateOldFileName = async (
+  gdrive: GDrive,
+  fileId: string,
+  name: string = tempFileName,
+) => {
+  try {
+    let res = await gdrive.files
       .newMetadataOnlyUploader()
       .setIdOfFileToUpdate(fileId)
       .setRequestBody({
-        name: `${fileName}.temp`,
+        name: `${name}`,
       })
       .execute();
     return res;
@@ -235,7 +286,11 @@ const updateOldFileName = async (gdrive, fileId, fileName) => {
 };
 
 // uploadToDrive
-const uploadToDrive = async (gdrive, fileName, data) => {
+const uploadToDrive = async (
+  gdrive: GDrive,
+  fileName: string,
+  data: DataFromFile,
+) => {
   try {
     let res = await gdrive.files
       .newMultipartUploader()
@@ -250,10 +305,10 @@ const uploadToDrive = async (gdrive, fileName, data) => {
   }
 };
 
-// deleteOldFiles - Delete temp files from drive
-const deleteOldFiles = async gdrive => {
+// Delete GDrive file
+const deleteFile = async (gdrive: GDrive, file: string) => {
   let queryParams = {
-    q: new ListQueryBuilder().e('name', `${fileName}.temp`),
+    q: new ListQueryBuilder().e('name', `${file}`),
   };
 
   getListOfFiles(gdrive, queryParams)
@@ -261,12 +316,46 @@ const deleteOldFiles = async gdrive => {
       if (!list.files.length) {
         // console.log('Error');
       }
-      let promises = list.files.map(el => {
+      let promises = list.files.map((el: {id: string}) => {
         return gdrive.files.delete(el.id);
       });
       return Promise.all(promises);
     })
     .catch(err => err);
+};
+
+// revertToOldFile - Revert to temp file if error happens
+const revertToOldFile = async (gdrive: GDrive) => {
+  let queryParamsForTemp = {
+    q: new ListQueryBuilder().e('name', `${tempFileName}`),
+  };
+
+  let queryParamsForSyncFile = {
+    q: new ListQueryBuilder().e('name', `${fileName}`),
+  };
+
+  getListOfFiles(gdrive, queryParamsForTemp)
+    .then(list => {
+      console.log(list);
+      if (list.files.length === 0) {
+        throw new Error('No backup files');
+      }
+      return list.files;
+    })
+    .then(async tempFiles => {
+      let originalFiles = await getListOfFiles(gdrive, queryParamsForSyncFile);
+      let promises = originalFiles.files.map((el: {id: string}) => {
+        return gdrive.files.delete(el.id);
+      });
+      return {tempFiles, deleteStatus: Promise.all(promises)};
+    })
+    .then(res => {
+      updateOldFileName(gdrive, res.tempFiles[0].id, fileName);
+    })
+    .catch(err => {
+      // console.log('here');
+      // console.log(err);
+    });
 };
 
 /**
@@ -279,15 +368,8 @@ const deleteOldFiles = async gdrive => {
  *    c. Else return current
  * 4. Return modified array
  */
-const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
-  let newData = {
-    userInfo: {
-      pkey: '',
-      modifiedAt: '',
-    },
-    entries: [],
-  };
 
+const getSyncedData = (dataFromDB = newData, dataFromDrive = newData) => {
   // Populate properties if not exists
   if (!dataFromDB.entries) {
     dataFromDB = {...newData};
@@ -300,7 +382,7 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
   // throw new Error('Here');
 
   // UserInfo
-  let tempUserInfo;
+  let tempUserInfo = {pkey: '', modifiedAt: ''};
   if (dataFromDB.userInfo && dataFromDrive.userInfo) {
     tempUserInfo =
       dataFromDB.userInfo.modifiedAt > dataFromDrive.userInfo.modifiedAt
@@ -346,7 +428,7 @@ const getSyncedData = (dataFromDB = {}, dataFromDrive = {}) => {
 };
 
 // Save latest password to local
-const saveLatestPasswordToLocal = async newUserInfo => {
+const saveLatestPasswordToLocal = async (newUserInfo: UserInfo) => {
   verifyHashWithStoredHash(newUserInfo.pkey)
     .then(res => {
       if (res) {
@@ -361,7 +443,7 @@ const saveLatestPasswordToLocal = async newUserInfo => {
 };
 
 // Local Notification
-const onDisplayNotification = async status => {
+const onDisplayNotification = async (status: string) => {
   // Check messages already defined
   if (status in LOCAL_NOTIFICATION_MESSAGES) {
     // Create a channel

@@ -1,4 +1,5 @@
 import {types} from 'mobx-state-tree';
+import {UserIn} from '../types/User';
 import {
   getUserFromDB,
   updateUserToDB,
@@ -25,7 +26,9 @@ const User = types
   .actions(self => ({
     populateUserFromDB() {
       let itemFromDB = getUserFromDB();
-      if (!itemFromDB) return;
+      if (!itemFromDB) {
+        return;
+      }
       let temp = JSON.parse(JSON.stringify(itemFromDB));
       self._id = temp._id;
       self.name = temp.name;
@@ -34,8 +37,8 @@ const User = types
       self.lastSynced = temp.lastSynced;
       self.isAutoSync = temp.isAutoSync;
     },
-    updateUser(user) {
-      self._id = user.id;
+    updateUser(user: UserIn) {
+      self._id = user._id;
       self.name = user.name;
       self.email = user.email;
       self.photo = user.photo;
@@ -50,13 +53,13 @@ const User = types
 
       clearUserFromDB();
     },
-    toggleSecurityStatus(status) {
+    toggleSecurityStatus(status: boolean) {
       self.isSecure = status;
     },
-    toggleUnlocked(status) {
+    toggleUnlocked(status: boolean) {
       self.isUnlocked = status;
     },
-    updateLastSynced(status) {
+    updateLastSynced(status: number) {
       // "YYYY MMM DD dddd hh mm A"
       self.lastSynced = status;
       updateUserSettingsToDB({
