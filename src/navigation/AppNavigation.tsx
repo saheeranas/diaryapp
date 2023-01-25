@@ -27,6 +27,7 @@ import RemovePassword from '../screens/security/RemovePassword';
 
 import Header from '../components/Header';
 
+// Extra custom screen options
 interface ScreenOptType {
   hideBackBtn?: boolean;
 }
@@ -134,7 +135,7 @@ const AppNavigation = observer(() => {
             header: ({navigation, route, options}) => {
               return (
                 <Header
-                  title={options.tabBarLabel}
+                  title={options.tabBarLabel?.toString()}
                   navigation={navigation}
                   hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
                 />
