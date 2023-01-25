@@ -6,6 +6,7 @@ interface SettingsItemProps {
   label: string;
   onPress?: () => void;
   icon?: string;
+  children?: JSX.Element;
 }
 
 export const SettingsMenuItem: React.FC<SettingsItemProps> = ({

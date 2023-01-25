@@ -64,7 +64,9 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         {() => (
           <EntryCard
             key={`entrycard-${item._id}`}
-            item={item}
+            // item={item}
+            desc={item.desc}
+            date={item.date}
             onPress={() => navigateToDetail(item.date)}
           />
         )}

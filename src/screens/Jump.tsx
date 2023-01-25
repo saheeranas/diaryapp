@@ -92,22 +92,6 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
   );
 });
 
-// Custom header
-// const CustomHeader = props => {
-//   console.log(props);
-//   return (
-//     <View style={styles.calendarHeader}>
-//       <Pressable>
-//         <Text>Left</Text>
-//       </Pressable>
-//       <Text>Header</Text>
-//       <Pressable>
-//         <Text>Right</Text>
-//       </Pressable>
-//     </View>
-//   );
-// };
-
 export default Jump;
 
 const styles = StyleSheet.create({

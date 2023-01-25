@@ -31,15 +31,30 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   // };
 
   const handleLogin = async () => {
-    try {
-      let userInfo = await signInWithGoogle();
-      // console.log('userInfo', userInfo);
-      store.user.updateUser(
-        Object.assign({}, userInfo.user, {_id: userInfo.user.id}),
-      );
-    } catch (error) {
-      // console.log(error);
-    }
+    signInWithGoogle()
+      .then(userInfo => {
+        if (userInfo && 'user' in userInfo) {
+          store.user.updateUser({
+            _id: userInfo.user.id,
+            name: userInfo.user.name || '',
+            email: userInfo.user.email,
+            photo: userInfo.user.photo || '',
+          });
+        }
+      })
+      .catch(err => {});
+
+    // try {
+    //   let userInfo = await signInWithGoogle();
+    //   if (userInfo && 'user' in userInfo) {
+    //     store.user.updateUser({
+    //       _id: userInfo.user.id,
+    //       name: userInfo.user.name || '',
+    //       email: userInfo.user.email,
+    //       photo: userInfo.user.photo || '',
+    //     });
+    //   }
+    // } catch (error) {}
   };
 
   const handleSync = () => {

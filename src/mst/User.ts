@@ -37,7 +37,7 @@ const User = types
       self.lastSynced = temp.lastSynced;
       self.isAutoSync = temp.isAutoSync;
     },
-    updateUser(user: UserIn) {
+    updateUser(user: Partial<UserIn>) {
       self._id = user._id;
       self.name = user.name;
       self.email = user.email;

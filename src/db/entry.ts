@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import {realm} from './index';
 import rootStore from '../mst';
 import {DiaryEntryOut, DiaryEntryDBType} from '../types/DiaryEntry';
+import {DataFromFile} from '../utils/GoogleDrive';
 
 // Declaration
 export const EntrySchema = {
@@ -113,7 +114,7 @@ const deleteAllEntriesFromDB = () => {
  * @param {*} data - Syncable data from Google Drive and Local combined
  * TODO: Delete functionality
  */
-const importToDBFromJSON = data => {
+const importToDBFromJSON = (data: DataFromFile) => {
   let dataFromDB = readEntriesFromDB();
   // console.log('syncable Data:', data);
   // console.log('DB Data:', dataFromDB);

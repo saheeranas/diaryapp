@@ -26,7 +26,7 @@ interface UserInfo {
   modifiedAt: string;
 }
 
-interface DataFromFile {
+export interface DataFromFile {
   userInfo: UserInfo;
   entries: DiaryEntryDBType[];
 }

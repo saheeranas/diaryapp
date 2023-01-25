@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 import {
   Icon,
   TopNavigation,
@@ -9,6 +10,7 @@ import {
 import {HeaderType} from '../types/types';
 
 const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
+const Blank = (props: any) => <View {...props} />;
 
 const Header: React.FC<HeaderType> = ({
   title = 'Diary',
@@ -24,7 +26,7 @@ const Header: React.FC<HeaderType> = ({
 
   return (
     <TopNavigation
-      accessoryLeft={hideBack ? null : BackAction}
+      accessoryLeft={hideBack ? Blank : BackAction}
       title={Title}
       alignment="center"
       style={style}
