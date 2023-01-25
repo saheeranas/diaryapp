@@ -33,7 +33,7 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
       const unsubscribe = navigation.addListener('focus', () => {
         setInputData(initialText);
         let tempDate;
-        if (route.params?.date) {
+        if (route.params?.date !== '') {
           tempDate = dayjs(new Date(route.params.date)).format('YYYY-MM-DD');
         } else {
           tempDate = dayjs(new Date()).format('YYYY-MM-DD');
@@ -52,7 +52,7 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
           };
           setActive(newItem);
         }
-        navigation.setParams({date: null});
+        navigation.setParams({date: ''});
       });
 
       return unsubscribe;

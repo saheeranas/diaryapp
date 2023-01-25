@@ -80,7 +80,9 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
     return email.length > 20 ? temp : email;
   };
 
-  const navigateTo = (screen: string) => {
+  const navigateTo = (
+    screen: 'ChangePassword' | 'RemovePassword' | 'SetPassword',
+  ) => {
     navigation.navigate(screen);
   };
 

@@ -52,7 +52,7 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
   //   // }
   // });
 
-  const navigateToDetail = (date = null) => {
+  const navigateToDetail = (date = '') => {
     navigation.navigate('EntrySingle', {date});
   };
 
