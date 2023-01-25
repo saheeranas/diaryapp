@@ -19,12 +19,20 @@ const RemovePasswordSchema = Yup.object().shape({
     .required('Required'),
 });
 
+interface FormValuesType {
+  oldPassword: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  oldPassword: '',
+};
+
 const RemovePassword: React.FC<RemovePasswordProps> = observer(
   ({navigation}) => {
     const store = useContext(MSTContext);
     const [respError, setRespError] = useState('');
 
-    const handleRemovePassword = values => {
+    const handleRemovePassword = (values: FormValuesType) => {
       Alert.alert(
         'Confirm Delete?',
         'This action will remove password protection of the app',
@@ -38,7 +46,7 @@ const RemovePassword: React.FC<RemovePasswordProps> = observer(
       );
     };
 
-    const confirmDelete = async values => {
+    const confirmDelete = async (values: FormValuesType) => {
       try {
         let status = await verifyPwdWithStoredHash(values.oldPassword);
 
@@ -68,7 +76,7 @@ const RemovePassword: React.FC<RemovePasswordProps> = observer(
               Remove Password
             </Text>
             <Formik
-              initialValues={{oldPassword: ''}}
+              initialValues={INITIAL_VALUES}
               validationSchema={RemovePasswordSchema}
               onSubmit={handleRemovePassword}>
               {({

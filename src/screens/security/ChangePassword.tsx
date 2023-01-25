@@ -28,15 +28,27 @@ const ChangePasswordSchema = Yup.object().shape({
   ),
 });
 
+interface FormValuesType {
+  oldPassword: string;
+  password: string;
+  confirm: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  oldPassword: '',
+  password: '',
+  confirm: '',
+};
+
 const ChangePassword: React.FC<ChangePasswordProps> = observer(
   ({navigation}) => {
     const store = useContext(MSTContext);
     const [respError, setRespError] = useState('');
 
-    const passwordRef = useRef(null);
-    const confirmPasswordRef = useRef(null);
+    const passwordRef = useRef<Input>(null);
+    const confirmPasswordRef = useRef<Input>(null);
 
-    const handleChangePassword = async values => {
+    const handleChangePassword = async (values: FormValuesType) => {
       let {oldPassword, password} = values;
       try {
         let status = await updatePassword(oldPassword, password);
@@ -66,7 +78,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = observer(
               Change Password
             </Text>
             <Formik
-              initialValues={{oldPassword: '', password: '', confirm: ''}}
+              initialValues={INITIAL_VALUES}
               validationSchema={ChangePasswordSchema}
               onSubmit={handleChangePassword}>
               {({
@@ -91,7 +103,9 @@ const ChangePassword: React.FC<ChangePasswordProps> = observer(
                     secureTextEntry
                     returnKeyType="next"
                     onSubmitEditing={() => {
-                      passwordRef.current.focus();
+                      if (passwordRef.current !== null) {
+                        passwordRef.current.focus();
+                      }
                     }}
                   />
                   {errors.oldPassword && touched.oldPassword ? (
@@ -115,7 +129,9 @@ const ChangePassword: React.FC<ChangePasswordProps> = observer(
                     secureTextEntry
                     returnKeyType="next"
                     onSubmitEditing={() => {
-                      confirmPasswordRef.current.focus();
+                      if (confirmPasswordRef.current !== null) {
+                        confirmPasswordRef.current.focus();
+                      }
                     }}
                   />
                   {errors.password && touched.password ? (

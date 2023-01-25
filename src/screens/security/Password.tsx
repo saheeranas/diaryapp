@@ -20,11 +20,19 @@ const UnlockSchema = Yup.object().shape({
     .required('Required'),
 });
 
+interface FormValuesType {
+  password: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  password: '',
+};
+
 const Password: React.FC<PasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   const [respError, setRespError] = useState('');
 
-  const handleUnlock = async values => {
+  const handleUnlock = async (values: FormValuesType) => {
     setRespError('');
     try {
       // Verify User with password
@@ -60,7 +68,7 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
             Unlock
           </Text>
           <Formik
-            initialValues={{password: ''}}
+            initialValues={INITIAL_VALUES}
             validationSchema={UnlockSchema}
             onSubmit={handleUnlock}>
             {({

@@ -22,6 +22,12 @@ export type SettingsStackParamList = {
   RemovePassword: undefined;
 };
 
+export type SettingsStackScreens =
+  | 'Settings'
+  | 'SetPassword'
+  | 'ChangePassword'
+  | 'RemovePassword';
+
 // Root Stack
 export type PasswordProps = StackScreenProps<RootStackParamList, 'Password'>;
 

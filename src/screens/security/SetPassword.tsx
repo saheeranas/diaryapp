@@ -24,10 +24,20 @@ const SetPasswordSchema = Yup.object().shape({
   ),
 });
 
+interface FormValuesType {
+  password: string;
+  confirm: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  password: '',
+  confirm: '',
+};
+
 const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const handleSetPassword = async values => {
+  const handleSetPassword = async (values: FormValuesType) => {
     try {
       let status = await setPassword(values.password);
       if (status) {
@@ -59,7 +69,7 @@ const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
             Set Password
           </Text>
           <Formik
-            initialValues={{password: '', confirm: ''}}
+            initialValues={INITIAL_VALUES}
             validationSchema={SetPasswordSchema}
             onSubmit={handleSetPassword}>
             {({

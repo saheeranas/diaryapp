@@ -12,7 +12,7 @@ import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
-import {SettingsProps} from '../navigation/types';
+import {SettingsProps, SettingsStackScreens} from '../navigation/types';
 import {Layout} from '../components/Layout';
 import ProgressBar from '../components/ProgressBar';
 import {SettingsMenuItem} from '../components/SettingsMenu';
@@ -80,9 +80,7 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
     return email.length > 20 ? temp : email;
   };
 
-  const navigateTo = (
-    screen: 'ChangePassword' | 'RemovePassword' | 'SetPassword',
-  ) => {
+  const navigateTo = (screen: SettingsStackScreens) => {
     navigation.navigate(screen);
   };
 
