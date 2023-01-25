@@ -43,7 +43,7 @@ const addEntryToDB = (item: DiaryEntryOut) => {
 
   let entry;
   realm.write(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // @ts-ignore
     entry = realm.create('Entry', {
       _id: item._id,
       date: item.date,
@@ -65,14 +65,17 @@ const updateEntryToDB = (item: DiaryEntryDBType) => {
   if (res.length) {
     // console.log('UPDATE: Already exists');
     realm.write(() => {
+      // @ts-ignore
       res[0].desc = item.desc;
+      // @ts-ignore
       res[0].modifiedAt = dayjs(new Date()).valueOf();
+      // @ts-ignore
       res[0].deleted = false;
     });
   } else {
     // console.log('UPDATE: New');
     realm.write(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // @ts-ignore
       entry = realm.create('Entry', {
         ...item,
         _id: uuidv4(),
@@ -89,7 +92,9 @@ const softDeleteOneEntryFromDB = (item: DiaryEntryDBType) => {
   const res = realm.objectForPrimaryKey('Entry', item._id);
   if (res) {
     realm.write(() => {
+      // @ts-ignore
       res.deleted = true;
+      // @ts-ignore
       res.modifiedAt = dayjs(new Date()).valueOf();
     });
   }

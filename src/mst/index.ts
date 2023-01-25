@@ -26,6 +26,7 @@ const RootStore = types
         (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
       );
     },
+
     findEntryByDate(date: string) {
       return self.entries.filter(e => e.date === date);
     },
@@ -33,19 +34,29 @@ const RootStore = types
   .actions(self => ({
     populateStoreFromDB() {
       let itemsFromDB = readEntriesFromDB();
-      // let temp = JSON.parse(JSON.stringify(itemsFromDB));
       let modifieddata = itemsFromDB
         .map((item: DiaryEntryDBType) => {
-          const {deleted, ...rest} = item;
-          return deleted ? null : rest;
+          const {deleted, _id, date, desc, createdAt, modifiedAt} = item;
+          return deleted
+            ? null
+            : {
+                _id,
+                date,
+                desc,
+                createdAt,
+                modifiedAt,
+              };
         })
         .filter(Boolean);
+      // @ts-ignore
       self.entries = modifieddata;
     },
+
     addEntry(entry: DiaryEntryIn) {
       self.entries.unshift(entry);
       addEntryToDB(entry);
     },
+
     updateEntry(entry: DiaryEntryDBType) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
       if (pos >= 0) {
@@ -55,6 +66,7 @@ const RootStore = types
       }
       updateEntryToDB(entry);
     },
+
     deleteEntry(entry: DiaryEntryDBType) {
       softDeleteOneEntryFromDB(entry);
       destroy(entry);
