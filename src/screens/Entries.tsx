@@ -9,14 +9,15 @@ import {List} from '@ui-kitten/components';
 // import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
 
-import {EntriesType} from '../types/types';
+import {EntriesProps} from '../navigation/types';
+// import {EntriesType} from '../types/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
 
 // import {useGoogleDrive} from '../utils/GoogleDrive';
 
-const Entries: React.FC<EntriesType> = observer(({navigation}) => {
+const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   // const {exportToGDrive} = useGoogleDrive();

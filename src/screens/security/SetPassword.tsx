@@ -8,7 +8,8 @@ import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
-import {PasswordType} from '../../types/types';
+import {SetPasswordProps} from '../../navigation/AppNavigation';
+// import {PasswordType} from '../../types/types';
 import {Layout} from '../../components/Layout';
 
 import {setPassword} from '../../utils/password';
@@ -24,7 +25,7 @@ const SetPasswordSchema = Yup.object().shape({
   ),
 });
 
-const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
+const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   const handleSetPassword = async values => {

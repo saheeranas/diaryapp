@@ -45,8 +45,11 @@ const addEntryToDB = (item: DiaryEntryOut) => {
   realm.write(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     entry = realm.create('Entry', {
-      ...item,
       _id: item._id,
+      date: item.date,
+      desc: item.desc,
+      createdAt: item.createdAt,
+      modifiedAt: item.modifiedAt,
     });
 
     // console.log(`created entry: ${entry.date} `);

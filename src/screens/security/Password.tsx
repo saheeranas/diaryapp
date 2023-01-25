@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
-import {PasswordType} from '../../types/types';
+import {PasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
@@ -20,7 +20,7 @@ const UnlockSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const Password: React.FC<PasswordType> = observer(({navigation}) => {
+const Password: React.FC<PasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   const [respError, setRespError] = useState('');
 

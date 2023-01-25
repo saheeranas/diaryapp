@@ -16,12 +16,13 @@ import {Card, Button, Text} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 
-import {EntrySingleType} from '../types/types';
+import {EntrySingleProps} from '../navigation/types';
+// import {EntrySingleType} from '../types/types';
 import {Layout} from '../components/Layout';
 
 const initialText = '';
 
-const EntrySingle: React.FC<EntrySingleType> = observer(
+const EntrySingle: React.FC<EntrySingleProps> = observer(
   ({route, navigation}) => {
     const store = useContext(MSTContext);
     const editorRef = useRef(null);

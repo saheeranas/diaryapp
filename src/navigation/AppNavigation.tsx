@@ -27,8 +27,17 @@ import RemovePassword from '../screens/security/RemovePassword';
 
 import Header from '../components/Header';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+// Types
+import {
+  RootStackParamList,
+  RootTabParamList,
+  SettingsStackParamList,
+} from './types';
+
+// Navigators Definition
+const Tab = createBottomTabNavigator<RootTabParamList>();
+const Stack = createStackNavigator<SettingsStackParamList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 let FLAG = false;
 
@@ -40,7 +49,7 @@ export const SettingsStack = () => {
         header: ({navigation, options}) => {
           return (
             <Header
-              title={options.tabBarLabel}
+              title={options.title}
               navigation={navigation}
               hideBack={!options.headerBackBtnShown}
             />
@@ -50,22 +59,22 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="Settings"
         component={Settings}
-        options={{tabBarLabel: 'Settings'}}
+        options={{title: 'Settings'}}
       />
       <Stack.Screen
         name="SetPassword"
         component={SetPassword}
-        options={{tabBarLabel: 'New Password', headerBackBtnShown: true}}
+        options={{title: 'New Password', headerBackBtnShown: true}}
       />
       <Stack.Screen
         name="ChangePassword"
         component={ChangePassword}
-        options={{tabBarLabel: 'Update Password', headerBackBtnShown: true}}
+        options={{title: 'Update Password', headerBackBtnShown: true}}
       />
       <Stack.Screen
         name="RemovePassword"
         component={RemovePassword}
-        options={{tabBarLabel: 'Remove Password', headerBackBtnShown: true}}
+        options={{title: 'Remove Password', headerBackBtnShown: true}}
       />
     </Stack.Navigator>
   );
@@ -87,9 +96,9 @@ const AppNavigation = observer(() => {
   return (
     <NavigationContainer>
       {!FLAG ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Password" component={Password} />
-        </Stack.Navigator>
+        <RootStack.Navigator>
+          <RootStack.Screen name="Password" component={Password} />
+        </RootStack.Navigator>
       ) : (
         <Tab.Navigator
           screenOptions={{
@@ -103,20 +112,11 @@ const AppNavigation = observer(() => {
               marginHorizontal: 15,
               borderRadius: 5,
               position: 'absolute',
-              // backgroundColor: colors.layout_bg_color,
-              // shadowColor: colors.inverse,
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 0,
-              // },
-              // shadowOpacity: 0.3,
-              // shadowRadius: 4.65,
-              // elevation: 8,
             },
-            tabStyle: {
-              paddingVertical: 10,
+            tabBarItemStyle: {
+              paddingVertical: 5,
             },
-            header: ({navigation, route, options}) => {
+            header: ({navigation, options}) => {
               return (
                 <Header
                   title={options.tabBarLabel}

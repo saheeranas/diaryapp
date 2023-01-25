@@ -12,7 +12,8 @@ import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
-import {SettingsType} from '../types/types';
+import {SettingsProps} from '../navigation/types';
+// import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
 import ProgressBar from '../components/ProgressBar';
 import {SettingsMenuItem} from '../components/SettingsMenu';
@@ -20,7 +21,7 @@ import {SettingsMenuItem} from '../components/SettingsMenu';
 import {useGoogleDrive} from '../utils/GoogleDrive';
 import dayjs from 'dayjs';
 
-const Settings: React.FC<SettingsType> = observer(({navigation}) => {
+const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   // const [darkMode, setDarkMode] = useState(false);
 

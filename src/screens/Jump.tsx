@@ -4,7 +4,8 @@ import {observer} from 'mobx-react-lite';
 import {Calendar, LocaleConfig, DateData} from 'react-native-calendars';
 import dayjs from 'dayjs';
 import {MSTContext} from '../mst';
-import {JumpType} from '../types/types';
+import {JumpProps} from '../navigation/types';
+// import {JumpType} from '../types/types';
 import {Layout} from '../components/Layout';
 
 interface CalendarMarkedValue {
@@ -55,7 +56,7 @@ LocaleConfig.locales['en'] = {
 
 LocaleConfig.defaultLocale = 'en';
 
-const Jump: React.FC<JumpType> = observer(({navigation}) => {
+const Jump: React.FC<JumpProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   let markedDates = store.entries.reduce((acc, current) => {
