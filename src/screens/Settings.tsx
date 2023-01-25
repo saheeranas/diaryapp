@@ -13,7 +13,6 @@ import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 import {SettingsProps} from '../navigation/types';
-// import {SettingsType} from '../types/types';
 import {Layout} from '../components/Layout';
 import ProgressBar from '../components/ProgressBar';
 import {SettingsMenuItem} from '../components/SettingsMenu';

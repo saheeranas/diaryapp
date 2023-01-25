@@ -18,7 +18,10 @@ const App = () => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light} customMapping={mapping}>
+      <ApplicationProvider
+        {...eva}
+        theme={eva.light}
+        customMapping={{...eva.mapping, ...mapping}}>
         <MSTContext.Provider value={rootStore}>
           <SafeAreaProvider>
             <AppNavigation />

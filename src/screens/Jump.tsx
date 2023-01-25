@@ -5,7 +5,6 @@ import {Calendar, LocaleConfig, DateData} from 'react-native-calendars';
 import dayjs from 'dayjs';
 import {MSTContext} from '../mst';
 import {JumpProps} from '../navigation/types';
-// import {JumpType} from '../types/types';
 import {Layout} from '../components/Layout';
 
 interface CalendarMarkedValue {

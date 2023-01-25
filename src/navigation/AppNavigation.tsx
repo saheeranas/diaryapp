@@ -27,6 +27,21 @@ import RemovePassword from '../screens/security/RemovePassword';
 
 import Header from '../components/Header';
 
+interface ScreenOptType {
+  hideBackBtn?: boolean;
+}
+
+const ScreenOpts: Record<string, ScreenOptType> = {
+  Password: {hideBackBtn: true},
+  Entries: {hideBackBtn: true},
+  Jump: {hideBackBtn: true},
+  EntrySingle: {hideBackBtn: false},
+  Settings: {hideBackBtn: true},
+  SetPassword: {hideBackBtn: false},
+  ChangePassword: {hideBackBtn: false},
+  RemovePassword: {hideBackBtn: false},
+};
+
 // Types
 import {
   RootStackParamList,
@@ -46,12 +61,12 @@ export const SettingsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        header: ({navigation, options}) => {
+        header: ({navigation, route, options}) => {
           return (
             <Header
               title={options.title}
               navigation={navigation}
-              hideBack={!options.headerBackBtnShown}
+              hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
             />
           );
         },
@@ -64,17 +79,17 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="SetPassword"
         component={SetPassword}
-        options={{title: 'New Password', headerBackBtnShown: true}}
+        options={{title: 'New Password'}}
       />
       <Stack.Screen
         name="ChangePassword"
         component={ChangePassword}
-        options={{title: 'Update Password', headerBackBtnShown: true}}
+        options={{title: 'Update Password'}}
       />
       <Stack.Screen
         name="RemovePassword"
         component={RemovePassword}
-        options={{title: 'Remove Password', headerBackBtnShown: true}}
+        options={{title: 'Remove Password'}}
       />
     </Stack.Navigator>
   );
@@ -116,12 +131,12 @@ const AppNavigation = observer(() => {
             tabBarItemStyle: {
               paddingVertical: 5,
             },
-            header: ({navigation, options}) => {
+            header: ({navigation, route, options}) => {
               return (
                 <Header
                   title={options.tabBarLabel}
                   navigation={navigation}
-                  hideBack={!options.headerBackBtnShown}
+                  hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
                 />
               );
             },
@@ -173,7 +188,6 @@ const AppNavigation = observer(() => {
               tabBarIcon: ({color, size}) => (
                 <Icon style={styles.icon} fill={color} name="plus-outline" />
               ),
-              headerBackBtnShown: true,
               unmountOnBlur: true,
             }}
           />

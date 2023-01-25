@@ -8,8 +8,7 @@ import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
-import {ChangePasswordProps} from '../../navigation/AppNavigation';
-// import {PasswordType} from '../../types/types';
+import {ChangePasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {updatePassword} from '../../utils/password';

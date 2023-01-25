@@ -17,7 +17,6 @@ import {Card, Button, Text} from '@ui-kitten/components';
 import {MSTContext} from '../mst';
 
 import {EntrySingleProps} from '../navigation/types';
-// import {EntrySingleType} from '../types/types';
 import {Layout} from '../components/Layout';
 
 const initialText = '';

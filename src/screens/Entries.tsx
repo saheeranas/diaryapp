@@ -10,7 +10,6 @@ import {List} from '@ui-kitten/components';
 import {MSTContext} from '../mst';
 
 import {EntriesProps} from '../navigation/types';
-// import {EntriesType} from '../types/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';

@@ -7,8 +7,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import {MSTContext} from '../../mst';
-import {RemovePasswordProps} from '../../navigation/AppNavigation';
-// import {PasswordType} from '../../types/types';
+import {RemovePasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
