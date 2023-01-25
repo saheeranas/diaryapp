@@ -1,11 +1,15 @@
 import React, {useContext} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {Calendar, LocaleConfig, DateData} from 'react-native-calendars';
 import dayjs from 'dayjs';
 import {MSTContext} from '../mst';
 import {JumpType} from '../types/types';
 import {Layout} from '../components/Layout';
+
+interface CalendarMarkedValue {
+  marked: boolean;
+}
 
 LocaleConfig.locales['en'] = {
   formatAccessibilityLabel: "dddd d 'of' MMMM 'of' yyyy",
@@ -57,9 +61,9 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
   let markedDates = store.entries.reduce((acc, current) => {
     acc[dayjs(current.date).format('YYYY-MM-DD')] = {marked: true};
     return acc;
-  }, {});
+  }, {} as Record<string, CalendarMarkedValue>);
 
-  const navigateToDetail = (date = null) => {
+  const navigateToDetail = (date: DateData) => {
     navigation.navigate('EntrySingle', {date: date.dateString});
   };
 
@@ -68,7 +72,6 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
   return (
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollview}>
-        {/* <LayoutInner> */}
         <Calendar
           current={today}
           minDate={'2020-01-01'}
@@ -83,11 +86,8 @@ const Jump: React.FC<JumpType> = observer(({navigation}) => {
             arrowColor: '#4361ee',
             indicatorColor: '#4361ee',
           }}
-          // customHeader={CustomHeader}
         />
-        {/* </LayoutInner> */}
       </ScrollView>
-      {/* <View style={{flex: 1, backgroundColor: 'magenta'}}></View> */}
     </Layout>
   );
 });

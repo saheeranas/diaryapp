@@ -43,18 +43,6 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
         }
       })
       .catch(err => {});
-
-    // try {
-    //   let userInfo = await signInWithGoogle();
-    //   if (userInfo && 'user' in userInfo) {
-    //     store.user.updateUser({
-    //       _id: userInfo.user.id,
-    //       name: userInfo.user.name || '',
-    //       email: userInfo.user.email,
-    //       photo: userInfo.user.photo || '',
-    //     });
-    //   }
-    // } catch (error) {}
   };
 
   const handleSync = () => {
@@ -92,13 +80,14 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     return email.length > 20 ? temp : email;
   };
 
-  const navigateTo = screen => {
+  const navigateTo = (screen: string) => {
     navigation.navigate(screen);
   };
 
-  const autoSyncToggleHandler = () => {
-    store.user.toggleAutoSync();
-  };
+  // TODO: implement autosync
+  // const autoSyncToggleHandler = () => {
+  //   store.user.toggleAutoSync();
+  // };
 
   const isLogined = store.user._id !== '';
   const isSecured = store.user.isSecure;
@@ -107,11 +96,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     ? {uri: store.user.photo}
     : require('../../assets/images/avatar.png');
 
-  // console.log('store.user.isSecure', store.user.isSecure);
-
-  // console.log(store);
-
-  const isAutoSyncEnabled = store?.user?.isAutoSync || false;
+  // const isAutoSyncEnabled = store?.user?.isAutoSync || false;
 
   return (
     <Layout>
