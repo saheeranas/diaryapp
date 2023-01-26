@@ -185,7 +185,7 @@ export const useGoogleDrive = () => {
       .catch(err => {
         setstatus(STATUSES.fail);
         onDisplayNotification('fail');
-        console.warn(err);
+        // console.warn(err);
         // Delete sync file if temp file exists
         // REVERT to temp file; (Rename temp -> sync file name)
         revertToOldFile(gdrive);
@@ -337,7 +337,6 @@ const revertToOldFile = async (gdrive: GDrive) => {
 
   getListOfFiles(gdrive, queryParamsForTemp)
     .then(list => {
-      console.log(list);
       if (list.files.length === 0) {
         throw new Error('No backup files');
       }
