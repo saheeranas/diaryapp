@@ -1,15 +1,18 @@
 import React from 'react';
-import {StyleSheet, View, Pressable} from 'react-native';
+import {StyleSheet, View, Pressable, GestureResponderEvent} from 'react-native';
 
 import {Text} from '@ui-kitten/components';
 import dayjs from 'dayjs';
 
 interface EntryCardProps {
-  item: any;
-  onPress: () => void;
+  // item: any;
+  desc: string;
+  date: string;
+  onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
+  // onPress: () => void;
 }
 
-const EntryCard: React.FC<EntryCardProps> = ({item: {desc, date}, onPress}) => {
+const EntryCard: React.FC<EntryCardProps> = ({desc, date, onPress}) => {
   const day = dayjs(date).format('DD');
   const rest = `${dayjs(date).format('MMM')} ${dayjs(date)
     .format('YYYY')

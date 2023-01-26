@@ -26,7 +26,7 @@ interface UserInfo {
   modifiedAt: string;
 }
 
-interface DataFromFile {
+export interface DataFromFile {
   userInfo: UserInfo;
   entries: DiaryEntryDBType[];
 }
@@ -91,9 +91,7 @@ export const useGoogleDrive = () => {
     try {
       let userInfo = await GoogleSignin.signIn();
       return userInfo;
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   // Sign Out
@@ -179,11 +177,13 @@ export const useGoogleDrive = () => {
         let date = dayjs(new Date()).valueOf();
         rootStore.user.updateLastSynced(date);
         onDisplayNotification('complete');
+        // Delete temp file
+        deleteFile(gdrive, tempFileName);
       })
       .catch(err => {
         setstatus(STATUSES.fail);
         onDisplayNotification('fail');
-        console.warn(err);
+        // console.warn(err);
         // Delete sync file if temp file exists
         // REVERT to temp file; (Rename temp -> sync file name)
         revertToOldFile(gdrive);
@@ -191,7 +191,6 @@ export const useGoogleDrive = () => {
       .finally(() => {
         fileId = '';
         // setstatus(STATUSES.delete);
-        deleteFile(gdrive, tempFileName);
       });
   };
 
@@ -255,7 +254,7 @@ const getDataFromFile = async (gdrive: GDrive, fileId: string) => {
 const getTransformedFileData = (dataFromFile: any) => {
   try {
     if (dataFromFile) {
-      if (dataFromFile.userInfo && dataFromFile.entries) {
+      if ('userInfo' in dataFromFile && 'entries' in dataFromFile) {
         return dataFromFile;
       }
     }
@@ -314,7 +313,6 @@ const deleteFile = async (gdrive: GDrive, file: string) => {
   getListOfFiles(gdrive, queryParams)
     .then(list => {
       if (!list.files.length) {
-        // console.log('Error');
       }
       let promises = list.files.map((el: {id: string}) => {
         return gdrive.files.delete(el.id);
@@ -336,7 +334,6 @@ const revertToOldFile = async (gdrive: GDrive) => {
 
   getListOfFiles(gdrive, queryParamsForTemp)
     .then(list => {
-      console.log(list);
       if (list.files.length === 0) {
         throw new Error('No backup files');
       }
@@ -352,10 +349,7 @@ const revertToOldFile = async (gdrive: GDrive) => {
     .then(res => {
       updateOldFileName(gdrive, res.tempFiles[0].id, fileName);
     })
-    .catch(err => {
-      // console.log('here');
-      // console.log(err);
-    });
+    .catch(err => {});
 };
 
 /**
@@ -437,9 +431,7 @@ const saveLatestPasswordToLocal = async (newUserInfo: UserInfo) => {
       }
       return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
     })
-    .catch(e => {
-      // console.log(e)
-    });
+    .catch(e => {});
 };
 
 // Local Notification

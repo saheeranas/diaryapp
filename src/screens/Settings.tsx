@@ -12,7 +12,7 @@ import {observer} from 'mobx-react-lite';
 import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
-import {SettingsType} from '../types/types';
+import {SettingsProps, SettingsStackScreens} from '../navigation/types';
 import {Layout} from '../components/Layout';
 import ProgressBar from '../components/ProgressBar';
 import {SettingsMenuItem} from '../components/SettingsMenu';
@@ -20,7 +20,7 @@ import {SettingsMenuItem} from '../components/SettingsMenu';
 import {useGoogleDrive} from '../utils/GoogleDrive';
 import dayjs from 'dayjs';
 
-const Settings: React.FC<SettingsType> = observer(({navigation}) => {
+const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   // const [darkMode, setDarkMode] = useState(false);
 
@@ -31,15 +31,18 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
   // };
 
   const handleLogin = async () => {
-    try {
-      let userInfo = await signInWithGoogle();
-      // console.log('userInfo', userInfo);
-      store.user.updateUser(
-        Object.assign({}, userInfo.user, {_id: userInfo.user.id}),
-      );
-    } catch (error) {
-      // console.log(error);
-    }
+    signInWithGoogle()
+      .then(userInfo => {
+        if (userInfo && 'user' in userInfo) {
+          store.user.updateUser({
+            _id: userInfo.user.id,
+            name: userInfo.user.name || '',
+            email: userInfo.user.email,
+            photo: userInfo.user.photo || '',
+          });
+        }
+      })
+      .catch(err => {});
   };
 
   const handleSync = () => {
@@ -64,9 +67,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     try {
       let userInfo = await signOut();
       store.user.removeUser();
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   const formatEmail = (email: string = '') => {
@@ -77,13 +78,14 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     return email.length > 20 ? temp : email;
   };
 
-  const navigateTo = screen => {
+  const navigateTo = (screen: SettingsStackScreens) => {
     navigation.navigate(screen);
   };
 
-  const autoSyncToggleHandler = () => {
-    store.user.toggleAutoSync();
-  };
+  // TODO: implement autosync
+  // const autoSyncToggleHandler = () => {
+  //   store.user.toggleAutoSync();
+  // };
 
   const isLogined = store.user._id !== '';
   const isSecured = store.user.isSecure;
@@ -92,11 +94,7 @@ const Settings: React.FC<SettingsType> = observer(({navigation}) => {
     ? {uri: store.user.photo}
     : require('../../assets/images/avatar.png');
 
-  // console.log('store.user.isSecure', store.user.isSecure);
-
-  // console.log(store);
-
-  const isAutoSyncEnabled = store?.user?.isAutoSync || false;
+  // const isAutoSyncEnabled = store?.user?.isAutoSync || false;
 
   return (
     <Layout>

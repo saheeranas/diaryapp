@@ -25,7 +25,6 @@
     "@ui-kitten/components": "5.1.1",
     "@ui-kitten/eva-icons": "5.1.1",
     "crypto-es": "^1.2.7",
-    "crypto-js": "^4.1.1",
     "dayjs": "^1.11.0",
     "formik": "^2.2.9",
     "mobx": "^6.7.0",

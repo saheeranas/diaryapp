@@ -9,14 +9,14 @@ import {List} from '@ui-kitten/components';
 // import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
 
-import {EntriesType} from '../types/types';
+import {EntriesProps} from '../navigation/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
 
 // import {useGoogleDrive} from '../utils/GoogleDrive';
 
-const Entries: React.FC<EntriesType> = observer(({navigation}) => {
+const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
   // const {exportToGDrive} = useGoogleDrive();
@@ -52,11 +52,9 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
   //   // }
   // });
 
-  const navigateToDetail = (date = null) => {
+  const navigateToDetail = (date = '') => {
     navigation.navigate('EntrySingle', {date});
   };
-
-  // console.log(store);
 
   const renderItem = ({item}: any) => {
     return (
@@ -64,7 +62,9 @@ const Entries: React.FC<EntriesType> = observer(({navigation}) => {
         {() => (
           <EntryCard
             key={`entrycard-${item._id}`}
-            item={item}
+            // item={item}
+            desc={item.desc}
+            date={item.date}
             onPress={() => navigateToDetail(item.date)}
           />
         )}

@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
-import {PasswordType} from '../../types/types';
+import {PasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
@@ -20,11 +20,19 @@ const UnlockSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const Password: React.FC<PasswordType> = observer(({navigation}) => {
+interface FormValuesType {
+  password: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  password: '',
+};
+
+const Password: React.FC<PasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
   const [respError, setRespError] = useState('');
 
-  const handleUnlock = async values => {
+  const handleUnlock = async (values: FormValuesType) => {
     setRespError('');
     try {
       // Verify User with password
@@ -32,7 +40,6 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
 
       if (status) {
         // If status is true, show success message 'Unlock success'
-        // console.log('Unlock success');
         // Navigate to Tab Navigation by updating mst
         showMessage({
           message: 'Welcome',
@@ -47,9 +54,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
         });
         setRespError('Password is wrong');
       }
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -60,7 +65,7 @@ const Password: React.FC<PasswordType> = observer(({navigation}) => {
             Unlock
           </Text>
           <Formik
-            initialValues={{password: ''}}
+            initialValues={INITIAL_VALUES}
             validationSchema={UnlockSchema}
             onSubmit={handleUnlock}>
             {({

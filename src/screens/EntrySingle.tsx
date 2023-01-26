@@ -16,12 +16,12 @@ import {Card, Button, Text} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 
-import {EntrySingleType} from '../types/types';
+import {EntrySingleProps} from '../navigation/types';
 import {Layout} from '../components/Layout';
 
 const initialText = '';
 
-const EntrySingle: React.FC<EntrySingleType> = observer(
+const EntrySingle: React.FC<EntrySingleProps> = observer(
   ({route, navigation}) => {
     const store = useContext(MSTContext);
     const editorRef = useRef(null);
@@ -33,7 +33,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
       const unsubscribe = navigation.addListener('focus', () => {
         setInputData(initialText);
         let tempDate;
-        if (route.params?.date) {
+        if (route.params?.date && route.params?.date !== '') {
           tempDate = dayjs(new Date(route.params.date)).format('YYYY-MM-DD');
         } else {
           tempDate = dayjs(new Date()).format('YYYY-MM-DD');
@@ -52,7 +52,7 @@ const EntrySingle: React.FC<EntrySingleType> = observer(
           };
           setActive(newItem);
         }
-        navigation.setParams({date: null});
+        navigation.setParams({date: ''});
       });
 
       return unsubscribe;

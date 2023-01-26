@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
 import {MSTContext} from '../../mst';
-import {PasswordType} from '../../types/types';
+import {SetPasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {setPassword} from '../../utils/password';
@@ -24,10 +24,20 @@ const SetPasswordSchema = Yup.object().shape({
   ),
 });
 
-const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
+interface FormValuesType {
+  password: string;
+  confirm: string;
+}
+
+const INITIAL_VALUES: FormValuesType = {
+  password: '',
+  confirm: '',
+};
+
+const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
 
-  const handleSetPassword = async values => {
+  const handleSetPassword = async (values: FormValuesType) => {
     try {
       let status = await setPassword(values.password);
       if (status) {
@@ -59,7 +69,7 @@ const SetPassword: React.FC<PasswordType> = observer(({navigation}) => {
             Set Password
           </Text>
           <Formik
-            initialValues={{password: '', confirm: ''}}
+            initialValues={INITIAL_VALUES}
             validationSchema={SetPasswordSchema}
             onSubmit={handleSetPassword}>
             {({

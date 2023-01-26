@@ -27,8 +27,34 @@ import RemovePassword from '../screens/security/RemovePassword';
 
 import Header from '../components/Header';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+// Extra custom screen options
+interface ScreenOptType {
+  hideBackBtn?: boolean;
+}
+
+const ScreenOpts: Record<string, ScreenOptType> = {
+  Password: {hideBackBtn: true},
+  Entries: {hideBackBtn: true},
+  Jump: {hideBackBtn: true},
+  EntrySingle: {hideBackBtn: false},
+  Settings: {hideBackBtn: true},
+  SetPassword: {hideBackBtn: false},
+  ChangePassword: {hideBackBtn: false},
+  RemovePassword: {hideBackBtn: false},
+};
+
+// Types
+import {
+  RootStackParamList,
+  RootTabParamList,
+  SettingsStackParamList,
+} from './types';
+import dayjs from 'dayjs';
+
+// Navigators Definition
+const Tab = createBottomTabNavigator<RootTabParamList>();
+const Stack = createStackNavigator<SettingsStackParamList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 let FLAG = false;
 
@@ -37,12 +63,12 @@ export const SettingsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        header: ({navigation, options}) => {
+        header: ({navigation, route, options}) => {
           return (
             <Header
-              title={options.tabBarLabel}
+              title={options.title}
               navigation={navigation}
-              hideBack={!options.headerBackBtnShown}
+              hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
             />
           );
         },
@@ -50,22 +76,22 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="Settings"
         component={Settings}
-        options={{tabBarLabel: 'Settings'}}
+        options={{title: 'Settings'}}
       />
       <Stack.Screen
         name="SetPassword"
         component={SetPassword}
-        options={{tabBarLabel: 'New Password', headerBackBtnShown: true}}
+        options={{title: 'New Password'}}
       />
       <Stack.Screen
         name="ChangePassword"
         component={ChangePassword}
-        options={{tabBarLabel: 'Update Password', headerBackBtnShown: true}}
+        options={{title: 'Update Password'}}
       />
       <Stack.Screen
         name="RemovePassword"
         component={RemovePassword}
-        options={{tabBarLabel: 'Remove Password', headerBackBtnShown: true}}
+        options={{title: 'Remove Password'}}
       />
     </Stack.Navigator>
   );
@@ -87,9 +113,9 @@ const AppNavigation = observer(() => {
   return (
     <NavigationContainer>
       {!FLAG ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Password" component={Password} />
-        </Stack.Navigator>
+        <RootStack.Navigator>
+          <RootStack.Screen name="Password" component={Password} />
+        </RootStack.Navigator>
       ) : (
         <Tab.Navigator
           screenOptions={{
@@ -103,25 +129,16 @@ const AppNavigation = observer(() => {
               marginHorizontal: 15,
               borderRadius: 5,
               position: 'absolute',
-              // backgroundColor: colors.layout_bg_color,
-              // shadowColor: colors.inverse,
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 0,
-              // },
-              // shadowOpacity: 0.3,
-              // shadowRadius: 4.65,
-              // elevation: 8,
             },
-            tabStyle: {
-              paddingVertical: 10,
+            tabBarItemStyle: {
+              paddingVertical: 5,
             },
             header: ({navigation, route, options}) => {
               return (
                 <Header
-                  title={options.tabBarLabel}
+                  title={options.tabBarLabel?.toString()}
                   navigation={navigation}
-                  hideBack={!options.headerBackBtnShown}
+                  hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
                 />
               );
             },
@@ -173,9 +190,9 @@ const AppNavigation = observer(() => {
               tabBarIcon: ({color, size}) => (
                 <Icon style={styles.icon} fill={color} name="plus-outline" />
               ),
-              headerBackBtnShown: true,
               unmountOnBlur: true,
             }}
+            initialParams={{date: ''}}
           />
         </Tab.Navigator>
       )}

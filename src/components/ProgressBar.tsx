@@ -6,7 +6,7 @@ interface ProgressBarProps {
   progress: number;
 }
 
-const ProgressBar = ({color = '#34c759', progress = 0}): ProgressBarProps => {
+const ProgressBar = ({color = '#34c759', progress = 0}: ProgressBarProps) => {
   return (
     <View style={styles.wrapper}>
       <View
