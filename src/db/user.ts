@@ -1,4 +1,5 @@
 import {realm} from './index';
+import {UserOut, UserSettingsType} from '../types/User';
 
 export const UserSchema = {
   name: 'User',
@@ -18,37 +19,50 @@ const SETTINGS_ITEMS = ['lastSynced', 'isAutoSync'];
 // Read user info
 const getUserFromDB = () => {
   const users = realm.objects('User');
+  console.log(users);
   return users.length ? users[0] : null;
 };
 
 // Update user info
-const updateUserToDB = user => {
+const updateUserToDB = (
+  user: Pick<UserOut, '_id' | 'name' | 'email' | 'photo'>,
+) => {
   const users = realm.objects('User');
-  const res = users.filtered('_id == $0', user.id);
+  const res = users.filtered('_id == $0', user._id);
 
-  if (res.length) {
+  if (res.length > 0) {
     realm.write(() => {
-      res[0]._id = user.id;
+      // @ts-ignore
+      res[0]._id = user._id;
+      // @ts-ignore
       res[0].name = user.name;
+      // @ts-ignore
       res[0].email = user.email;
+      // @ts-ignore
       res[0].photo = user.photo;
     });
   } else {
-    realm.write(() => {
-      realm.create('User', {
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        photo: user.photo,
+    let newUser;
+    try {
+      realm.write(() => {
+        // @ts-ignore
+        newUser = realm.create('User', {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          photo: user.photo,
+        });
       });
-    });
+    } catch (error) {
+      // console.log(error);
+    }
   }
 };
 
 // Update user settings info
-const updateUserSettingsToDB = user => {
+const updateUserSettingsToDB = (user: UserSettingsType) => {
   const users = realm.objects('User');
-  const res = users.filtered('_id == $0', user.id);
+  const res = users.filtered('_id == $0', user._id);
 
   let {_id, ...rest} = user;
 
@@ -56,10 +70,10 @@ const updateUserSettingsToDB = user => {
     realm.write(() => {
       for (const prop in rest) {
         if (SETTINGS_ITEMS.includes(prop)) {
+          // @ts-ignore
           res[0][prop] = rest[prop];
         }
       }
-      // res[0].lastSynced = user.lastSynced;
     });
   }
 };
