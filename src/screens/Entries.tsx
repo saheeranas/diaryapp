@@ -56,8 +56,6 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
     navigation.navigate('EntrySingle', {date});
   };
 
-  // console.log(store);
-
   const renderItem = ({item}: any) => {
     return (
       <Observer>

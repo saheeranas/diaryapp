@@ -67,9 +67,7 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
     try {
       let userInfo = await signOut();
       store.user.removeUser();
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   const formatEmail = (email: string = '') => {

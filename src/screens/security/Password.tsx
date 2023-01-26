@@ -40,7 +40,6 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
 
       if (status) {
         // If status is true, show success message 'Unlock success'
-        // console.log('Unlock success');
         // Navigate to Tab Navigation by updating mst
         showMessage({
           message: 'Welcome',
@@ -55,9 +54,7 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
         });
         setRespError('Password is wrong');
       }
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

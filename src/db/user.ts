@@ -19,7 +19,6 @@ const SETTINGS_ITEMS = ['lastSynced', 'isAutoSync'];
 // Read user info
 const getUserFromDB = () => {
   const users = realm.objects('User');
-  console.log(users);
   return users.length ? users[0] : null;
 };
 
@@ -53,9 +52,7 @@ const updateUserToDB = (
           photo: user.photo,
         });
       });
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   }
 };
 

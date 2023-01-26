@@ -50,8 +50,6 @@ const RemovePassword: React.FC<RemovePasswordProps> = observer(
       try {
         let status = await verifyPwdWithStoredHash(values.oldPassword);
 
-        // console.log('status', status);
-
         if (status) {
           store.user.toggleSecurityStatus(false);
           store.user.toggleUnlocked(false);
@@ -63,9 +61,7 @@ const RemovePassword: React.FC<RemovePasswordProps> = observer(
           // Show wrong password message
           setRespError('Password is wrong');
         }
-      } catch (error) {
-        // console.log(error);
-      }
+      } catch (error) {}
     };
 
     return (

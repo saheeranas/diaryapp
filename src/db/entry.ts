@@ -37,7 +37,6 @@ const addEntryToDB = (item: DiaryEntryOut) => {
   const res = entries.filtered('date == $0', item.date);
 
   if (res.length) {
-    // console.warn('ADD: Already exists');
     return;
   }
 
@@ -51,8 +50,6 @@ const addEntryToDB = (item: DiaryEntryOut) => {
       createdAt: item.createdAt,
       modifiedAt: item.modifiedAt,
     });
-
-    // console.log(`created entry: ${entry.date} `);
   });
 };
 
@@ -63,7 +60,6 @@ const updateEntryToDB = (item: DiaryEntryDBType) => {
   let entry;
 
   if (res.length) {
-    // console.log('UPDATE: Already exists');
     realm.write(() => {
       // @ts-ignore
       res[0].desc = item.desc;
@@ -73,7 +69,6 @@ const updateEntryToDB = (item: DiaryEntryDBType) => {
       res[0].deleted = false;
     });
   } else {
-    // console.log('UPDATE: New');
     realm.write(() => {
       // @ts-ignore
       entry = realm.create('Entry', {
@@ -82,7 +77,6 @@ const updateEntryToDB = (item: DiaryEntryDBType) => {
         createdAt: dayjs(new Date()).valueOf(),
         modifiedAt: dayjs(new Date()).valueOf(),
       });
-      // console.log(`Created entry: ${entry.date} `);
     });
   }
 };
@@ -113,7 +107,6 @@ const deleteAllEntriesFromDB = () => {
   realm.write(() => {
     // Delete all objects from the realm.
     realm.deleteAll();
-    // console.log('Cleared');
   });
 };
 

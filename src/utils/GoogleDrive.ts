@@ -91,9 +91,7 @@ export const useGoogleDrive = () => {
     try {
       let userInfo = await GoogleSignin.signIn();
       return userInfo;
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   // Sign Out
@@ -315,7 +313,6 @@ const deleteFile = async (gdrive: GDrive, file: string) => {
   getListOfFiles(gdrive, queryParams)
     .then(list => {
       if (!list.files.length) {
-        // console.log('Error');
       }
       let promises = list.files.map((el: {id: string}) => {
         return gdrive.files.delete(el.id);
@@ -352,10 +349,7 @@ const revertToOldFile = async (gdrive: GDrive) => {
     .then(res => {
       updateOldFileName(gdrive, res.tempFiles[0].id, fileName);
     })
-    .catch(err => {
-      // console.log('here');
-      // console.log(err);
-    });
+    .catch(err => {});
 };
 
 /**
@@ -437,9 +431,7 @@ const saveLatestPasswordToLocal = async (newUserInfo: UserInfo) => {
       }
       return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
     })
-    .catch(e => {
-      // console.log(e)
-    });
+    .catch(e => {});
 };
 
 // Local Notification
