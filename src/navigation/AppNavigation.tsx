@@ -49,6 +49,7 @@ import {
   RootTabParamList,
   SettingsStackParamList,
 } from './types';
+import dayjs from 'dayjs';
 
 // Navigators Definition
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -191,6 +192,7 @@ const AppNavigation = observer(() => {
               ),
               unmountOnBlur: true,
             }}
+            initialParams={{date: ''}}
           />
         </Tab.Navigator>
       )}

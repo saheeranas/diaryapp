@@ -123,31 +123,41 @@ const deleteAllEntriesFromDB = () => {
  * TODO: Delete functionality
  */
 const importToDBFromJSON = (data: DataFromFile) => {
-  let dataFromDB = readEntriesFromDB();
-  // console.log('syncable Data:', data);
-  // console.log('DB Data:', dataFromDB);
+  let dataFromDB = realm.objects('Entry').sorted('date', true);
+
+  // Soft deleted
+  // @ts-ignore
+  let softDeleted = dataFromDB.filter(item => item.deleted === true);
+
   realm.write(() => {
     data.entries.forEach(obj => {
+      // @ts-ignore
       let itemFoundInDB = dataFromDB.find(item => item._id === obj._id);
       if (!itemFoundInDB) {
         // If does not exist in DB, Create
         realm.create('Entry', obj);
       } else {
+        // @ts-ignore
         if (itemFoundInDB.modifiedAt < obj.modifiedAt) {
           // If already exists && modified, Update
+
+          // @ts-ignore
           itemFoundInDB.desc = obj.desc;
+          // @ts-ignore
           itemFoundInDB.modifiedAt = obj.modifiedAt;
+          // @ts-ignore
+          itemFoundInDB.deleted = obj.deleted;
         }
       }
     });
-  });
-  // Hard delete the soft deleted
-  let softDeleted = dataFromDB.filter(item => item.deleted === true);
-  realm.write(() => {
+
+    // Hard delete the soft deleted
     softDeleted.forEach(obj => {
+      // @ts-ignore
       realm.delete(obj);
     });
   });
+
   rootStore.populateStoreFromDB();
 };
 

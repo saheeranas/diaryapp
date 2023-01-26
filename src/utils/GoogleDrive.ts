@@ -179,6 +179,8 @@ export const useGoogleDrive = () => {
         let date = dayjs(new Date()).valueOf();
         rootStore.user.updateLastSynced(date);
         onDisplayNotification('complete');
+        // Delete temp file
+        deleteFile(gdrive, tempFileName);
       })
       .catch(err => {
         setstatus(STATUSES.fail);
@@ -191,7 +193,6 @@ export const useGoogleDrive = () => {
       .finally(() => {
         fileId = '';
         // setstatus(STATUSES.delete);
-        deleteFile(gdrive, tempFileName);
       });
   };
 
@@ -255,7 +256,7 @@ const getDataFromFile = async (gdrive: GDrive, fileId: string) => {
 const getTransformedFileData = (dataFromFile: any) => {
   try {
     if (dataFromFile) {
-      if (dataFromFile.userInfo && dataFromFile.entries) {
+      if ('userInfo' in dataFromFile && 'entries' in dataFromFile) {
         return dataFromFile;
       }
     }
