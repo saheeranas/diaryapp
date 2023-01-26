@@ -34,13 +34,10 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
         setInputData(initialText);
         let tempDate;
         if (route.params?.date && route.params?.date !== '') {
-          console.log('11111 --- -- -- valid');
           tempDate = dayjs(new Date(route.params.date)).format('YYYY-MM-DD');
         } else {
-          console.log('22222  --- -- -- blank');
           tempDate = dayjs(new Date()).format('YYYY-MM-DD');
         }
-        console.log(tempDate);
         const temp = store.findEntryByDate(tempDate);
         if (temp.length) {
           setActive(temp[0]);
