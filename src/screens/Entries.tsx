@@ -13,6 +13,7 @@ import {EntriesProps} from '../navigation/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
+import Search from '../components/Search';
 
 // import {useGoogleDrive} from '../utils/GoogleDrive';
 
@@ -72,8 +73,13 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
     );
   };
 
+  const dummy = (status: boolean) => {
+    console.log(status);
+  };
+
   return (
     <Layout>
+      <Search onToggle={dummy} />
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
