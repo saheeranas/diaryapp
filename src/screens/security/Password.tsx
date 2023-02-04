@@ -1,8 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, ScrollView, Button} from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  Button,
+  TouchableWithoutFeedback,
+} from 'react-native';
 
 import {observer} from 'mobx-react-lite';
-import {Card, Input, Text} from '@ui-kitten/components';
+import {Card, Input, Text, Icon} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
@@ -11,13 +16,13 @@ import {MSTContext} from '../../mst';
 import {PasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
-import {verifyPwdWithStoredHash, deletePassword} from '../../utils/password';
+import {verifyPwdWithStoredHash} from '../../utils/password';
 
 const UnlockSchema = Yup.object().shape({
   password: Yup.string()
     .trim('Password cannot include spaces')
     .min(5, 'Too Short!')
-    .required('Required'),
+    .required(''),
 });
 
 interface FormValuesType {
@@ -57,6 +62,17 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
     } catch (error) {}
   };
 
+  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
+  const renderIcon = props => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
+    </TouchableWithoutFeedback>
+  );
+
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.scrollview}>
@@ -88,7 +104,8 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
                   onSubmitEditing={handleSubmit}
                   style={styles.input}
                   textStyle={styles.inputText}
-                  secureTextEntry
+                  accessoryRight={renderIcon}
+                  secureTextEntry={secureTextEntry}
                 />
                 {errors.password && touched.password ? (
                   <Text style={styles.error}>{errors.password}</Text>
@@ -130,7 +147,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputText: {
-    textAlign: 'center',
+    // textAlign: 'center',
   },
   error: {
     fontSize: 12,
