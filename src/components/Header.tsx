@@ -28,6 +28,7 @@ const Header: React.FC<HeaderType> = ({
   return (
     <TopNavigation
       accessoryLeft={hideBack ? Blank : BackAction}
+      // @ts-ignore
       accessoryRight={accessoryRight}
       title={Title}
       alignment="center"

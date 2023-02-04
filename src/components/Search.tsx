@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, useWindowDimensions} from 'react-native';
+import {StyleSheet, View, useWindowDimensions, ImageProps} from 'react-native';
 
 import {Input, Button, Icon} from '@ui-kitten/components';
 
@@ -10,8 +10,12 @@ interface SearchProps {
 
 const SEARCH_HEIGHT = 40;
 
-const SearchIcon = props => <Icon {...props} name="search-outline" />;
-const CloseIcon = props => <Icon {...props} name="close-outline" />;
+const SearchIcon = (props: ImageProps) => (
+  <Icon {...props} name="search-outline" />
+);
+const CloseIcon = (props: ImageProps) => (
+  <Icon {...props} name="close-outline" />
+);
 
 const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
   const {width} = useWindowDimensions();
@@ -45,6 +49,7 @@ const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
         style={styles.button}
         appearance="ghost"
         status="basic"
+        // @ts-ignore
         accessoryLeft={isInputShown ? CloseIcon : SearchIcon}
         onPress={toggleSearchInput}
       />
