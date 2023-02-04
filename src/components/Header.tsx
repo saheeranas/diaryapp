@@ -17,6 +17,7 @@ const Header: React.FC<HeaderType> = ({
   navigation,
   hideBack = false,
   style,
+  accessoryRight,
 }) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
@@ -27,6 +28,7 @@ const Header: React.FC<HeaderType> = ({
   return (
     <TopNavigation
       accessoryLeft={hideBack ? Blank : BackAction}
+      accessoryRight={accessoryRight}
       title={Title}
       alignment="center"
       style={style}

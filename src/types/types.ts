@@ -7,4 +7,5 @@ export interface HeaderType {
   navigation: any;
   title?: string;
   style?: any;
+  accessoryRight?: () => JSX.Element;
 }

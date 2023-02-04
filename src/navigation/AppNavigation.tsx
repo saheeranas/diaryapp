@@ -139,6 +139,7 @@ const AppNavigation = observer(() => {
                   title={options.tabBarLabel?.toString()}
                   navigation={navigation}
                   hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
+                  accessoryRight={options.headerRight}
                 />
               );
             },

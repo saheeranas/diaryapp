@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, useWindowDimensions} from 'react-native';
 
 import {Input, Button, Icon} from '@ui-kitten/components';
 
@@ -14,7 +14,9 @@ const SearchIcon = props => <Icon {...props} name="search-outline" />;
 const CloseIcon = props => <Icon {...props} name="close-outline" />;
 
 const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
-  const [isInputShown, showinput] = React.useState(true);
+  const {width} = useWindowDimensions();
+  const inputRef = React.useRef<Input>(null);
+  const [isInputShown, showinput] = React.useState(false);
 
   const toggleSearchInput = () => {
     showinput(prev => !prev);
@@ -22,26 +24,30 @@ const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
 
   React.useEffect(() => {
     onToggle(isInputShown);
+
+    if (!isInputShown) {
+      inputRef.current?.clear();
+    }
   }, [isInputShown]);
 
   return (
-    <View style={styles.demo}>
-      <View style={styles.search}>
-        {isInputShown && (
-          <Input
-            style={styles.input}
-            placeholder="Search.."
-            onChangeText={onChangeText}
-          />
-        )}
-        <Button
-          style={styles.button}
-          appearance="ghost"
-          status="basic"
-          accessoryLeft={isInputShown ? CloseIcon : SearchIcon}
-          onPress={toggleSearchInput}
+    <View style={styles.search}>
+      {isInputShown && (
+        <Input
+          ref={inputRef}
+          style={[styles.input, {width: width / 1.5}]}
+          placeholder="Search.."
+          onChangeText={onChangeText}
+          autoFocus
         />
-      </View>
+      )}
+      <Button
+        style={styles.button}
+        appearance="ghost"
+        status="basic"
+        accessoryLeft={isInputShown ? CloseIcon : SearchIcon}
+        onPress={toggleSearchInput}
+      />
     </View>
   );
 };
@@ -49,15 +55,7 @@ const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
 export default Search;
 
 const styles = StyleSheet.create({
-  demo: {
-    width: '100%',
-    // backgroundColor: 'cyan',
-    alignItems: 'flex-end',
-  },
   search: {
-    // paddingHorizontal: 16,
-    // paddingVertical: 10,
-    // backgroundColor: 'red',
     width: 50,
     height: SEARCH_HEIGHT,
     flexDirection: 'row',
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   input: {
-    width: 250,
+    width: 200,
     height: SEARCH_HEIGHT,
     marginBottom: 0,
     position: 'absolute',
