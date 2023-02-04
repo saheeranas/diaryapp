@@ -4,6 +4,7 @@ import {
   ScrollView,
   Button,
   TouchableWithoutFeedback,
+  ImageProps,
 } from 'react-native';
 
 import {observer} from 'mobx-react-lite';
@@ -17,6 +18,7 @@ import {PasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
 import {verifyPwdWithStoredHash} from '../../utils/password';
+import {RenderProp} from '@ui-kitten/components/devsupport';
 
 const UnlockSchema = Yup.object().shape({
   password: Yup.string()
@@ -67,7 +69,7 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  const renderIcon = props => (
+  const renderIcon: RenderProp<Partial<ImageProps>> = props => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
