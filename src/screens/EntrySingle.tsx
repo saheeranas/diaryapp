@@ -48,7 +48,7 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
             date: dayjs(tempDate).format('YYYY-MM-DD'),
             desc: '',
             createdAt: dayjs(tempDate).valueOf(),
-            modifiedAt: dayjs(tempDate).valueOf(),
+            modifiedAt: '',
           };
           setActive(newItem);
         }
@@ -138,7 +138,7 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
                 </TouchableOpacity>
               )}
 
-              {active && (
+              {active && active?.modifiedAt !== '' && (
                 <Text style={styles.statusText}>
                   Last updated:{' '}
                   {dayjs(active.modifiedAt).format('DD/MM/YYYY hh:mm A')}
