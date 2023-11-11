@@ -92,6 +92,7 @@ const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  autoCapitalize="none"
                 />
                 {errors.password && touched.password ? (
                   <Text style={styles.error}>{errors.password}</Text>
@@ -108,6 +109,7 @@ const SetPassword: React.FC<SetPasswordProps> = observer(({navigation}) => {
                   style={styles.input}
                   textStyle={styles.inputText}
                   secureTextEntry
+                  autoCapitalize="none"
                 />
                 {errors.confirm && touched.confirm ? (
                   <Text style={styles.error}>{errors.confirm}</Text>

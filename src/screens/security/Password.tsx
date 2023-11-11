@@ -108,6 +108,7 @@ const Password: React.FC<PasswordProps> = observer(({navigation}) => {
                   textStyle={styles.inputText}
                   accessoryRight={renderIcon}
                   secureTextEntry={secureTextEntry}
+                  autoCapitalize="none"
                 />
                 {errors.password && touched.password ? (
                   <Text style={styles.error}>{errors.password}</Text>
