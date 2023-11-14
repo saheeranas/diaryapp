@@ -6,7 +6,7 @@
 
 # Private Diary App
 
-A privacy focused journal app. The Private Diary App is built for people who are keen about privacy. The Private Diary App won't store any data on servers. Instead, it uses your device's local storage as its primary storage. But if you want to store all the data for the future, you can use the Sync option. It will store all your data in your Google Drive. [Read more information](https://www.saheeranas.com/project/diary)
+A privacy focused journal app. The Private Diary App is built for people who are keen about privacy. The Private Diary App won't store any data on servers. Instead, it uses your device's local storage as its primary storage. But if you want to store all the data for the future, you can use the Sync option. It will store all your data in your Google Drive. [Read more information](https://amazing-chandrasekhar-f51e43.netlify.app/project/diary)
 
 <kbd>
   <img src="docs/diary-app.webp?raw=true"> 
@@ -25,7 +25,7 @@ A privacy focused journal app. The Private Diary App is built for people who are
 - Mobx-state-tree
 - Realm
 - UI Kitten
-- React Navigation v6 
+- React Navigation v6
 
 ## Project Installation
 
