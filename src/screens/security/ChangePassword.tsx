@@ -107,6 +107,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = observer(
                         passwordRef.current.focus();
                       }
                     }}
+                    autoCapitalize="none"
                   />
                   {errors.oldPassword && touched.oldPassword ? (
                     <Text style={styles.error}>{errors.oldPassword}</Text>
@@ -133,6 +134,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = observer(
                         confirmPasswordRef.current.focus();
                       }
                     }}
+                    autoCapitalize="none"
                   />
                   {errors.password && touched.password ? (
                     <Text style={styles.error}>{errors.password}</Text>

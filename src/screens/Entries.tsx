@@ -2,24 +2,38 @@ import React, {useContext, useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {observer, Observer} from 'mobx-react-lite';
 import {toJS} from 'mobx';
-// import dayjs from 'dayjs';
 
 import {List} from '@ui-kitten/components';
 
-// import {readEntriesFromDB, deleteAllEntriesFromDB} from '../db/entry';
 import {MSTContext} from '../mst';
 
 import {EntriesProps} from '../navigation/types';
 import {Layout} from '../components/Layout';
 import EntryCard from '../components/EntryCard';
 import NoData from '../components/NoData';
-
-// import {useGoogleDrive} from '../utils/GoogleDrive';
+import Search from '../components/Search';
 
 const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
   const store = useContext(MSTContext);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // const {exportToGDrive} = useGoogleDrive();
+  const dummy = (status: boolean) => {
+    if (!status) {
+      setSearchQuery('');
+    }
+  };
+
+  const handleSearchInput = (q: string) => {
+    setSearchQuery(q);
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Search onToggle={dummy} onChangeText={handleSearchInput} />
+      ),
+    });
+  }, [navigation]);
 
   const [isRefreshing, setRefreshing] = useState(false);
 
@@ -56,6 +70,10 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
     navigation.navigate('EntrySingle', {date});
   };
 
+  const filteredData = store.entries.filter(item =>
+    item.desc.includes(searchQuery),
+  );
+
   const renderItem = ({item}: any) => {
     return (
       <Observer>
@@ -74,13 +92,13 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
 
   return (
     <Layout>
+      {/* <Search onToggle={dummy} /> */}
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
-        data={store.entries}
+        data={filteredData}
         extraData={toJS(store.entries)}
         renderItem={renderItem}
-        // ItemSeparatorComponent={Divider}
         refreshing={isRefreshing}
         onRefresh={refreshData}
         ListEmptyComponent={

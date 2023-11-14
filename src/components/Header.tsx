@@ -17,16 +17,21 @@ const Header: React.FC<HeaderType> = ({
   navigation,
   hideBack = false,
   style,
+  accessoryRight,
 }) => {
+  // eslint-disable-next-line react/no-unstable-nested-components
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
   );
 
-  const Title = () => <Text category="s1">{title}</Text>;
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const Title = () => <Text category="h6">{title}</Text>;
 
   return (
     <TopNavigation
       accessoryLeft={hideBack ? Blank : BackAction}
+      // @ts-ignore
+      accessoryRight={accessoryRight}
       title={Title}
       alignment="center"
       style={style}

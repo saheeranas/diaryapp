@@ -96,6 +96,7 @@ const RemovePassword: React.FC<RemovePasswordProps> = observer(
                     textStyle={styles.inputText}
                     secureTextEntry
                     onSubmitEditing={handleSubmit}
+                    autoCapitalize="none"
                   />
                   {errors.oldPassword && touched.oldPassword ? (
                     <Text style={styles.error}>{errors.oldPassword}</Text>
