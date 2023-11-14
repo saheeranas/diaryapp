@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     marginBottom: 20,
     backgroundColor: '#E9ECF2',
-    fontSize: 14,
+    fontSize: 15,
   },
   btnWrp: {
     // flexDirection: 'row',

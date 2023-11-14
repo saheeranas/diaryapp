@@ -63,6 +63,7 @@ export const SettingsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
+        // eslint-disable-next-line react/no-unstable-nested-components
         header: ({navigation, route, options}) => {
           return (
             <Header
@@ -127,7 +128,7 @@ const AppNavigation = observer(() => {
               height: 60,
               bottom: 15,
               marginHorizontal: 15,
-              borderRadius: 5,
+              borderRadius: 30,
               position: 'absolute',
             },
             tabBarItemStyle: {
@@ -149,7 +150,7 @@ const AppNavigation = observer(() => {
             component={Entries}
             options={{
               tabBarLabel: 'Home',
-              tabBarIcon: ({color, size}) => (
+              tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="list-outline" />
               ),
             }}
@@ -159,7 +160,7 @@ const AppNavigation = observer(() => {
             component={Jump}
             options={{
               tabBarLabel: 'Jump',
-              tabBarIcon: ({color, size}) => (
+              tabBarIcon: ({color}) => (
                 <Icon
                   style={styles.icon}
                   fill={color}
@@ -174,7 +175,7 @@ const AppNavigation = observer(() => {
             options={{
               tabBarLabel: 'Settings',
               headerShown: false,
-              tabBarIcon: ({color, size}) => (
+              tabBarIcon: ({color}) => (
                 <Icon
                   style={styles.icon}
                   fill={color}
@@ -188,7 +189,7 @@ const AppNavigation = observer(() => {
             component={EntrySingle}
             options={{
               tabBarLabel: 'New',
-              tabBarIcon: ({color, size}) => (
+              tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="plus-outline" />
               ),
               unmountOnBlur: true,
