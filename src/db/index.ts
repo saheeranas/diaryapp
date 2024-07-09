@@ -1,12 +1,11 @@
 import Realm from 'realm';
 
 // Import Schemas
-import {EntrySchema} from './entry';
-import {UserSchema} from './user';
+import {Entry, User} from './models';
 
 // Initialization
 export const realm = new Realm({
-  schema: [EntrySchema, UserSchema],
+  schema: [User, Entry],
 });
 
 // Close DB

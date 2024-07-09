@@ -90,9 +90,9 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
   const isLogined = store.user._id !== '';
   const isSecured = store.user.isSecure;
 
-  // const avatar = store?.user?.photo
-  //   ? {uri: store.user.photo}
-  //   : require('../../assets/images/avatar.png');
+  const avatar = store?.user?.photo
+    ? {uri: store.user.photo}
+    : require('../../assets/images/avatar.png');
 
   // const isAutoSyncEnabled = store?.user?.isAutoSync || false;
 
@@ -101,7 +101,7 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
       <ScrollView contentContainerStyle={styles.scrollview}>
         <Card disabled>
           <View style={styles.profileCard}>
-            {/* <Avatar source={avatar} /> */}
+            <Avatar source={avatar} />
             <View style={styles.prodetails}>
               {!isLogined ? (
                 <Button title="Login" onPress={handleLogin} />

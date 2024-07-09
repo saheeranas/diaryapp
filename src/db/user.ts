@@ -1,19 +1,6 @@
 import {realm} from './index';
 import {UserOut, UserSettingsType} from '../types/User';
 
-export const UserSchema = {
-  name: 'User',
-  properties: {
-    _id: 'string',
-    name: 'string',
-    email: 'string',
-    photo: 'string',
-    lastSynced: {type: 'int', default: 0},
-    isAutoSync: {type: 'bool', default: false},
-  },
-  primaryKey: '_id',
-};
-
 const SETTINGS_ITEMS = ['lastSynced', 'isAutoSync'];
 
 // Read user info
