@@ -64,7 +64,7 @@ npm run ios
 
 1. Rename '.env.template' file to '.env'
 2. Get 'OAuth 2.0 Client ID' for Android from Google Cloud Console (For Google Sign in: @react-native-google-signin/google-signin)
-3. Place the Clinet ID in .env file for the key 'ANDROID_CLIENT_ID'
+3. Place the Client ID in .env file for the key 'ANDROID_CLIENT_ID'
 
 ## License
 
