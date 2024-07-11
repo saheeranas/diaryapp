@@ -1,5 +1,6 @@
 import React from 'react';
-import {types, destroy, Instance, cast} from 'mobx-state-tree';
+import {types, destroy, Instance} from 'mobx-state-tree';
+import dayjs from 'dayjs';
 
 import {DiaryEntryIn, DiaryEntryDBType} from '../types/DiaryEntry';
 
@@ -59,10 +60,23 @@ const RootStore = types
 
     updateEntry(entry: DiaryEntryDBType) {
       let pos = self.entries.findIndex(e => e._id === entry._id);
+      // if already exists, just replace existing object with the object received i.e 'entry'
+      // else, insert the entry object in it's place according to date
       if (pos >= 0) {
         self.entries.splice(pos, 1, entry);
       } else {
-        self.entries.unshift(entry);
+        let isInserted = false;
+        for (let i = 0; i < self.entries.length; i++) {
+          if (dayjs(entry.date).isAfter(self.entries[i].date)) {
+            self.entries.splice(i, 0, entry);
+            isInserted = true;
+            break;
+          }
+        }
+
+        if (!isInserted) {
+          self.entries.push(entry);
+        }
       }
       updateEntryToDB(entry);
     },

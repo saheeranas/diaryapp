@@ -90,6 +90,8 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
     );
   };
 
+  console.log(filteredData);
+
   return (
     <Layout>
       {/* <Search onToggle={dummy} /> */}
