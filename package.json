@@ -62,6 +62,7 @@
     "@ui-kitten/metro-config": "5.3.1",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
+    "eslint-plugin-jest": "^28.6.0",
     "jest": "^29.6.3",
     "prettier": "^2.8.8",
     "react-test-renderer": "18.2.0",
