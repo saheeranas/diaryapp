@@ -73,6 +73,7 @@ const Jump: React.FC<JumpProps> = observer(({navigation}) => {
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollview}>
         <Calendar
+          testID="JumpScreen.Calendar"
           current={today}
           minDate={'2020-01-01'}
           maxDate={today}

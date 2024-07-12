@@ -124,6 +124,7 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
             {isLogined && (
               <>
                 <TouchableOpacity
+                  testID="Settings.SyncBtn"
                   onPress={handleSync}
                   disabled={status.label !== ''}>
                   <View style={styles.menuItem}>
