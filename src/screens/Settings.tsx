@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {observer} from 'mobx-react-lite';
-import {Divider, Text, Avatar, Icon, Card, Toggle} from '@ui-kitten/components';
+import {Divider, Text, Avatar, Icon, Card} from '@ui-kitten/components';
 
 import {MSTContext} from '../mst';
 import {SettingsProps, SettingsStackScreens} from '../navigation/types';
@@ -42,7 +42,9 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
           });
         }
       })
-      .catch(err => {});
+      .catch(() => {
+        // TODO: log the error
+      });
   };
 
   const handleSync = () => {
@@ -65,7 +67,7 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
 
   const confirmLogout = async () => {
     try {
-      let userInfo = await signOut();
+      await signOut();
       store.user.removeUser();
     } catch (error) {}
   };

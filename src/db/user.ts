@@ -28,11 +28,10 @@ const updateUserToDB = (
       res[0].photo = user.photo;
     });
   } else {
-    let newUser;
     try {
       realm.write(() => {
         // @ts-ignore
-        newUser = realm.create('User', {
+        realm.create('User', {
           _id: user._id,
           name: user.name,
           email: user.email,
@@ -48,7 +47,9 @@ const updateUserSettingsToDB = (user: UserSettingsType) => {
   const users = realm.objects('User');
   const res = users.filtered('_id == $0', user._id);
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   let {_id, ...rest} = user;
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
   if (res.length) {
     realm.write(() => {

@@ -24,7 +24,6 @@ const initialText = '';
 const EntrySingle: React.FC<EntrySingleProps> = observer(
   ({route, navigation}) => {
     const store = useContext(MSTContext);
-    const editorRef = useRef(null);
     const [inputData, setInputData] = React.useState(initialText);
     const [active, setActive] = useState<any>(null);
     const [editable, setEditable] = useState(false);

@@ -35,7 +35,7 @@ const INITIAL_VALUES: FormValuesType = {
   password: '',
 };
 
-const Password: React.FC<PasswordProps> = observer(({navigation}) => {
+const Password: React.FC<PasswordProps> = observer(({}) => {
   const store = useContext(MSTContext);
   const [respError, setRespError] = useState('');
 

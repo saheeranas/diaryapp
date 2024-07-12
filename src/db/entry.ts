@@ -20,10 +20,8 @@ const addEntryToDB = (item: DiaryEntryOut) => {
     return;
   }
 
-  let entry;
   realm.write(() => {
-    // @ts-ignore
-    entry = realm.create('Entry', {
+    realm.create('Entry', {
       _id: item._id,
       date: item.date,
       desc: item.desc,
@@ -37,7 +35,6 @@ const addEntryToDB = (item: DiaryEntryOut) => {
 const updateEntryToDB = (item: DiaryEntryDBType) => {
   const entries = realm.objects('Entry');
   const res = entries.filtered('date == $0', item.date);
-  let entry;
 
   if (res.length) {
     realm.write(() => {
@@ -51,7 +48,7 @@ const updateEntryToDB = (item: DiaryEntryDBType) => {
   } else {
     realm.write(() => {
       // @ts-ignore
-      entry = realm.create('Entry', {
+      realm.create('Entry', {
         ...item,
         _id: uuidv4(),
         createdAt: dayjs(new Date()).valueOf(),

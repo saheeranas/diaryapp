@@ -49,7 +49,6 @@ import {
   RootTabParamList,
   SettingsStackParamList,
 } from './types';
-import dayjs from 'dayjs';
 
 // Navigators Definition
 const Tab = createBottomTabNavigator<RootTabParamList>();
