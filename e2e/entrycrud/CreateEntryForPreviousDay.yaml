@@ -1,0 +1,20 @@
+appId: com.saheeranas.diaryapp
+onFlowComplete:
+  - runFlow: '../common/teardown.yaml'
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: 'Tab.Jump'
+- tapOn:
+    id: JumpScreen.Calendar.day_2024.07.02
+- extendedWaitUntil:
+    visible: 'Tap to Edit'
+- tapOn:
+    text: 'Tap to Edit'
+- inputText: 'This is july 02 2024 entry'
+- hideKeyboard
+- extendedWaitUntil:
+    visible: 'Save'
+- tapOn: 'Save'
+- assertVisible: 'This is july 02 2024 entry'
