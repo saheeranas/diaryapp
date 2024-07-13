@@ -32,7 +32,7 @@ const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
     if (!isInputShown) {
       inputRef.current?.clear();
     }
-  }, [isInputShown]);
+  }, [isInputShown, onToggle]);
 
   return (
     <View style={styles.search}>

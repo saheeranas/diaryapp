@@ -101,12 +101,15 @@ const AppNavigation = observer(() => {
   const store = React.useContext(MSTContext);
 
   React.useEffect(() => {
-    void (async function fetchPasswordStatus() {
-      getPasswordStatus().then(res => {
-        store.user.toggleSecurityStatus(res ? true : false);
-      });
-    })();
-  }, []);
+    // void (async function fetchPasswordStatus() {
+    //   getPasswordStatus().then(res => {
+    //     store.user.toggleSecurityStatus(res ? true : false);
+    //   });
+    // })();
+    getPasswordStatus().then(res => {
+      store.user.toggleSecurityStatus(res);
+    });
+  }, [store.user]);
 
   FLAG = store.user.isSecure ? (store.user.isUnlocked ? true : false) : true;
 

@@ -16,7 +16,7 @@ export const setPassword = async (password: string) => {
   // 2. Store the hash in keychain: Call the function here
   try {
     let res = await setSecureValue('pwdHash', hash);
-    let timestamp = await setSecureValue(
+    await setSecureValue(
       'pwdTimestamp',
       dayjs(new Date()).valueOf().toString(),
     );
@@ -83,7 +83,7 @@ export const verifyHashWithStoredHash = async (inputHash: string) => {
 export const deletePassword = async () => {
   try {
     let status = await removeSecureValue('pwdHash');
-    let modifiedAt = await removeSecureValue('pwdTimestamp');
+    await removeSecureValue('pwdTimestamp');
     return status;
   } catch (error) {
     return false;
@@ -127,7 +127,7 @@ export const updateHash = async (newHash: string, timestamp: string) => {
   }
   try {
     let res = await setSecureValue('pwdHash', newHash);
-    let timestampRes = await setSecureValue('pwdTimestamp', timestamp);
+    await setSecureValue('pwdTimestamp', timestamp);
     return res;
   } catch (error) {
     return error;
