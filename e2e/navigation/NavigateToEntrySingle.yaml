@@ -3,5 +3,5 @@ appId: com.saheeranas.diaryapp
 - launchApp
 - waitForAnimationToEnd
 - tapOn:
-    id: 'Tab.Jump'
-- assertVisible: 'Jump'
+    id: "Tab.New"
+- assertVisible: "New"

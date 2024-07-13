@@ -2,3 +2,4 @@
 
 flows:
   - navigation/*
+  - entrycrud/*

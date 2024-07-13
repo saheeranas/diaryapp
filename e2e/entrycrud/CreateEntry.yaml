@@ -1,0 +1,16 @@
+appId: com.saheeranas.diaryapp
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: 'Tab.New'
+- extendedWaitUntil:
+    visible: 'Tap to Edit'
+- tapOn:
+    text: 'Tap to Edit'
+- inputText: "This is today's entry"
+- hideKeyboard
+- extendedWaitUntil:
+    visible: 'Save'
+- tapOn: 'Save'
+- assertVisible: "This is today's entry"
