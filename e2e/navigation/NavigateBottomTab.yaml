@@ -1,5 +1,0 @@
-appId: com.saheeranas.diaryapp
----
-- launchApp
-- assertVisible:
-    text: 'Home'

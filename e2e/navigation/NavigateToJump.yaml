@@ -1,0 +1,7 @@
+appId: com.saheeranas.diaryapp
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: "Tab.Jump"
+
