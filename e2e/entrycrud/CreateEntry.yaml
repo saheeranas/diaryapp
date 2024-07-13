@@ -1,4 +1,6 @@
 appId: com.saheeranas.diaryapp
+onFlowComplete:
+  - runFlow: '../common/teardown.yaml'
 ---
 - launchApp
 - waitForAnimationToEnd
