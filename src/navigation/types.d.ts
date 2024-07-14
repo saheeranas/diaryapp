@@ -1,8 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import {
-  BottomTabScreenProps,
-  BottomTabNavigationOptions,
-} from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Password: undefined;

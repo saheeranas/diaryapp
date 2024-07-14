@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 // import RNBootSplash from 'react-native-bootsplash';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';

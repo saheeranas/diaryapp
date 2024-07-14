@@ -49,7 +49,6 @@ import {
   RootTabParamList,
   SettingsStackParamList,
 } from './types';
-import dayjs from 'dayjs';
 
 // Navigators Definition
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -102,12 +101,15 @@ const AppNavigation = observer(() => {
   const store = React.useContext(MSTContext);
 
   React.useEffect(() => {
-    void (async function fetchPasswordStatus() {
-      getPasswordStatus().then(res => {
-        store.user.toggleSecurityStatus(res ? true : false);
-      });
-    })();
-  }, []);
+    // void (async function fetchPasswordStatus() {
+    //   getPasswordStatus().then(res => {
+    //     store.user.toggleSecurityStatus(res ? true : false);
+    //   });
+    // })();
+    getPasswordStatus().then(res => {
+      store.user.toggleSecurityStatus(res);
+    });
+  }, [store.user]);
 
   FLAG = store.user.isSecure ? (store.user.isUnlocked ? true : false) : true;
 
@@ -149,6 +151,7 @@ const AppNavigation = observer(() => {
             name="Entries"
             component={Entries}
             options={{
+              tabBarTestID: 'Tab.Entries',
               tabBarLabel: 'Home',
               tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="list-outline" />
@@ -159,6 +162,7 @@ const AppNavigation = observer(() => {
             name="Jump"
             component={Jump}
             options={{
+              tabBarTestID: 'Tab.Jump',
               tabBarLabel: 'Jump',
               tabBarIcon: ({color}) => (
                 <Icon
@@ -173,6 +177,7 @@ const AppNavigation = observer(() => {
             name="SettingsStack"
             component={SettingsStack}
             options={{
+              tabBarTestID: 'Tab.Settings',
               tabBarLabel: 'Settings',
               headerShown: false,
               tabBarIcon: ({color}) => (
@@ -188,6 +193,7 @@ const AppNavigation = observer(() => {
             name="EntrySingle"
             component={EntrySingle}
             options={{
+              tabBarTestID: 'Tab.New',
               tabBarLabel: 'New',
               tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="plus-outline" />

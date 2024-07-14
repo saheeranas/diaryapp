@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "bundle-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
-    "release-android": "cd android && ./gradlew clean && cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleRelease && cd ..",
+    "buildDebug-android": "cd android && ./gradlew clean && cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleDebug && cd ..",
+    "buildRelease-android": "cd android && ./gradlew clean && cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleRelease && cd ..",
     "adb-log": "adb logcat *:E",
     "run-release": "adb -s emulator-5554 install android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk"
   },
@@ -62,6 +63,7 @@
     "@ui-kitten/metro-config": "5.3.1",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
+    "eslint-plugin-jest": "^28.6.0",
     "jest": "^29.6.3",
     "prettier": "^2.8.8",
     "react-test-renderer": "18.2.0",

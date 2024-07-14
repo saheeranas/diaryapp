@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {StyleSheet, ScrollView, Button} from 'react-native';
 
 import {observer} from 'mobx-react-lite';
@@ -7,7 +7,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {showMessage} from 'react-native-flash-message';
 
-import {MSTContext} from '../../mst';
+// import {MSTContext} from '../../mst';
 import {ChangePasswordProps} from '../../navigation/types';
 import {Layout} from '../../components/Layout';
 
@@ -22,10 +22,7 @@ const ChangePasswordSchema = Yup.object().shape({
     .trim('Password cannot include spaces')
     .min(5, 'Too Short!')
     .required('Required'),
-  confirm: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match',
-  ),
+  confirm: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
 });
 
 interface FormValuesType {
@@ -42,7 +39,7 @@ const INITIAL_VALUES: FormValuesType = {
 
 const ChangePassword: React.FC<ChangePasswordProps> = observer(
   ({navigation}) => {
-    const store = useContext(MSTContext);
+    // const store = useContext(MSTContext);
     const [respError, setRespError] = useState('');
 
     const passwordRef = useRef<Input>(null);

@@ -171,7 +171,7 @@ export const useGoogleDrive = () => {
         importToDBFromJSON(modifiedData);
         return uploadToDrive(gdrive, fileName, modifiedData);
       })
-      .then(res => {
+      .then(() => {
         // throw new Error('sample error');
         setstatus(STATUSES.finish);
         let date = dayjs(new Date()).valueOf();
@@ -180,7 +180,7 @@ export const useGoogleDrive = () => {
         // Delete temp file
         deleteFile(gdrive, tempFileName);
       })
-      .catch(err => {
+      .catch(() => {
         setstatus(STATUSES.fail);
         onDisplayNotification('fail');
         // console.warn(err);
@@ -287,7 +287,7 @@ const updateOldFileName = async (
 // uploadToDrive
 const uploadToDrive = async (
   gdrive: GDrive,
-  fileName: string,
+  fname: string,
   data: DataFromFile,
 ) => {
   try {
@@ -295,7 +295,7 @@ const uploadToDrive = async (
       .newMultipartUploader()
       .setData(JSON.stringify(data), MimeTypes.BINARY)
       .setRequestBody({
-        name: fileName,
+        name: fname,
       })
       .execute();
     return res;
@@ -349,7 +349,7 @@ const revertToOldFile = async (gdrive: GDrive) => {
     .then(res => {
       updateOldFileName(gdrive, res.tempFiles[0].id, fileName);
     })
-    .catch(err => {});
+    .catch(() => {});
 };
 
 /**
@@ -431,7 +431,7 @@ const saveLatestPasswordToLocal = async (newUserInfo: UserInfo) => {
       }
       return updateHash(newUserInfo.pkey, newUserInfo.modifiedAt);
     })
-    .catch(e => {});
+    .catch(() => {});
 };
 
 // Local Notification

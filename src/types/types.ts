@@ -1,6 +1,4 @@
-import {RenderProp} from '@ui-kitten/components/devsupport';
 import React from 'react';
-import {ImageProps} from 'react-native';
 /**
  * Header
  */

@@ -1,0 +1,4 @@
+# Clear state of the app - (User data)
+appId: com.saheeranas.diaryapp
+---
+- clearState

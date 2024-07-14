@@ -11,7 +11,7 @@ interface CalendarMarkedValue {
   marked: boolean;
 }
 
-LocaleConfig.locales['en'] = {
+LocaleConfig.locales.en = {
   formatAccessibilityLabel: "dddd d 'of' MMMM 'of' yyyy",
   monthNames: [
     'January',
@@ -73,11 +73,12 @@ const Jump: React.FC<JumpProps> = observer(({navigation}) => {
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollview}>
         <Calendar
+          testID="JumpScreen.Calendar"
           current={today}
           minDate={'2020-01-01'}
           maxDate={today}
           enableSwipeMonths={true}
-          onDayPress={day => navigateToDetail(day)}
+          onDayPress={(day: DateData) => navigateToDetail(day)}
           markedDates={markedDates}
           theme={{
             dotColor: '#4361ee',
