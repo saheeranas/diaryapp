@@ -146,7 +146,8 @@ const AppNavigation = observer(() => {
                 />
               );
             },
-          }}>
+          }}
+          backBehavior="firstRoute">
           <Tab.Screen
             name="Entries"
             component={Entries}

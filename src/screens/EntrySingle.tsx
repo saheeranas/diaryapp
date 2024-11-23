@@ -112,7 +112,7 @@ const EntrySingle: React.FC<EntrySingleProps> = observer(
 
       setInputData(initialText);
       setActive(null);
-      navigation.goBack();
+      navigation.navigate('Entries');
     };
 
     return (
