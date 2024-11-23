@@ -3884,7 +3884,7 @@ __metadata:
     react-native-flash-message: ^0.4.2
     react-native-gesture-handler: ^2.21.2
     react-native-get-random-values: ^1.11.0
-    react-native-keychain: ^8.2.0
+    react-native-keychain: ^9.2.2
     react-native-reanimated: ^3.16.2
     react-native-safe-area-context: ^4.14.0
     react-native-screens: ^3.35.0
@@ -3892,7 +3892,7 @@ __metadata:
     react-test-renderer: 18.3.1
     realm: 12.14.0
     typescript: 5.0.4
-    uuid: ^9.0.1
+    uuid: ^11.0.3
     yarn-audit-fix: ^10.1.0
     yup: ^1.4.0
   languageName: unknown
@@ -9680,10 +9680,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-keychain@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "react-native-keychain@npm:8.2.0"
-  checksum: 4c4d5331013b8ab17c21120a2388e1e82aa30586738c0a34ed9dcffb6ce12454125ddb690951cad5563c9290b060eb68ccffa9477650cc3a5ddc347696b5d4ef
+"react-native-keychain@npm:^9.2.2":
+  version: 9.2.2
+  resolution: "react-native-keychain@npm:9.2.2"
+  checksum: e361df1e792766bb4d3f60b850608979667357365328d36e1665a077728b8d68f7d33de0d31e3c666f115a0f9e1f53be48b4e678bf73f07aecefcca35766d98d
   languageName: node
   linkType: hard
 
@@ -11403,12 +11403,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
+"uuid@npm:^11.0.3":
+  version: 11.0.3
+  resolution: "uuid@npm:11.0.3"
   bin:
-    uuid: dist/bin/uuid
-  checksum: 39931f6da74e307f51c0fb463dc2462807531dc80760a9bff1e35af4316131b4fc3203d16da60ae33f07fdca5b56f3f1dd662da0c99fea9aaeab2004780cc5f4
+    uuid: dist/esm/bin/uuid
+  checksum: 646181c77e8b8df9bd07254faa703943e1c4d5ccde7d080312edf12f443f6c5750801fd9b27bf2e628594182165e6b1b880c0382538f7eca00b26622203741dc
   languageName: node
   linkType: hard
 
