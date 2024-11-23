@@ -2907,17 +2907,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-google-signin/google-signin@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "@react-native-google-signin/google-signin@npm:7.2.2"
+"@react-native-google-signin/google-signin@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "@react-native-google-signin/google-signin@npm:13.1.0"
   peerDependencies:
-    "@expo/config-plugins": ^4.1.0
+    expo: ">=50.0.0"
     react: "*"
+    react-dom: "*"
     react-native: "*"
   peerDependenciesMeta:
-    "@expo/config-plugins":
+    expo:
       optional: true
-  checksum: a652cbaa64655db94271bcac766d84ed712dba1fbf123078a26b954c631f55584d4e9ff01db6111ed427812544bb741b1288d31932fda10c7cdb77630fb33ec4
+    react-dom:
+      optional: true
+  checksum: 777bb338ce1ce1b9581f1e3c67d04a1d8eb2486745868e170455b3485c26a6dcbeb202acfb949bf45817b7d7f9c8c7259342c1a0f237aa03eef2965e69b90f12
   languageName: node
   linkType: hard
 
@@ -3849,7 +3852,7 @@ __metadata:
     "@react-native-community/cli-platform-android": 15.0.1
     "@react-native-community/cli-platform-ios": 15.0.1
     "@react-native-community/masked-view": ^0.1.11
-    "@react-native-google-signin/google-signin": ^7.2.2
+    "@react-native-google-signin/google-signin": ^13.1.0
     "@react-native/babel-preset": 0.76.3
     "@react-native/eslint-config": 0.76.3
     "@react-native/metro-config": 0.76.3

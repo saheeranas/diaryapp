@@ -33,12 +33,12 @@ const Settings: React.FC<SettingsProps> = observer(({navigation}) => {
   const handleLogin = async () => {
     signInWithGoogle()
       .then(userInfo => {
-        if (userInfo && 'user' in userInfo) {
+        if (userInfo && 'data' in userInfo) {
           store.user.updateUser({
-            _id: userInfo.user.id,
-            name: userInfo.user.name || '',
-            email: userInfo.user.email,
-            photo: userInfo.user.photo || '',
+            _id: userInfo?.data?.user?.id || '',
+            name: userInfo?.data?.user?.name || '',
+            email: userInfo?.data?.user?.email || '',
+            photo: userInfo?.data?.user?.photo || '',
           });
         }
       })
