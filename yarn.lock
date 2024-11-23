@@ -3887,7 +3887,7 @@ __metadata:
     jest: ^29.6.3
     mobx: ^6.13.0
     mobx-react-lite: ^4.0.7
-    mobx-state-tree: ^5.4.2
+    mobx-state-tree: ^7.0.0
     prettier: ^2.8.8
     react: 18.3.1
     react-native: 0.76.3
@@ -8708,12 +8708,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx-state-tree@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "mobx-state-tree@npm:5.4.2"
+"mobx-state-tree@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "mobx-state-tree@npm:7.0.0"
   peerDependencies:
     mobx: ^6.3.0
-  checksum: 9b38da18ad215e47f32131b5dbf6ecca9314c8485bc5a798b8a75da788f43e9a0591e5f567907a68d4b10a4837b361c49d935d844001632d7e160804488907d3
+  checksum: 6f5b0aa1f3a284ad6d5155d5aab643fb7cb2f5fe0e0c5b9d1405c908446e01baffd93ed0cf338f946a1a14c454a349057cb7f84c545c94fab6579c4caf01ea8f
   languageName: node
   linkType: hard
 
