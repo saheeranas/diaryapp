@@ -6,9 +6,6 @@ import {
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 import dayjs from 'dayjs';
-// import notifee from '@notifee/react-native';
-
-import {ANDROID_CLIENT_ID} from '@env';
 
 import {readEntriesFromDB, importToDBFromJSON} from '../db/entry';
 import {
@@ -39,7 +36,6 @@ interface Status {
 // Sign in configuration
 let signInOptions = {
   scopes: ['https://www.googleapis.com/auth/drive'], // [Android] what API you want to access on behalf of the user, default is email and profile
-  androidClientId: ANDROID_CLIENT_ID,
 };
 
 // Backup filename
@@ -87,11 +83,14 @@ export const useGoogleDrive = () => {
 
   // Sign In
   const signInWithGoogle = async () => {
+    await GoogleSignin.hasPlayServices();
     GoogleSignin.configure(signInOptions);
     try {
       let userInfo = await GoogleSignin.signIn();
       return userInfo;
-    } catch (error) {}
+    } catch (error) {
+      // TDDO: log the error
+    }
   };
 
   // Sign Out
@@ -248,7 +247,7 @@ const getDataFromFile = async (gdrive: GDrive, fileId: string) => {
   }
 };
 
-// Make suret he data from remote file is in desired format
+// Make sure the data from remote file is in desired format
 // If remote data is in correct format, return it
 // Else return initial data (newData)
 const getTransformedFileData = (dataFromFile: any) => {

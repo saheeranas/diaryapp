@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from '@ui-kitten/components';
 import {observer} from 'mobx-react-lite';
@@ -52,8 +52,8 @@ import {
 
 // Navigators Definition
 const Tab = createBottomTabNavigator<RootTabParamList>();
-const Stack = createStackNavigator<SettingsStackParamList>();
-const RootStack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<SettingsStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 let FLAG = false;
 
@@ -127,7 +127,7 @@ const AppNavigation = observer(() => {
             tabBarActiveTintColor: '#4361ee',
             tabBarInactiveTintColor: '#6c757d',
             tabBarStyle: {
-              height: 60,
+              height: 50,
               bottom: 15,
               marginHorizontal: 15,
               borderRadius: 30,
@@ -146,12 +146,13 @@ const AppNavigation = observer(() => {
                 />
               );
             },
-          }}>
+          }}
+          backBehavior="firstRoute">
           <Tab.Screen
             name="Entries"
             component={Entries}
             options={{
-              tabBarTestID: 'Tab.Entries',
+              tabBarButtonTestID: 'Tab.Entries',
               tabBarLabel: 'Home',
               tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="list-outline" />
@@ -162,7 +163,7 @@ const AppNavigation = observer(() => {
             name="Jump"
             component={Jump}
             options={{
-              tabBarTestID: 'Tab.Jump',
+              tabBarButtonTestID: 'Tab.Jump',
               tabBarLabel: 'Jump',
               tabBarIcon: ({color}) => (
                 <Icon
@@ -177,7 +178,7 @@ const AppNavigation = observer(() => {
             name="SettingsStack"
             component={SettingsStack}
             options={{
-              tabBarTestID: 'Tab.Settings',
+              tabBarButtonTestID: 'Tab.Settings',
               tabBarLabel: 'Settings',
               headerShown: false,
               tabBarIcon: ({color}) => (
@@ -193,12 +194,11 @@ const AppNavigation = observer(() => {
             name="EntrySingle"
             component={EntrySingle}
             options={{
-              tabBarTestID: 'Tab.New',
+              tabBarButtonTestID: 'Tab.New',
               tabBarLabel: 'New',
               tabBarIcon: ({color}) => (
                 <Icon style={styles.icon} fill={color} name="plus-outline" />
               ),
-              unmountOnBlur: true,
             }}
             initialParams={{date: ''}}
           />

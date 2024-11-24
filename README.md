@@ -21,11 +21,11 @@ A privacy focused journal app. The Private Diary App is built for people who are
 
 ## Dependencies
 
-- React Native
+- React Native (New Arch)
 - Mobx-state-tree
 - Realm
 - UI Kitten
-- React Navigation v6
+- React Navigation v7
 
 ## Project Installation
 
@@ -63,8 +63,8 @@ npm run ios
 ### For Google Drive Support
 
 1. Rename '.env.template' file to '.env'
-2. Get 'OAuth 2.0 Client ID' for Android from Google Cloud Console (For Google Sign in: @react-native-google-signin/google-signin)
-3. Place the Client ID in .env file for the key 'ANDROID_CLIENT_ID'
+2. Create 'OAuth 2.0 Client ID' for Android from [Google Cloud Console](https://console.cloud.google.com/) (For Google Sign in: @react-native-google-signin/google-signin).
+3. Make sure to enable Google Drive API in Google Cloud Console.
 
 ## License
 
