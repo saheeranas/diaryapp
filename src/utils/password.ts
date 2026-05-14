@@ -1,6 +1,6 @@
 // TODO: Remove crypto-js/SHA512 library
 // import SHA512 from 'crypto-js/SHA512';
-import {SHA512} from 'crypto-es/lib/sha512';
+import {SHA512} from 'crypto-es';
 import dayjs from 'dayjs';
 
 import {setSecureValue, getSecureValue, removeSecureValue} from './keyChain';
