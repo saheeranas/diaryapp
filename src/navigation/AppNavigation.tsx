@@ -57,21 +57,23 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 let FLAG = false;
 
+
+
 // Settings Stack
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
-      screenOptions={{
-        // eslint-disable-next-line react/no-unstable-nested-components
-        header: ({navigation, route, options}) => {
-          return (
-            <Header
-              title={options.title}
-              navigation={navigation}
-              hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
-            />
-          );
-        },
+      screenOptions={{ 
+        // header: ({navigation, route, options}) => {
+        //   return (
+        //     <Header
+        //       title={options.title}
+        //       navigation={navigation}
+        //       hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
+        //       style={options.headerStyle}
+        //     />
+        //   );
+        // },
       }}>
       <Stack.Screen
         name="Settings"
@@ -127,25 +129,25 @@ const AppNavigation = observer(() => {
             tabBarActiveTintColor: '#4361ee',
             tabBarInactiveTintColor: '#6c757d',
             tabBarStyle: {
-              height: 50,
-              bottom: 15,
+              height: 70,
+              bottom: 20,
               marginHorizontal: 15,
-              borderRadius: 30,
+              borderRadius: 50,
               position: 'absolute',
             },
             tabBarItemStyle: {
-              paddingVertical: 5,
+              paddingVertical: 15,
             },
-            header: ({navigation, route, options}) => {
-              return (
-                <Header
-                  title={options.tabBarLabel?.toString()}
-                  navigation={navigation}
-                  hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
-                  accessoryRight={options.headerRight}
-                />
-              );
-            },
+            // header: ({navigation, route, options}) => {
+            //   return (
+            //     <Header
+            //       title={options.tabBarLabel?.toString()}
+            //       navigation={navigation}
+            //       hideBack={Boolean(ScreenOpts[route.name]?.hideBackBtn)}
+            //       accessoryRight={options.headerRight}
+            //     />
+            //   );
+            // },
           }}
           backBehavior="firstRoute">
           <Tab.Screen

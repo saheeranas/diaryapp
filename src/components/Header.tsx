@@ -10,7 +10,7 @@ import {
 import {HeaderType} from '../types/types';
 
 const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
-const Blank = (props: any) => <View {...props} />;
+const Blank = () => <View />;
 
 const Header: React.FC<HeaderType> = ({
   title = 'Diary',
@@ -34,9 +34,14 @@ const Header: React.FC<HeaderType> = ({
       accessoryRight={accessoryRight}
       title={Title}
       alignment="center"
-      style={style}
+      style={[style, { backgroundColor: "magenta", paddingTop: 0 }]}
     />
   );
+  // return (
+  //   <View style={[style, { backgroundColor: "cyan" }]}>
+  //     <Text>Screen Title</Text>
+  //   </View>
+  // )
 };
 
 export default Header;
