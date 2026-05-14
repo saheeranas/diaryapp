@@ -138,6 +138,9 @@ const AppNavigation = observer(() => {
             tabBarItemStyle: {
               paddingVertical: 15,
             },
+            headerStyle: {
+              height: 115
+            }
             // header: ({navigation, route, options}) => {
             //   return (
             //     <Header
