@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@eva-design/eva": "^2.2.0",
-    "@react-native-community/masked-view": "^0.1.11",
     "@react-native-google-signin/google-signin": "^16.1.2",
     "@react-navigation/bottom-tabs": "^7.16.1",
     "@react-navigation/native": "^7.0.4",
