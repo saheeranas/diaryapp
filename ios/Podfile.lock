@@ -1869,8 +1869,6 @@ PODS:
   - ReactNativeDependencies (0.85.0)
   - RealmJS (20.2.0):
     - React
-  - RNCMaskedView (0.1.11):
-    - React
   - RNGestureHandler (2.31.2):
     - hermes-engine
     - RCTRequired
@@ -2254,7 +2252,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
   - RealmJS (from `../node_modules/realm`)
-  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -2426,8 +2423,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
   RealmJS:
     :path: "../node_modules/realm"
-  RNCMaskedView:
-    :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -2528,7 +2523,6 @@ SPEC CHECKSUMS:
   ReactCommon: fe2a3af8975e63efa60f95fca8c34dc85deee360
   ReactNativeDependencies: 5435c0a100bcdc3e0bc3367ab1232ba61d93ee0e
   RealmJS: 1c37c6bdfe060f4caa0f9175aa0eedb962622ee1
-  RNCMaskedView: 4c5ee1c8667d56077246cc6d1977f77393923560
   RNGestureHandler: 2ff61eac036eaf89f6818bf4ed9c39771a17d134
   RNGoogleSignin: 0d72ae233fe10522497424748acf00fcc1ed2ee7
   RNKeychain: 6778b35b5bd067c322f8479526ac09b1d61f31d0
