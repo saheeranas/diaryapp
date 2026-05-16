@@ -1,7 +1,6 @@
 import React from 'react';
-import {StyleSheet, View, Pressable, GestureResponderEvent} from 'react-native';
+import {StyleSheet, View, Pressable, GestureResponderEvent, Text} from 'react-native';
 
-import {Text} from '@ui-kitten/components';
 import dayjs from 'dayjs';
 
 interface EntryCardProps {
@@ -23,11 +22,11 @@ const EntryCard: React.FC<EntryCardProps> = ({desc, date, onPress}) => {
     <Pressable style={styles.listItem} onPress={onPress}>
       <View style={styles.listItemInner}>
         <View style={styles.dateWrp}>
-          <Text style={styles.day}>{day} </Text>
-          {/* <Text style={styles.dayStr}>{dayStr}</Text> */}
+          <Text style={styles.day}>{day} </Text> 
           <Text style={styles.date}>{rest}</Text>
         </View>
-        <Text style={styles.desc}>{desc.substr(0, 50)}</Text>
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode="clip">{desc.slice(0, 35)}</Text>
+        <Text style={styles.desc} numberOfLines={1} ellipsizeMode="clip">{desc.slice(50, 100)}</Text>
       </View>
     </Pressable>
   );
@@ -40,31 +39,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listItemInner: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    flexDirection: 'row',
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: '#e8e2d9',
+    borderRadius: 16, 
+  },
+  dateWrp: { 
+    marginBottom: 8,  
+    paddingRight: 8, 
+    flexDirection: "row",
     alignItems: 'center',
   },
-  dateWrp: {
-    marginBottom: 3,
-    alignItems: 'center',
-    borderRightWidth: StyleSheet.hairlineWidth,
-    borderRightColor: '#ccc',
-    paddingRight: 8,
-    width: 50,
-  },
-  day: {
-    fontSize: 12,
+  day: { 
+    fontSize: 14,
     color: '#333333',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: 'bold', 
   },
   date: {
-    fontSize: 8,
-    color: '#333333',
-    textAlign: 'center',
+    fontSize: 14,
+    color: '#333333', 
     textTransform: 'uppercase',
   },
   dayStr: {
@@ -73,11 +67,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
   },
+  title: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: '#333333',  
+    marginBottom: 3
+  },
   desc: {
-    fontSize: 15,
-    color: '#333333',
-    paddingLeft: 8,
-    flex: 1,
-    maxHeight: 40,
+    fontSize: 16,
+    color: '#333333', 
+    flex: 1, 
   },
 });
