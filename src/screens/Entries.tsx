@@ -115,13 +115,13 @@ const styles = StyleSheet.create({
   dateWrp: {
     paddingHorizontal: 16,
   },
-  list: {
+  list: { 
     paddingTop: 20,
     paddingHorizontal: 16,
     backgroundColor: '#E9ECF2',
   },
   contentContainerStyle: {
-    paddingBottom: 100,
+    // paddingBottom: 100, 
     flexGrow: 1,
   },
   btnWrpAbsolute: {

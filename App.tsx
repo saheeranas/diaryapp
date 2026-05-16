@@ -1,7 +1,7 @@
 import React from 'react';
 // import RNBootSplash from 'react-native-bootsplash';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {SafeAreaProvider, initialWindowMetrics} from 'react-native-safe-area-context';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
@@ -24,7 +24,7 @@ const App = () => {
         theme={eva.light}
         customMapping={{...eva.mapping, ...mapping}}>
         <MSTContext.Provider value={rootStore}>
-          <SafeAreaProvider>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <GestureHandlerRootView>
               <AppNavigation />
             </GestureHandlerRootView>
