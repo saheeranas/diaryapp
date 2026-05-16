@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   layout: {
     position: 'relative',
     flex: 1,
-    backgroundColor: '#E9ECF2',
+    // backgroundColor: '#F5F1EA',
+    backgroundColor: '#14ba2a',
   },
 });

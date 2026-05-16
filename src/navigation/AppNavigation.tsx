@@ -139,7 +139,8 @@ const AppNavigation = observer(() => {
               paddingVertical: 15,
             },
             headerStyle: {
-              height: 115
+              height: 115,
+              backgroundColor: "transparent"
             }
             // header: ({navigation, route, options}) => {
             //   return (

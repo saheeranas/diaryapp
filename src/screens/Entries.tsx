@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   list: { 
     paddingTop: 20,
     paddingHorizontal: 16,
-    backgroundColor: '#E9ECF2',
+    backgroundColor: '#F5F1EA',
   },
   contentContainerStyle: {
     // paddingBottom: 100, 
