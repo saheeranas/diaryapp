@@ -125,18 +125,25 @@ const AppNavigation = observer(() => {
         <Tab.Navigator
           screenOptions={{
             tabBarHideOnKeyboard: true,
-            tabBarShowLabel: false,
-            tabBarActiveTintColor: '#4361ee',
+            tabBarShowLabel: true,
+            tabBarActiveTintColor: '#5E5548',
             tabBarInactiveTintColor: '#6c757d',
+            tabBarActiveBackgroundColor: "#F0E8DB", 
             tabBarStyle: {
-              height: 70,
+              // height: 70,
               bottom: 20,
               marginHorizontal: 15,
               borderRadius: 50,
               position: 'absolute',
+              paddingBottom: 0, 
+              paddingHorizontal: 10,
+              backgroundColor: "rgba(255, 255, 255, 0.8)"
             },
             tabBarItemStyle: {
-              paddingVertical: 15,
+              height: 50,
+              marginTop: 16,
+              borderRadius: 26,
+              overflow: "hidden", 
             },
             headerStyle: {
               height: 115,
