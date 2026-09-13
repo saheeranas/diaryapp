@@ -35,23 +35,21 @@ const Search: React.FC<SearchProps> = ({onToggle, onChangeText}) => {
   }, [isInputShown, onToggle]);
 
   return (
-    <View style={styles.search}>
-      {isInputShown && (
-        <Input
-          ref={inputRef}
-          style={[styles.input, {width: width / 1.5}]}
-          placeholder="Search.."
-          onChangeText={onChangeText}
-          autoFocus
-        />
-      )}
+    <View style={styles.search}> 
+      <Input
+        ref={inputRef}
+        style={[styles.input, {width: width / 1.5}]}
+        placeholder="Search.."
+        onChangeText={onChangeText}
+        autoFocus
+      /> 
       <Button
         style={styles.button}
         appearance="ghost"
         status="basic"
         // @ts-ignore
         accessoryLeft={isInputShown ? CloseIcon : SearchIcon}
-        onPress={toggleSearchInput}
+        // onPress={toggleSearchInput}
       />
     </View>
   );
@@ -61,7 +59,7 @@ export default Search;
 
 const styles = StyleSheet.create({
   search: {
-    width: 50,
+    // width: 50,
     height: SEARCH_HEIGHT,
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -71,8 +69,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: SEARCH_HEIGHT,
     marginBottom: 0,
-    position: 'absolute',
-    right: 60,
+    // position: 'absolute',
+    // right: 60,
     zIndex: 0,
     elevation: 0,
   },

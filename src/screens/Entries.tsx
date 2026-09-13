@@ -27,13 +27,13 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
     setSearchQuery(q);
   };
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Search onToggle={dummy} onChangeText={handleSearchInput} />
-      ),
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <Search onToggle={dummy} onChangeText={handleSearchInput} />
+  //     ),
+  //   });
+  // }, [navigation]);
 
   const [isRefreshing, setRefreshing] = useState(false);
 
@@ -92,7 +92,7 @@ const Entries: React.FC<EntriesProps> = observer(({navigation}) => {
 
   return (
     <Layout>
-      {/* <Search onToggle={dummy} /> */}
+      <Search onToggle={dummy} onChangeText={handleSearchInput} />
       <List
         style={styles.list}
         contentContainerStyle={styles.contentContainerStyle}
