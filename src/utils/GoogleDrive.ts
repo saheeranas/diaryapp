@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {
   GDrive,
-  MimeTypes,
+  MIME_TYPES,
   ListQueryBuilder,
 } from '@robinbobin/react-native-google-drive-api-wrapper';
 import dayjs from 'dayjs';
@@ -89,6 +89,7 @@ export const useGoogleDrive = () => {
       let userInfo = await GoogleSignin.signIn();
       return userInfo;
     } catch (error) {
+      // console.log(error)
       // TDDO: log the error
     }
   };
@@ -122,10 +123,11 @@ export const useGoogleDrive = () => {
 
     // return;
 
-    // For search in the google Drive
+    // For search in the google Drive 
     let queryParams = {
-      q: new ListQueryBuilder().e('name', fileName),
+      q: new ListQueryBuilder("name", "=", fileName),
     };
+    // q: new ListQueryBuilder().e('name', fileName),
 
     // Global Vars
     let fileId: string = '';
@@ -292,7 +294,7 @@ const uploadToDrive = async (
   try {
     let res = await gdrive.files
       .newMultipartUploader()
-      .setData(JSON.stringify(data), MimeTypes.BINARY)
+      .setData(JSON.stringify(data), MIME_TYPES.BINARY)
       .setRequestBody({
         name: fname,
       })
@@ -306,7 +308,8 @@ const uploadToDrive = async (
 // Delete GDrive file
 const deleteFile = async (gdrive: GDrive, file: string) => {
   let queryParams = {
-    q: new ListQueryBuilder().e('name', `${file}`),
+    // q: new ListQueryBuilder().e('name', `${file}`),
+    q: new ListQueryBuilder("name", "=", file)
   };
 
   getListOfFiles(gdrive, queryParams)
@@ -324,11 +327,13 @@ const deleteFile = async (gdrive: GDrive, file: string) => {
 // revertToOldFile - Revert to temp file if error happens
 const revertToOldFile = async (gdrive: GDrive) => {
   let queryParamsForTemp = {
-    q: new ListQueryBuilder().e('name', `${tempFileName}`),
+    // q: new ListQueryBuilder().e('name', `${tempFileName}`),
+    q: new ListQueryBuilder('name', "=", `${tempFileName}`),
   };
 
   let queryParamsForSyncFile = {
-    q: new ListQueryBuilder().e('name', `${fileName}`),
+    // q: new ListQueryBuilder().e('name', `${fileName}`),
+    q: new ListQueryBuilder('name', "=", `${fileName}`),
   };
 
   getListOfFiles(gdrive, queryParamsForTemp)
