@@ -31,5 +31,15 @@ target 'PrivateDiaryApp' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        deployment_target = build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+
+        if deployment_target && deployment_target.to_f < 15.0
+          build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+        end
+      end
+    end
   end
 end
